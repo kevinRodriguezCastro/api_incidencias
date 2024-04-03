@@ -17,15 +17,20 @@ public class ComentarioService {
     @Autowired
     private RepositorioComentario reposComentario;
 
-    public void addComentario(Comentario comentario){
-        reposComentario.save(comentario);
+    public Comentario addComentario(Comentario comentario){
+        return reposComentario.save(comentario);
     }
 
     public List<Comentario> getComentario(){
         return reposComentario.findAll();
     }
 
-    public List<Comentario> getComentario(Long idIncedencia){
+    public Optional<Comentario> getComentarioPorId(Long idComentario){
+        return reposComentario.findById(idComentario);
+    }
+
+
+    public List<Comentario> getComentarioPorIncidencia(Long idIncedencia){
         return reposComentario.findByIncidencia(idIncedencia);
     }
 

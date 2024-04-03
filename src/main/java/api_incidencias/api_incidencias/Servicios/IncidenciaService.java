@@ -17,8 +17,8 @@ public class IncidenciaService {
     @Autowired
     private RepositorioIncidencia reposIncidencia;
 
-    public void addIncidencia(Incidencia incidencia){
-        reposIncidencia.save(incidencia);
+    public Incidencia addIncidencia(Incidencia incidencia){
+        return reposIncidencia.save(incidencia);
     }
 
     public List<Incidencia> getIncidencias(){
