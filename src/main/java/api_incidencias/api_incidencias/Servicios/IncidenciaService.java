@@ -44,10 +44,10 @@ public class IncidenciaService {
                 // Guarda el usuario actualizado en el repositorio
                 return reposIncidencia.save(incidenciaExistente);
             } else {
-                throw new IllegalArgumentException("El id proporcionado no coincide con el ID del usuario.");
+                throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
             }
         } else {
-            throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
+            throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
         }
     }
 
@@ -58,10 +58,10 @@ public class IncidenciaService {
             reposIncidencia.deleteById(id);;
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Usuario eliminado correctamente.");
+                    .body("Incidencia eliminado correctamente.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el usuario correspondiente.");
+                    .body("No se encontró la incidencia correspondiente.");
         }
     }
 }

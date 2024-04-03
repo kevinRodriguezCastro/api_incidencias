@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@RestController
+@RequestMapping(path = "api/v1/usuarios")
 public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
