@@ -27,7 +27,7 @@ public class UsuarioService {
         return reposUser.findByEmail(email);
     }
 
-    public Usuario saveUser(Usuario user){
+    public Usuario addUser(Usuario user){
         return reposUser.save(user);
     }
 
