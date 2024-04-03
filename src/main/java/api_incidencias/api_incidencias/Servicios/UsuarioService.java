@@ -53,11 +53,13 @@ public class UsuarioService {
             //Actualizar BD
 
             Optional<Usuario> usuario = getUser(idUsuario);
-            usuario.get().setRutaImagen(urlImagen);
-            addUser(usuario.get());
-
+            if (usuario.isPresent()){
+                usuario.get().setRutaImagen(urlImagen);
+                updateUser(idUsuario,usuario.get());
+            }else {
+                System.out.println("Error al actualizar imagen");
+            }
             return urlImagen;
-
         } catch (Exception e) {
             throw new RuntimeException("Falló la carga de la imagen", e);
         }
