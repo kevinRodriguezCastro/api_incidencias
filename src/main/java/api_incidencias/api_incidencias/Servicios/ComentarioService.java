@@ -17,6 +17,10 @@ public class ComentarioService {
     @Autowired
     private RepositorioComentario reposComentario;
 
+    public void addComentario(Comentario comentario){
+        reposComentario.save(comentario);
+    }
+
     public List<Comentario> getComentario(){
         return reposComentario.findAll();
     }

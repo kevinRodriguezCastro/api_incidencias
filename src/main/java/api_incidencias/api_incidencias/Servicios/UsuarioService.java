@@ -16,6 +16,10 @@ public class UsuarioService {
     @Autowired
     private RepositorioUsuario reposUser;
 
+    public void addUser(Usuario user){
+        reposUser.save(user);
+    }
+
     public List<Usuario> getUser(){
         return reposUser.findAll();
     }
@@ -26,11 +30,6 @@ public class UsuarioService {
     public Optional<Usuario> getUser(String email){
         return reposUser.findByEmail(email);
     }
-
-    public Usuario saveUser(Usuario user){
-        return reposUser.save(user);
-    }
-
     public Usuario updateUser(Long idUser, Usuario user){
         //reposUser.save(user);
         Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
