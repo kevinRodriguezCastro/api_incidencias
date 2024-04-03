@@ -22,4 +22,44 @@ public class Comentario {
     private String Contenido;
     @Column(name = "Fecha_Publicacion")
     private LocalDateTime FechaPublicacion;
+
+    public Long getID_Comentario() {
+        return ID_Comentario;
+    }
+
+    public void setID_Comentario(Long ID_Comentario) {
+        this.ID_Comentario = ID_Comentario;
+    }
+
+    public Incidencia getIncidencia() {
+        return incidencia;
+    }
+
+    public void setIncidencia(Incidencia incidencia) {
+        this.incidencia = incidencia;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContenido() {
+        return Contenido;
+    }
+
+    public void setContenido(String contenido) {
+        Contenido = contenido;
+    }
+
+    public LocalDateTime getFechaPublicacion() {
+        return FechaPublicacion;
+    }
+
+    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
+        FechaPublicacion = fechaPublicacion;
+    }
 }

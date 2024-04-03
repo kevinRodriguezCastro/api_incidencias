@@ -21,6 +21,10 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
+    @Column(name = "Ruta_Imagen")
+    private String rutaImagen;
+
+
     public Long getIdUsuario() {
         return idUsuario;
     }
