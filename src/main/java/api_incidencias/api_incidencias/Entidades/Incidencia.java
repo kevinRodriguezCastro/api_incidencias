@@ -1,0 +1,102 @@
+package api_incidencias.api_incidencias.Entidades;
+
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "Incidencias")
+public class Incidencia {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_Incidencia")
+    private Long idIncidencia;
+
+    @Column(name = "Titulo")
+    private String titulo;
+    @Column(name = "Descripcion")
+    private String descripcion;
+    @Column(name = "Fecha_Creacion")
+    private LocalDateTime fechaCreacion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Estado")
+    private Estado estado;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Prioridad")
+    private Prioridad prioridad;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_Usuario_Creador")
+    private Usuario usuarioCreador;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_Usuario_UltimaModificacion")
+    private Usuario usuarioUltimaModificacion;
+
+    public Long getIdIncidencia() {
+        return idIncidencia;
+    }
+
+    public void setIdIncidencia(Long idIncidencia) {
+        this.idIncidencia = idIncidencia;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
+    public Prioridad getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(Prioridad prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public Usuario getUsuarioCreador() {
+        return usuarioCreador;
+    }
+
+    public void setUsuarioCreador(Usuario usuarioCreador) {
+        this.usuarioCreador = usuarioCreador;
+    }
+
+    public Usuario getUsuarioUltimaModificacion() {
+        return usuarioUltimaModificacion;
+    }
+
+    public void setUsuarioUltimaModificacion(Usuario usuarioUltimaModificacion) {
+        this.usuarioUltimaModificacion = usuarioUltimaModificacion;
+    }
+}
