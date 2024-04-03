@@ -32,7 +32,7 @@ public class UsuarioControlador {
         return userServicio.getUser(email);
     }
 
-    @PostMapping("/usuarios/{idUsuario}/imagen")
+    @PostMapping("/{idUsuario}/imagen")
     public ResponseEntity<String> subirImagenPerfil(@PathVariable Long idUsuario, @RequestParam("file") MultipartFile file) {
         String urlImagen = userServicio.subirImagen(idUsuario, file);
         return new ResponseEntity<>(urlImagen, HttpStatus.CREATED);
