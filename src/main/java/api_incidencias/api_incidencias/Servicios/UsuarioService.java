@@ -19,7 +19,7 @@ public class UsuarioService {
     public void addUser(Usuario user){
         reposUser.save(user);
     }
-
+    
     public List<Usuario> getUser(){
         return reposUser.findAll();
     }
