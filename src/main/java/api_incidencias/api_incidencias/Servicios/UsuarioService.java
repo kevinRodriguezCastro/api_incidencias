@@ -16,22 +16,21 @@ public class UsuarioService {
     @Autowired
     private RepositorioUsuario reposUser;
 
-    public List<Usuario> obtenerTodosUsuarios(){
-        return reposUser.findAll();
-    }
-    public Optional<Usuario> obtenerUsuarioPorID(Long id){
-        return reposUser.findById(id);
-    }
-
-    public Optional<Usuario> obtenerUsuarioPorEmail(String email){
-        return reposUser.findByEmail(email);
-    }
-
     public void addUser(Usuario user){
         reposUser.save(user);
     }
+    
+    public List<Usuario> getUser(){
+        return reposUser.findAll();
+    }
+    public Optional<Usuario> getUser(Long id){
+        return reposUser.findById(id);
+    }
 
-    public Usuario actualizarUsuario(Long idUser, Usuario user){
+    public Optional<Usuario> getUser(String email){
+        return reposUser.findByEmail(email);
+    }
+    public Usuario updateUser(Long idUser, Usuario user){
         //reposUser.save(user);
         Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
 
@@ -56,7 +55,7 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<String> borrarUser(Long id){
+    public ResponseEntity<String> deleteUser(Long id){
         Optional<Usuario> userOptional = reposUser.findById(id);
 
         if (userOptional.isPresent()) {
