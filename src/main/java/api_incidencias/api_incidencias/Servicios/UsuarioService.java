@@ -6,9 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -16,10 +21,48 @@ public class UsuarioService {
     @Autowired
     private RepositorioUsuario reposUser;
 
+    private static final String RUTA_IMG = "./imgUsuarios";
+
     public Usuario addUser(Usuario user){
         return reposUser.save(user);
     }
-    
+
+    public String subirImagen(Long idUsuario, MultipartFile file) {
+        // Verifica que el archivo no esté vacío
+        if (file.isEmpty()) {
+            throw new RuntimeException("El archivo está vacío");
+        }
+
+        try {
+            // Genera un nombre único para la imagen
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+
+            // Crea el directorio si no existe
+            Path directory = Paths.get(RUTA_IMG);
+            if (!Files.exists(directory)) {
+                Files.createDirectories(directory);
+            }
+
+            // Guarda el archivo en el servidor
+            Path filePath = directory.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath);
+
+            // Devuelve la URL de la imagen
+            String urlImagen = RUTA_IMG + fileName;
+
+            //Actualizar BD
+
+            Optional<Usuario> usuario = getUser(idUsuario);
+            usuario.get().setRutaImagen(urlImagen);
+            addUser(usuario.get());
+
+            return urlImagen;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Falló la carga de la imagen", e);
+        }
+    }
+
     public List<Usuario> getUser(){
         return reposUser.findAll();
     }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,12 @@ public class UsuarioControlador {
     @GetMapping("/{emailUser}")
     public Optional<Usuario> getUserPorEmail(@PathVariable("emailUser") String email){
         return userServicio.getUser(email);
+    }
+
+    @PostMapping("/usuarios/{idUsuario}/imagen")
+    public ResponseEntity<String> subirImagenPerfil(@PathVariable Long idUsuario, @RequestParam("file") MultipartFile file) {
+        String urlImagen = userServicio.subirImagen(idUsuario, file);
+        return new ResponseEntity<>(urlImagen, HttpStatus.CREATED);
     }
 
     @PostMapping
