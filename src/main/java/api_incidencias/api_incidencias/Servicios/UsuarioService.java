@@ -27,8 +27,8 @@ public class UsuarioService {
         return reposUser.findByEmail(email);
     }
 
-    public Usuario guardarUsuario(Usuario user){
-        return reposUser.save(user);
+    public void addUser(Usuario user){
+        reposUser.save(user);
     }
 
     public Usuario actualizarUsuario(Long idUser, Usuario user){

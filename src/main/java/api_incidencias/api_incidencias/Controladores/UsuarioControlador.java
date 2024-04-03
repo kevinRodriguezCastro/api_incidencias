@@ -12,35 +12,34 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/usuarios")
-
 public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
 
     @GetMapping
     public List<Usuario> getUsuarios(){
-        return userServicio.obtenerTodosUsuarios();
+        return userServicio.getUser();
     }
 
     @GetMapping("/{idUser}")
     public Optional<Usuario> getUserPorId(@PathVariable("idUser") Long idUser){
-        return userServicio.obtenerUsuarioPorID(idUser);
+        return userServicio.getUser(idUser);
     }
 
     @GetMapping("/{emailUser}")
     public Optional<Usuario> getUserPorEmail(@PathVariable("emailUser") String email){
-        return userServicio.obtenerUsuarioPorEmail(email);
+        return userServicio.getUser(email);
     }
 
     @PostMapping
     public ResponseEntity<Usuario> crearUser(@RequestBody Usuario user){
-        Usuario nuevoUsuario = userServicio.guardarUsuario(user);
+        Usuario nuevoUsuario = userServicio.addUser(user);
         return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
     }
 
     @PutMapping("/{idUser}")
     public ResponseEntity<Usuario> actualizarUser(@PathVariable Long idUser, @RequestBody Usuario user) {
-        Usuario userActualizado = userServicio.actualizarUsuario(idUser, user);
+        Usuario userActualizado = userServicio.updateUser(idUser, user);
         if (userActualizado != null) {
             return new ResponseEntity<>(userActualizado, HttpStatus.OK);
         } else {
@@ -51,6 +50,6 @@ public class UsuarioControlador {
 
     @DeleteMapping("/{idUser}")
     public ResponseEntity<String> eliminarUser(@PathVariable("idUser") Long idUser){
-        return userServicio.borrarUser(idUser);
+        return userServicio.deleteUser(idUser);
     }
 }
