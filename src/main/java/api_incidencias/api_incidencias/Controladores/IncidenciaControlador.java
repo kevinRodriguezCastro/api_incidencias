@@ -24,7 +24,14 @@ public class IncidenciaControlador {
     public Optional<Incidencia> getIncidenciaPorId(@PathVariable("idIncidencia") Long idIncidencia){
         return incidenciaServicio.getIncidencias(idIncidencia);
     }
-
+    @GetMapping("/cliente/{idCliente}")
+    public List<Incidencia> getIncidenciaCliente(@PathVariable("idCliente") Long idCliente){
+        return incidenciaServicio.getIncidenciasCliente(idCliente);
+    }
+    @GetMapping("/tecnico/{idTecnico}")
+    public List<Incidencia> getIncidenciaTecnico(@PathVariable("idTecnico") Long idTecnico){
+        return incidenciaServicio.getIncidenciasTecnico(idTecnico);
+    }
     @PostMapping
     public ResponseEntity<Incidencia> crearIncidencia(@RequestBody Incidencia incidencia){
         Incidencia nuevaIncidencia = incidenciaServicio.addIncidencia(incidencia);

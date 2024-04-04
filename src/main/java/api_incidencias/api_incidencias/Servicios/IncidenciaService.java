@@ -24,10 +24,17 @@ public class IncidenciaService {
     public List<Incidencia> getIncidencias(){
         return reposIncidencia.findAll();
     }
+    public List<Incidencia> getIncidenciasCliente(Long idCliente){
+        return reposIncidencia.findByCliente(idCliente);
+    }
+    public List<Incidencia> getIncidenciasTecnico(Long idTecnico){
+        return reposIncidencia.findByTecnico(idTecnico);
+    }
 
     public Optional<Incidencia> getIncidencias(Long id){
         return reposIncidencia.findById(id);
     }
+
 
 
     public Incidencia updateIncidencia(Long idIncidencia, Incidencia incidencia){
