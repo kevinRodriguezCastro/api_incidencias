@@ -11,7 +11,7 @@ public class Incidencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Incidencia")
+    @Column(name = "Id_Incidencia")
     private Long idIncidencia;
 
     @Column(name = "Titulo")

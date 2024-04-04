@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Usuarios")
 public class Usuario {
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Usuario")
     private Long idUsuario;
@@ -59,7 +59,7 @@ public class Usuario {
 
     /************************************ Getters y Setters ********************************************/
 
-    public Long getIdUsuario() {
+     public Long getIdUsuario() {
         return idUsuario;
     }
 
