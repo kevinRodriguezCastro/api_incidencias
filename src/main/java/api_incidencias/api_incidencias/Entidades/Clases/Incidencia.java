@@ -23,19 +23,9 @@ public class Incidencia {
     @Column(name = "Fecha_Creacion")
     @JsonIgnore
     private LocalDateTime fechaCreacion;
-
-    @Column(name = "Fecha_Inicio_Trabajo")
-    @JsonIgnore
-    private LocalDateTime fechaInicioTrabajo;
-
-    @Column(name = "Fecha_Fin_Trabajo")
-    @JsonIgnore
-    private LocalDateTime fechaFinTrabajo;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "Estado")
     private Estado estado;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "Prioridad")
     private Prioridad prioridad;
@@ -80,22 +70,6 @@ public class Incidencia {
 
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    public LocalDateTime getFechaInicioTrabajo() {
-        return fechaInicioTrabajo;
-    }
-
-    public void setFechaInicioTrabajo(LocalDateTime fechaInicioTrabajo) {
-        this.fechaInicioTrabajo = fechaInicioTrabajo;
-    }
-
-    public LocalDateTime getFechaFinTrabajo() {
-        return fechaFinTrabajo;
-    }
-
-    public void setFechaFinTrabajo(LocalDateTime fechaFinTrabajo) {
-        this.fechaFinTrabajo = fechaFinTrabajo;
     }
 
     public Estado getEstado() {

@@ -10,8 +10,6 @@ public class IncidenciaDTO {
     private String titulo;
     private String descripcion;
     private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaInicioTrabajo;
-    private LocalDateTime fechaFinTrabajo;
     private Estado estado;
     private Prioridad prioridad;
     private Long idUsuarioCliente;
@@ -49,22 +47,6 @@ public class IncidenciaDTO {
 
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    public LocalDateTime getFechaInicioTrabajo() {
-        return fechaInicioTrabajo;
-    }
-
-    public void setFechaInicioTrabajo(LocalDateTime fechaInicioTrabajo) {
-        this.fechaInicioTrabajo = fechaInicioTrabajo;
-    }
-
-    public LocalDateTime getFechaFinTrabajo() {
-        return fechaFinTrabajo;
-    }
-
-    public void setFechaFinTrabajo(LocalDateTime fechaFinTrabajo) {
-        this.fechaFinTrabajo = fechaFinTrabajo;
     }
 
     public Estado getEstado() {
