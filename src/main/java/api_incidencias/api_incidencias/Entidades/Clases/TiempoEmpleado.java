@@ -11,19 +11,19 @@ import java.time.LocalTime;
 public class TiempoEmpleado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Tiempo_Empleado")
+    @Column(name = "id_tiempo_empleado")
     private Long idTiempoEmpleado;
-    @Column(name = "Fecha")
+    @Column(name = "fecha")
     private LocalDate fecha;
     @ManyToOne
-    @JoinColumn(name = "ID_Parte_Trabajo")
+    @JoinColumn(name = "id_parte_trabajo")
     private ParteTrabajo parteTrabajo;
-    @Column(name = "Hora_Entrada")
+    @Column(name = "hora_entrada")
     private LocalTime horaEntrada;
-    @Column(name = "Hora_Salida")
+    @Column(name = "hora_salida")
     private LocalTime horaSalida;
     @Enumerated(EnumType.STRING)
-    @Column(name = "Modo_Resolucion")
+    @Column(name = "modo_resolucion")
     private ModoResolucion modoResolucion;
 
 
