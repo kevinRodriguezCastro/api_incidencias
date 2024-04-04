@@ -42,14 +42,12 @@ public class MaterialUtilizadoService {
                 materialUtilizadoExistente.setCoste(materialUtilizado.getCoste());
                 materialUtilizadoExistente.setParteTrabajo(materialUtilizado.getParteTrabajo());
 
-
-
                 return repositorioMaterialUtilizado.save(materialUtilizadoExistente);
             } else {
-                throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
+                throw new IllegalArgumentException("El id proporcionado no coincide con el ID del material.");
             }
         } else {
-            throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
+            throw new IllegalArgumentException("El material con el ID proporcionado no existe.");
         }
     }
 
@@ -60,10 +58,10 @@ public class MaterialUtilizadoService {
             repositorioMaterialUtilizado.deleteById(id);;
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Incidencia eliminado correctamente.");
+                    .body("Material eliminado correctamente.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró la incidencia correspondiente.");
+                    .body("No se encontró el material correspondiente.");
         }
     }
 }
