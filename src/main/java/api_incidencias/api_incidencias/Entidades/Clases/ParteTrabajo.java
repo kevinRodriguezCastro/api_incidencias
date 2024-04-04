@@ -27,11 +27,11 @@ public class ParteTrabajo {
     private Incidencia incidencia;
     @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
-    private List<TiempoEmpleado> tiempoEmpleados;
+    private List<TiempoEmpleado> listaTiempoEmpleados;
 
     @OneToMany(mappedBy = "idOrden")
     @JsonIgnore
-    private List<MaterialUtilizado> materialUtilizado;
+    private List<MaterialUtilizado> listaMaterialUtilizado;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -91,19 +91,19 @@ public class ParteTrabajo {
         this.incidencia = incidencia;
     }
 
-    public List<TiempoEmpleado> getTiempoEmpleados() {
-        return tiempoEmpleados;
+    public List<TiempoEmpleado> getListaTiempoEmpleados() {
+        return listaTiempoEmpleados;
     }
 
-    public void setTiempoEmpleados(List<TiempoEmpleado> tiempoEmpleados) {
-        this.tiempoEmpleados = tiempoEmpleados;
+    public void setListaTiempoEmpleados(List<TiempoEmpleado> listaTiempoEmpleados) {
+        this.listaTiempoEmpleados = listaTiempoEmpleados;
     }
 
-    public List<MaterialUtilizado> getMaterialUtilizado() {
-        return materialUtilizado;
+    public List<MaterialUtilizado> getListaMaterialUtilizado() {
+        return listaMaterialUtilizado;
     }
 
-    public void setMaterialUtilizado(List<MaterialUtilizado> materialUtilizado) {
-        this.materialUtilizado = materialUtilizado;
+    public void setListaMaterialUtilizado(List<MaterialUtilizado> listaMaterialUtilizado) {
+        this.listaMaterialUtilizado = listaMaterialUtilizado;
     }
 }
