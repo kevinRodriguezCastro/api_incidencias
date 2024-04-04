@@ -1,5 +1,6 @@
 package api_incidencias.api_incidencias.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,16 @@ public class Incidencia {
     @Column(name = "Descripcion")
     private String descripcion;
     @Column(name = "Fecha_Creacion")
+    @JsonIgnore
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "Fecha_Inicio_Trabajo")
+    @JsonIgnore
+    private LocalDateTime fechaInicioTrabajo;
+
+    @Column(name = "Fecha_Fin_Trabajo")
+    @JsonIgnore
+    private LocalDateTime fechaFinTrabajo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Estado")
@@ -33,8 +43,14 @@ public class Incidencia {
     private Usuario usuarioCreador;
 
     @ManyToOne
-    @JoinColumn(name = "ID_Usuario_UltimaModificacion")
+    @JoinColumn(name = "Id_Usuario_Ultima_Modificacion")
     private Usuario usuarioUltimaModificacion;
+
+    @ManyToOne
+    @JoinColumn(name = "Id_Tecnico")
+    private Usuario idTecnico;
+
+    /************************************ Getters y Setters ********************************************/
 
     public Long getIdIncidencia() {
         return idIncidencia;
@@ -68,6 +84,22 @@ public class Incidencia {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public LocalDateTime getFechaInicioTrabajo() {
+        return fechaInicioTrabajo;
+    }
+
+    public void setFechaInicioTrabajo(LocalDateTime fechaInicioTrabajo) {
+        this.fechaInicioTrabajo = fechaInicioTrabajo;
+    }
+
+    public LocalDateTime getFechaFinTrabajo() {
+        return fechaFinTrabajo;
+    }
+
+    public void setFechaFinTrabajo(LocalDateTime fechaFinTrabajo) {
+        this.fechaFinTrabajo = fechaFinTrabajo;
+    }
+
     public Estado getEstado() {
         return estado;
     }
@@ -98,5 +130,13 @@ public class Incidencia {
 
     public void setUsuarioUltimaModificacion(Usuario usuarioUltimaModificacion) {
         this.usuarioUltimaModificacion = usuarioUltimaModificacion;
+    }
+
+    public Usuario getIdTecnico() {
+        return idTecnico;
+    }
+
+    public void setIdTecnico(Usuario idTecnico) {
+        this.idTecnico = idTecnico;
     }
 }

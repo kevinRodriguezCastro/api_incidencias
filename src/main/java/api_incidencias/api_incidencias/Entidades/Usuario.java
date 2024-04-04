@@ -1,6 +1,10 @@
 package api_incidencias.api_incidencias.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
+
 @Entity
 @Table(name = "Usuarios")
 public class Usuario {
@@ -15,8 +19,8 @@ public class Usuario {
 
     @Column(name = "Correo_Electronico",unique = true)
     private String correoElectronico;
-    @Column(name = "Contrasenia")
-    private String contrasenia;
+    @Column(name = "Contrasena")
+    private String contrasena;
     @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
@@ -24,6 +28,17 @@ public class Usuario {
     @Column(name = "Ruta_Imagen")
     private String rutaImagen;
 
+    @OneToMany(mappedBy = "usuarioCreador")
+    @JsonIgnore
+    private List<Incidencia> incidenciasCreadores;
+
+    @OneToMany(mappedBy = "usuarioUltimaModificacion")
+    @JsonIgnore
+    private List<Incidencia> incidenciasModificados;
+
+    @OneToMany(mappedBy = "idTecnico")
+    @JsonIgnore
+    private List<Incidencia> incendenciasTecnico;
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -57,12 +72,12 @@ public class Usuario {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public Rol getRol() {
