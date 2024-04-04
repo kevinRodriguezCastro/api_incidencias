@@ -17,7 +17,7 @@ public class MaterialUtilizado {
     private double coste;
     @ManyToOne
     @JoinColumn(name = "id_orden")
-    private ParteTrabajo idOrden;
+    private ParteTrabajo parteTrabajo;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -53,11 +53,11 @@ public class MaterialUtilizado {
         this.coste = coste;
     }
 
-    public ParteTrabajo getIdOrden() {
-        return idOrden;
+    public ParteTrabajo getParteTrabajo() {
+        return parteTrabajo;
     }
 
-    public void setIdOrden(ParteTrabajo idOrden) {
-        this.idOrden = idOrden;
+    public void setParteTrabajo(ParteTrabajo parteTrabajo) {
+        this.parteTrabajo = parteTrabajo;
     }
 }
