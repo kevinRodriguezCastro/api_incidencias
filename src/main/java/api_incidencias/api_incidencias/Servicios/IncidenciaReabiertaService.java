@@ -16,6 +16,8 @@ public class IncidenciaReabiertaService {
     private RepositorioIncidenciaReabierta reposIncidenciaReabierta;
 
     public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
+        String id = generarId(incidenciaReabierta);
+        incidenciaReabierta.setIdIncidenciaReabierta(id);
         return reposIncidenciaReabierta.save(incidenciaReabierta);
     }
 
@@ -65,6 +67,13 @@ public class IncidenciaReabiertaService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se encontró la incidencia correspondiente.");
         }
+    }
+
+    private String generarId(IncidenciaReabierta incidenciaReabierta){
+        Long idIncidencia = incidenciaReabierta.getIncidenciaPrincipal().getIdIncidencia();
+        List<IncidenciaReabierta> listaIncidenciasReabiertas = getIncidenciasReabiertas(idIncidencia);
+        String id = idIncidencia+"R"+listaIncidenciasReabiertas.size();
+        return id;
     }
 
 }
