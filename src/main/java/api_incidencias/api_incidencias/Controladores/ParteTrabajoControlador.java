@@ -27,11 +27,16 @@ public class ParteTrabajoControlador {
     }
 
     @GetMapping("/{idOrden}")
-    public Optional<ParteTrabajo> getIncidenciaPorId(@PathVariable("idOrden") Long idOrden){
+    public Optional<ParteTrabajo> getPartesTrabajoPorId(@PathVariable("idOrden") Long idOrden){
         return parteTrabajoServicio.getPartesTrabajoPorId(idOrden);
     }
 
     // Aqui Get de Partes de Trabajo por incidencia
+    @GetMapping("incidencia/{idIncidencia}")
+    public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
+        return parteTrabajoServicio.getPartesTrabajoPorIncidencia(idIncidencia);
+    }
+
 
     @PostMapping
     public ResponseEntity<ParteTrabajo> crearParteTrabajo(@RequestBody ParteTrabajo parteTb){

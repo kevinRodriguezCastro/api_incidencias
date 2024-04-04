@@ -25,10 +25,10 @@ public class ParteTrabajoService {
     public List<ParteTrabajo> getPartesTrabajo(){
         return reposParteTrabajo.findAll();
     }
-    // Este hay que hacerlo
-    //public List<ParteTrabajo> getPartesTrabajoPorIncidencia(Long idIncidencia){
-    //    return reposParteTrabajo.findByIncidencia(idIncidencia);
-    //}
+
+    public List<ParteTrabajo> getPartesTrabajoPorIncidencia(Long idIncidencia){
+        return reposParteTrabajo.findByIdIncidencia(idIncidencia);
+    }
 
     public Optional<ParteTrabajo> getPartesTrabajoPorId(Long idOrden){
         return reposParteTrabajo.findById(idOrden);
