@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Incidencias")
@@ -47,6 +48,10 @@ public class Incidencia {
     @ManyToOne
     @JoinColumn(name = "Id_Tecnico")
     private Usuario usuarioTecnico;
+
+    @OneToMany(mappedBy = "incidencia")
+    @JsonIgnore
+    private List<ParteTrabajo> partesTrabajo;
 
     /************************************ Getters y Setters ********************************************/
 
