@@ -31,7 +31,6 @@ public class IncidenciaService {
 
 
     public Incidencia updateIncidencia(Long idIncidencia, Incidencia incidencia){
-        //reposUser.save(user);
         Optional<Incidencia> userExistenteOptional = reposIncidencia.findById(idIncidencia);
 
         if (userExistenteOptional.isPresent()) {
