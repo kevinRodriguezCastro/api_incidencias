@@ -29,10 +29,11 @@ public class IncidenciaReabiertaService {
         return reposIncidenciaReabierta.findById(idIncidenciaReabierta);
     }
 
+
     public List<IncidenciaReabierta> getIncidenciasReabiertas(Long idIncidencia){
         return reposIncidenciaReabierta.findByIncidencia(idIncidencia);
     }
-
+  
     public IncidenciaReabierta updateIncidenciaReabierta(String idIncidenciaReabierta, IncidenciaReabierta incidenciaReabierta){
         Optional<IncidenciaReabierta> incidenciaOptional = reposIncidenciaReabierta.findById(idIncidenciaReabierta);
 
