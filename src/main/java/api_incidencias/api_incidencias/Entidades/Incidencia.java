@@ -41,6 +41,7 @@ public class Incidencia {
     @ManyToOne
     @JoinColumn(name = "Id_Cliente")
     private Usuario usuarioCliente;
+
     @ManyToOne
     @JoinColumn(name = "Id_Tecnico")
     private Usuario usuarioTecnico;

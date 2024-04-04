@@ -12,10 +12,13 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Usuarios")
 public class Usuario {
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Usuario")
     private Long idUsuario;
+
+    @Column(name = "DNI", unique = true)
+    private String dni;
     @Column(name = "Nombre")
     private String nombre;
     @Column(name = "Apellido")
@@ -26,22 +29,14 @@ public class Usuario {
     @Column(name = "Contrasena")
     private String contrasena;
 
+    @Column(name = "Fecha_Registro")
+    private LocalDate fechaRegistro;
+
+    @Column(name = "Ruta_Imagen")
+    private String rutaImagen;
     @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
-    @Column(name = "Ruta_Imagen")
-    private String rutaImagen;
-
-
-    @OneToMany(mappedBy = "usuarioCliente")
-    @JsonIgnore
-    private List<Incidencia> incidenciasUsuario;
-    @OneToMany(mappedBy = "usuarioTecnico")
-    @JsonIgnore
-    private List<Incidencia> incendenciasTecnico;
-
-    @Column(name = "DNI")
-    private String dni;
     @Column(name = "Telefono")
     private String telefono;
     @Column(name = "Calle")
@@ -54,17 +49,30 @@ public class Usuario {
     private String codigoPostal;
     @Column(name = "Pais")
     private String pais;
-    @Column(name = "Fecha_Registro")
-    private LocalDate fechaRegistro;
+    @OneToMany(mappedBy = "usuarioCliente")
+    @JsonIgnore
+    private List<Incidencia> incidenciasUsuario;
+    @OneToMany(mappedBy = "usuarioTecnico")
+    @JsonIgnore
+    private List<Incidencia> incidenciasTecnico;
+
 
     /************************************ Getters y Setters ********************************************/
 
-    public Long getIdUsuario() {
+     public Long getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -99,12 +107,12 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public Rol getRol() {
-        return rol;
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 
     public String getRutaImagen() {
@@ -115,28 +123,12 @@ public class Usuario {
         this.rutaImagen = rutaImagen;
     }
 
-    public List<Incidencia> getIncidenciasUsuario() {
-        return incidenciasUsuario;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setIncidenciasUsuario(List<Incidencia> incidenciasUsuario) {
-        this.incidenciasUsuario = incidenciasUsuario;
-    }
-
-    public List<Incidencia> getIncendenciasTecnico() {
-        return incendenciasTecnico;
-    }
-
-    public void setIncendenciasTecnico(List<Incidencia> incendenciasTecnico) {
-        this.incendenciasTecnico = incendenciasTecnico;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public String getTelefono() {
@@ -187,11 +179,19 @@ public class Usuario {
         this.pais = pais;
     }
 
-    public LocalDate getFechaRegistro() {
-        return fechaRegistro;
+    public List<Incidencia> getIncidenciasUsuario() {
+        return incidenciasUsuario;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setIncidenciasUsuario(List<Incidencia> incidenciasUsuario) {
+        this.incidenciasUsuario = incidenciasUsuario;
+    }
+
+    public List<Incidencia> getIncidenciasTecnico() {
+        return incidenciasTecnico;
+    }
+
+    public void setIncidenciasTecnico(List<Incidencia> incidenciasTecnico) {
+        this.incidenciasTecnico = incidenciasTecnico;
     }
 }
