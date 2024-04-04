@@ -52,10 +52,10 @@ public class Usuario {
     private String pais;
     @OneToMany(mappedBy = "usuarioCliente")
     @JsonIgnore
-    private List<Incidencia> incidenciasUsuario;
+    private List<Incidencia> listaIncidenciasUsuario;
     @OneToMany(mappedBy = "usuarioTecnico")
     @JsonIgnore
-    private List<Incidencia> incidenciasTecnico;
+    private List<Incidencia> listaIncidenciasTecnico;
 
 
     /************************************ Getters y Setters ********************************************/
@@ -180,19 +180,19 @@ public class Usuario {
         this.pais = pais;
     }
 
-    public List<Incidencia> getIncidenciasUsuario() {
-        return incidenciasUsuario;
+    public List<Incidencia> getListaIncidenciasUsuario() {
+        return listaIncidenciasUsuario;
     }
 
-    public void setIncidenciasUsuario(List<Incidencia> incidenciasUsuario) {
-        this.incidenciasUsuario = incidenciasUsuario;
+    public void setListaIncidenciasUsuario(List<Incidencia> listaIncidenciasUsuario) {
+        this.listaIncidenciasUsuario = listaIncidenciasUsuario;
     }
 
-    public List<Incidencia> getIncidenciasTecnico() {
-        return incidenciasTecnico;
+    public List<Incidencia> getListaIncidenciasTecnico() {
+        return listaIncidenciasTecnico;
     }
 
-    public void setIncidenciasTecnico(List<Incidencia> incidenciasTecnico) {
-        this.incidenciasTecnico = incidenciasTecnico;
+    public void setListaIncidenciasTecnico(List<Incidencia> listaIncidenciasTecnico) {
+        this.listaIncidenciasTecnico = listaIncidenciasTecnico;
     }
 }

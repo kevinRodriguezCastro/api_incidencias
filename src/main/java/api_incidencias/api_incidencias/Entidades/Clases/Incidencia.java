@@ -41,7 +41,7 @@ public class Incidencia {
 
     @OneToMany(mappedBy = "incidencia")
     @JsonIgnore
-    private List<ParteTrabajo> partesTrabajo;
+    private List<ParteTrabajo> listaPartesTrabajo;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -107,5 +107,13 @@ public class Incidencia {
 
     public void setUsuarioTecnico(Usuario usuarioTecnico) {
         this.usuarioTecnico = usuarioTecnico;
+    }
+
+    public List<ParteTrabajo> getListaPartesTrabajo() {
+        return listaPartesTrabajo;
+    }
+
+    public void setListaPartesTrabajo(List<ParteTrabajo> listaPartesTrabajo) {
+        this.listaPartesTrabajo = listaPartesTrabajo;
     }
 }
