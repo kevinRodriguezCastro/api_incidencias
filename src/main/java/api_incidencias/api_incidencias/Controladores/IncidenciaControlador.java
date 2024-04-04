@@ -75,8 +75,6 @@ public class IncidenciaControlador {
         incidencia.setFechaCreacion(incidenciaDTO.getFechaCreacion());
         incidencia.setEstado(incidenciaDTO.getEstado());
         incidencia.setPrioridad(incidenciaDTO.getPrioridad());
-        incidencia.setFechaInicioTrabajo(incidenciaDTO.getFechaInicioTrabajo());
-        incidencia.setFechaFinTrabajo(incidenciaDTO.getFechaFinTrabajo());
 
         Optional<Usuario> optionalCliente = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioCliente());
         Optional<Usuario> optionalTecnico = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioTecnico());
