@@ -86,7 +86,7 @@ public class UsuarioService {
                 // Actualizo los atributos del libro existente con los del libro proporcionado
                 usuarioExistente.setNombre(user.getNombre());
                 usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
-                usuarioExistente.setContrasenia(user.getContrasenia());
+                usuarioExistente.setContrasena(user.getContrasena());
                 usuarioExistente.setApellido(user.getApellido());
                 usuarioExistente.setRol(user.getRol());
 

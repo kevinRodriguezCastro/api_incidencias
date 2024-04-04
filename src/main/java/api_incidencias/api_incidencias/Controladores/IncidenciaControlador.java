@@ -42,7 +42,7 @@ public class IncidenciaControlador {
 
     }
 
-    @DeleteMapping("/{idUser}")
+    @DeleteMapping("/{idIncidencia}")
     public ResponseEntity<String> eliminarIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
         return incidenciaServicio.deleteIncidencia(idIncidencia);
     }

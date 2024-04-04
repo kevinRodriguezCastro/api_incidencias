@@ -1,8 +1,13 @@
 package api_incidencias.api_incidencias.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+
+import java.util.List;
+
 import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "Usuarios")
@@ -17,13 +22,29 @@ public class Usuario {
     private String apellido;
     @Column(name = "Correo_Electronico",unique = true)
     private String correoElectronico;
+  
     @Column(name = "Contrasena")
-    private String contrasenia;
+    private String contrasena;
+
     @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
     @Column(name = "Ruta_Imagen")
     private String rutaImagen;
+
+
+    @OneToMany(mappedBy = "usuarioCreador")
+    @JsonIgnore
+    private List<Incidencia> incidenciasCreadores;
+
+    @OneToMany(mappedBy = "usuarioUltimaModificacion")
+    @JsonIgnore
+    private List<Incidencia> incidenciasModificados;
+
+    @OneToMany(mappedBy = "idTecnico")
+    @JsonIgnore
+    private List<Incidencia> incendenciasTecnico;
+
     @Column(name = "DNI")
     private String dni;
     @Column(name = "Telefono")
@@ -40,6 +61,7 @@ public class Usuario {
     private String pais;
     @Column(name = "Fecha_Registro")
     private LocalDate fechaRegistro;
+
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -73,12 +95,12 @@ public class Usuario {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public Rol getRol() {
