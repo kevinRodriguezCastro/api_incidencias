@@ -29,7 +29,6 @@ public class IncidenciaReabiertaService {
         return reposIncidenciaReabierta.findById(id);
     }
 
-
     public IncidenciaReabierta updateIncidenciaReabierta(String idIncidenciaReabierta, IncidenciaReabierta incidenciaReabierta){
         Optional<IncidenciaReabierta> incidenciaOptional = reposIncidenciaReabierta.findById(idIncidenciaReabierta);
 
