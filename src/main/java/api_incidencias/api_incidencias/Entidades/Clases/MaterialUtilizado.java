@@ -56,6 +56,7 @@ public class MaterialUtilizado {
     public ParteTrabajo getParteTrabajo() {
         return parteTrabajo;
     }
+
     public void setParteTrabajo(ParteTrabajo parteTrabajo) {
         this.parteTrabajo = parteTrabajo;
     }
