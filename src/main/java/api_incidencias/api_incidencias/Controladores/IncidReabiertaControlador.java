@@ -25,7 +25,10 @@ public class IncidReabiertaControlador {
     public Optional<IncidenciaReabierta> getIncidReabiertasPorId(@PathVariable("idIncidReabierta") String idIncidReabierta){
         return incidReabiertaService.getIncidenciasReabiertas(idIncidReabierta);
     }
-
+    @GetMapping("incidencia-principal/{idIncidencia}")
+    public List<IncidenciaReabierta> getIncidReabiertasPorIncidenciaPrincipal(@PathVariable("idIncidencia") Long idIncidencia){
+        return incidReabiertaService.getIncidenciasReabiertas(idIncidencia);
+    }
     @PostMapping
     public ResponseEntity<IncidenciaReabierta> crearIncidenciaReabierta(@RequestBody IncidenciaReabierta incidReabierta){
         IncidenciaReabierta nuevaIncidReabierta = incidReabiertaService.addIncidenciaReabierta(incidReabierta);
