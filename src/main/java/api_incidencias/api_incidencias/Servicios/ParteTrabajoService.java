@@ -1,10 +1,7 @@
 package api_incidencias.api_incidencias.Servicios;
 
-import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
 import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
-import api_incidencias.api_incidencias.Repositorios.RepositorioIncidencia;
 import api_incidencias.api_incidencias.Repositorios.RepositorioParteTrabajo;
-import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +22,7 @@ public class ParteTrabajoService {
     public List<ParteTrabajo> getPartesTrabajo(){
         return reposParteTrabajo.findAll();
     }
+
     // Este hay que hacerlo
     //public List<ParteTrabajo> getPartesTrabajoPorIncidencia(Long idIncidencia){
     //    return reposParteTrabajo.findByIncidencia(idIncidencia);
@@ -33,7 +31,6 @@ public class ParteTrabajoService {
     public Optional<ParteTrabajo> getPartesTrabajoPorId(Long idOrden){
         return reposParteTrabajo.findById(idOrden);
     }
-
 
     public ParteTrabajo updateParteTrabajo(Long idOrden, ParteTrabajo parteTb){
         Optional<ParteTrabajo> parteTbExistenteOptional = reposParteTrabajo.findById(idOrden);
