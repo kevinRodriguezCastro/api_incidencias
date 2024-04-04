@@ -1,5 +1,6 @@
-package api_incidencias.api_incidencias.Entidades;
+package api_incidencias.api_incidencias.Entidades.Clases;
 
+import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

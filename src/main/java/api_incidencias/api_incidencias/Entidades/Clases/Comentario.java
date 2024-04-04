@@ -1,4 +1,4 @@
-package api_incidencias.api_incidencias.Entidades;
+package api_incidencias.api_incidencias.Entidades.Clases;
 
 import jakarta.persistence.*;
 
@@ -22,6 +22,8 @@ public class Comentario {
     private String Contenido;
     @Column(name = "Fecha_Publicacion")
     private LocalDateTime FechaPublicacion;
+
+    /************************************ Getters y Setters ********************************************/
 
     public Long getID_Comentario() {
         return ID_Comentario;

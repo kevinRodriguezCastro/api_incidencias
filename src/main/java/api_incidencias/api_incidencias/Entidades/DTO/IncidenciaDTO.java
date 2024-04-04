@@ -1,50 +1,21 @@
-package api_incidencias.api_incidencias.Entidades;
+package api_incidencias.api_incidencias.Entidades.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import api_incidencias.api_incidencias.Entidades.Enum.Estado;
+import api_incidencias.api_incidencias.Entidades.Enum.Prioridad;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "Incidencias")
-public class Incidencia {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Incidencia")
+public class IncidenciaDTO {
     private Long idIncidencia;
-
-    @Column(name = "Titulo")
     private String titulo;
-    @Column(name = "Descripcion")
     private String descripcion;
-    @Column(name = "Fecha_Creacion")
-    @JsonIgnore
     private LocalDateTime fechaCreacion;
-
-    @Column(name = "Fecha_Inicio_Trabajo")
-    @JsonIgnore
     private LocalDateTime fechaInicioTrabajo;
-
-    @Column(name = "Fecha_Fin_Trabajo")
-    @JsonIgnore
     private LocalDateTime fechaFinTrabajo;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Estado")
     private Estado estado;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Prioridad")
     private Prioridad prioridad;
-
-    @ManyToOne
-    @JoinColumn(name = "Id_Cliente")
-    private Usuario usuarioCliente;
-
-    @ManyToOne
-    @JoinColumn(name = "Id_Tecnico")
-    private Usuario usuarioTecnico;
+    private Long idUsuarioCliente;
+    private Long idUsuarioTecnico;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -112,19 +83,19 @@ public class Incidencia {
         this.prioridad = prioridad;
     }
 
-    public Usuario getUsuarioCliente() {
-        return usuarioCliente;
+    public Long getIdUsuarioCliente() {
+        return idUsuarioCliente;
     }
 
-    public void setUsuarioCliente(Usuario usuarioCliente) {
-        this.usuarioCliente = usuarioCliente;
+    public void setIdUsuarioCliente(Long idUsuarioCliente) {
+        this.idUsuarioCliente = idUsuarioCliente;
     }
 
-    public Usuario getUsuarioTecnico() {
-        return usuarioTecnico;
+    public Long getIdUsuarioTecnico() {
+        return idUsuarioTecnico;
     }
 
-    public void setUsuarioTecnico(Usuario usuarioTecnico) {
-        this.usuarioTecnico = usuarioTecnico;
+    public void setIdUsuarioTecnico(Long idUsuarioTecnico) {
+        this.idUsuarioTecnico = idUsuarioTecnico;
     }
 }
