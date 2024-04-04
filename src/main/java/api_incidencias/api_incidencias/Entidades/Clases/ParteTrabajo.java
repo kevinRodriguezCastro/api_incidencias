@@ -25,11 +25,11 @@ public class ParteTrabajo {
     @ManyToOne
     @JoinColumn(name = "incidencia")
     private Incidencia incidencia;
-    @OneToMany(mappedBy = "tiempo")
+    @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
     private List<TiempoEmpleado> tiempoEmpleados;
 
-    @OneToMany(mappedBy = "tiempo")
+    @OneToMany(mappedBy = "idOrden")
     @JsonIgnore
     private List<MaterialUtilizado> materialUtilizado;
 
