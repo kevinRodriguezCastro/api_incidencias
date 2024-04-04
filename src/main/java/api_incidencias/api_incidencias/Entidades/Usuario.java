@@ -3,7 +3,11 @@ package api_incidencias.api_incidencias.Entidades;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+
 import java.util.List;
+
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "Usuarios")
@@ -16,17 +20,18 @@ public class Usuario {
     private String nombre;
     @Column(name = "Apellido")
     private String apellido;
-
     @Column(name = "Correo_Electronico",unique = true)
     private String correoElectronico;
+  
     @Column(name = "Contrasena")
     private String contrasena;
+
     @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
-
     @Column(name = "Ruta_Imagen")
     private String rutaImagen;
+
 
     @OneToMany(mappedBy = "usuarioCreador")
     @JsonIgnore
@@ -39,6 +44,24 @@ public class Usuario {
     @OneToMany(mappedBy = "idTecnico")
     @JsonIgnore
     private List<Incidencia> incendenciasTecnico;
+
+    @Column(name = "DNI")
+    private String dni;
+    @Column(name = "Telefono")
+    private String telefono;
+    @Column(name = "Calle")
+    private String calle;
+    @Column(name = "Ciudad")
+    private String ciudad;
+    @Column(name = "Provincia")
+    private String provincia;
+    @Column(name = "Codigo_Postal")
+    private String codigoPostal;
+    @Column(name = "Pais")
+    private String pais;
+    @Column(name = "Fecha_Registro")
+    private LocalDate fechaRegistro;
+
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -94,5 +117,69 @@ public class Usuario {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 }
