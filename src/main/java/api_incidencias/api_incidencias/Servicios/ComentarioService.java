@@ -1,8 +1,6 @@
 package api_incidencias.api_incidencias.Servicios;
 
-import api_incidencias.api_incidencias.Entidades.Comentario;
-import api_incidencias.api_incidencias.Entidades.Incidencia;
-import api_incidencias.api_incidencias.Entidades.Usuario;
+import api_incidencias.api_incidencias.Entidades.Clases.Comentario;
 import api_incidencias.api_incidencias.Repositorios.RepositorioComentario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

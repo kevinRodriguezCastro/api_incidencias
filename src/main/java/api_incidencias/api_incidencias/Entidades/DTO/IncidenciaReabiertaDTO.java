@@ -1,26 +1,15 @@
-package api_incidencias.api_incidencias.Entidades;
-
-import jakarta.persistence.*;
+package api_incidencias.api_incidencias.Entidades.DTO;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "IncidenciaReabierta")
-public class IncidenciaReabierta {
+public class IncidenciaReabiertaDTO {
 
-    @Id
-    @Column(name = "ID_Incidencia_Reabierta")
     private String idIncidenciaReabierta;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_Incidencia_Principal")
-    private Incidencia incidenciaPrincipal;
-
-    @Column(name = "Fecha_Reapertura")
+    private Long idIncidenciaPrincipal;
     private LocalDateTime fechaReapertura;
-
-    @Column(name = "Descripcion_Reapertura")
     private String descripcionReapertura;
+
+    /************************************ Getters y Setters ********************************************/
 
     public String getIdIncidenciaReabierta() {
         return idIncidenciaReabierta;
@@ -30,12 +19,12 @@ public class IncidenciaReabierta {
         this.idIncidenciaReabierta = idIncidenciaReabierta;
     }
 
-    public Incidencia getIncidenciaPrincipal() {
-        return incidenciaPrincipal;
+    public Long getIdIncidenciaPrincipal() {
+        return idIncidenciaPrincipal;
     }
 
-    public void setIncidenciaPrincipal(Incidencia incidenciaPrincipal) {
-        this.incidenciaPrincipal = incidenciaPrincipal;
+    public void setIdIncidenciaPrincipal(Long idIncidenciaPrincipal) {
+        this.idIncidenciaPrincipal = idIncidenciaPrincipal;
     }
 
     public LocalDateTime getFechaReapertura() {

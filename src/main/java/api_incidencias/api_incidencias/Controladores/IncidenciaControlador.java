@@ -1,7 +1,10 @@
 package api_incidencias.api_incidencias.Controladores;
 
-import api_incidencias.api_incidencias.Entidades.Incidencia;
+import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
+import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
+import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,8 @@ import java.util.Optional;
 public class IncidenciaControlador {
     @Autowired
     private IncidenciaService incidenciaServicio;
+    @Autowired
+    private UsuarioService usuarioServicio;
 
     @GetMapping
     public List<Incidencia> getIncidencias(){
@@ -33,13 +38,19 @@ public class IncidenciaControlador {
         return incidenciaServicio.getIncidenciasTecnico(idTecnico);
     }
     @PostMapping
-    public ResponseEntity<Incidencia> crearIncidencia(@RequestBody Incidencia incidencia){
-        Incidencia nuevaIncidencia = incidenciaServicio.addIncidencia(incidencia);
-        return new ResponseEntity<>(nuevaIncidencia, HttpStatus.CREATED);
+    public ResponseEntity<Incidencia> crearIncidencia(@RequestBody IncidenciaDTO incidenciaDTO){
+
+        Incidencia incidencia = cargarDTO(incidenciaDTO);
+
+        Incidencia incidenciaGuardada = incidenciaServicio.addIncidencia(incidencia);
+        return new ResponseEntity<>(incidenciaGuardada, HttpStatus.CREATED);
     }
 
     @PutMapping("/{idIncidencia}")
-    public ResponseEntity<Incidencia> actualizarIncidencia(@PathVariable Long idIncidencia, @RequestBody Incidencia incidencia) {
+    public ResponseEntity<Incidencia> actualizarIncidencia(@PathVariable Long idIncidencia, @RequestBody IncidenciaDTO incidenciaDTO) {
+
+        Incidencia incidencia = cargarDTO(incidenciaDTO);
+
         Incidencia incidenciaActualizada = incidenciaServicio.updateIncidencia(idIncidencia, incidencia);
         if (incidenciaActualizada != null) {
             return new ResponseEntity<>(incidenciaActualizada, HttpStatus.OK);
@@ -52,5 +63,31 @@ public class IncidenciaControlador {
     @DeleteMapping("/{idIncidencia}")
     public ResponseEntity<String> eliminarIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
         return incidenciaServicio.deleteIncidencia(idIncidencia);
+    }
+
+
+    private Incidencia cargarDTO(IncidenciaDTO incidenciaDTO){
+        Incidencia incidencia = new Incidencia();
+
+        incidencia.setIdIncidencia(incidenciaDTO.getIdIncidencia());
+        incidencia.setTitulo(incidenciaDTO.getTitulo());
+        incidencia.setDescripcion(incidenciaDTO.getDescripcion());
+        incidencia.setFechaCreacion(incidenciaDTO.getFechaCreacion());
+        incidencia.setEstado(incidenciaDTO.getEstado());
+        incidencia.setPrioridad(incidenciaDTO.getPrioridad());
+        incidencia.setFechaInicioTrabajo(incidenciaDTO.getFechaInicioTrabajo());
+        incidencia.setFechaFinTrabajo(incidenciaDTO.getFechaFinTrabajo());
+
+        Optional<Usuario> optionalCliente = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioCliente());
+        Optional<Usuario> optionalTecnico = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioTecnico());
+
+        if (optionalCliente.isPresent()){
+            incidencia.setUsuarioCliente(optionalCliente.get());
+        }
+        if (optionalTecnico.isPresent()){
+            incidencia.setUsuarioTecnico(optionalTecnico.get());
+        }
+
+        return incidencia;
     }
 }
