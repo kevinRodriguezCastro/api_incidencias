@@ -50,8 +50,7 @@ public class UsuarioService {
             // Devuelve la URL de la imagen
             String urlImagen = RUTA_IMG + fileName;
 
-            //Actualizar BD
-
+            // Actualizar BD
             Optional<Usuario> usuario = getUser(idUsuario);
             if (usuario.isPresent()){
                 usuario.get().setRutaImagen(urlImagen);
@@ -84,11 +83,22 @@ public class UsuarioService {
 
             if (idUser.equals(user.getIdUsuario())) {
                 // Actualizo los atributos del libro existente con los del libro proporcionado
+                usuarioExistente.setDni(user.getDni());
                 usuarioExistente.setNombre(user.getNombre());
+                usuarioExistente.setApellido(user.getApellido());
                 usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
                 usuarioExistente.setContrasena(user.getContrasena());
-                usuarioExistente.setApellido(user.getApellido());
+
+                usuarioExistente.setFechaRegistro(user.getFechaRegistro());
+                usuarioExistente.setRutaImagen(user.getRutaImagen());
                 usuarioExistente.setRol(user.getRol());
+
+                usuarioExistente.setTelefono(user.getTelefono());
+                usuarioExistente.setCalle(user.getCalle());
+                usuarioExistente.setCiudad(user.getCiudad());
+                usuarioExistente.setProvincia(user.getProvincia());
+                usuarioExistente.setCodigoPostal(user.getCodigoPostal());
+                usuarioExistente.setPais(user.getPais());
 
                 // Guarda el usuario actualizado en el repositorio
                 return reposUser.save(usuarioExistente);

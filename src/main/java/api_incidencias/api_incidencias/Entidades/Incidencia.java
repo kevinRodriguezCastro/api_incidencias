@@ -39,16 +39,12 @@ public class Incidencia {
     private Prioridad prioridad;
 
     @ManyToOne
-    @JoinColumn(name = "ID_Usuario_Creador")
-    private Usuario usuarioCreador;
-
-    @ManyToOne
-    @JoinColumn(name = "Id_Usuario_Ultima_Modificacion")
-    private Usuario usuarioUltimaModificacion;
+    @JoinColumn(name = "Id_Cliente")
+    private Usuario usuarioCliente;
 
     @ManyToOne
     @JoinColumn(name = "Id_Tecnico")
-    private Usuario idTecnico;
+    private Usuario usuarioTecnico;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -116,27 +112,19 @@ public class Incidencia {
         this.prioridad = prioridad;
     }
 
-    public Usuario getUsuarioCreador() {
-        return usuarioCreador;
+    public Usuario getUsuarioCliente() {
+        return usuarioCliente;
     }
 
-    public void setUsuarioCreador(Usuario usuarioCreador) {
-        this.usuarioCreador = usuarioCreador;
+    public void setUsuarioCliente(Usuario usuarioCliente) {
+        this.usuarioCliente = usuarioCliente;
     }
 
-    public Usuario getUsuarioUltimaModificacion() {
-        return usuarioUltimaModificacion;
+    public Usuario getUsuarioTecnico() {
+        return usuarioTecnico;
     }
 
-    public void setUsuarioUltimaModificacion(Usuario usuarioUltimaModificacion) {
-        this.usuarioUltimaModificacion = usuarioUltimaModificacion;
-    }
-
-    public Usuario getIdTecnico() {
-        return idTecnico;
-    }
-
-    public void setIdTecnico(Usuario idTecnico) {
-        this.idTecnico = idTecnico;
+    public void setUsuarioTecnico(Usuario usuarioTecnico) {
+        this.usuarioTecnico = usuarioTecnico;
     }
 }
