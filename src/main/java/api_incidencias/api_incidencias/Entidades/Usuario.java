@@ -33,15 +33,10 @@ public class Usuario {
     private String rutaImagen;
 
 
-    @OneToMany(mappedBy = "usuarioCreador")
+    @OneToMany(mappedBy = "usuarioCliente")
     @JsonIgnore
-    private List<Incidencia> incidenciasCreadores;
-
-    @OneToMany(mappedBy = "usuarioUltimaModificacion")
-    @JsonIgnore
-    private List<Incidencia> incidenciasModificados;
-
-    @OneToMany(mappedBy = "idTecnico")
+    private List<Incidencia> incidenciasUsuario;
+    @OneToMany(mappedBy = "usuarioTecnico")
     @JsonIgnore
     private List<Incidencia> incendenciasTecnico;
 
@@ -62,6 +57,7 @@ public class Usuario {
     @Column(name = "Fecha_Registro")
     private LocalDate fechaRegistro;
 
+    /************************************ Getters y Setters ********************************************/
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -117,6 +113,22 @@ public class Usuario {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+    }
+
+    public List<Incidencia> getIncidenciasUsuario() {
+        return incidenciasUsuario;
+    }
+
+    public void setIncidenciasUsuario(List<Incidencia> incidenciasUsuario) {
+        this.incidenciasUsuario = incidenciasUsuario;
+    }
+
+    public List<Incidencia> getIncendenciasTecnico() {
+        return incendenciasTecnico;
+    }
+
+    public void setIncendenciasTecnico(List<Incidencia> incendenciasTecnico) {
+        this.incendenciasTecnico = incendenciasTecnico;
     }
 
     public String getDni() {
