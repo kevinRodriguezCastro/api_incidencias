@@ -5,28 +5,29 @@ import api_incidencias.api_incidencias.Repositorios.RepositorioTiempoEmpleado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class TiempoEmpleadoService {
     @Autowired
     private RepositorioTiempoEmpleado repositorioTiempoEmpleado;
 
-    public TiempoEmpleado addIncidencia(TiempoEmpleado tiempoEmpleado){
+    public TiempoEmpleado addTiempoEmpleado(TiempoEmpleado tiempoEmpleado){
         return repositorioTiempoEmpleado.save(tiempoEmpleado);
     }
 
-    public List<TiempoEmpleado> getIncidencias(){
+    public List<TiempoEmpleado> getTiempoEmpleado(){
         return repositorioTiempoEmpleado.findAll();
     }
 
-    public Optional<TiempoEmpleado> getIncidencias(Long id){
+    public Optional<TiempoEmpleado> getTiempoEmpleadoPorId(Long id){
         return repositorioTiempoEmpleado.findById(id);
     }
 
-    public List<TiempoEmpleado> getIncidenciasOrden(Long idOrden){
-        return repositorioTiempoEmpleado.findByIdOrden(idOrden);
+    public List<TiempoEmpleado> getTiempoEmpleadoPorIdOrden(Long idOrdenParteTb){
+        return repositorioTiempoEmpleado.findByIdOrden(idOrdenParteTb);
     }
     public TiempoEmpleado updateTiempoEmpleado(Long idTiempoEmpleado, TiempoEmpleado tiempoEmpleado){
         Optional<TiempoEmpleado> optional = repositorioTiempoEmpleado.findById(idTiempoEmpleado);
