@@ -29,7 +29,6 @@ public class IncidenciaReabiertaService {
         return reposIncidenciaReabierta.findById(idIncidenciaReabierta);
     }
 
-
     public List<IncidenciaReabierta> getIncidenciasReabiertas(Long idIncidencia){
         return reposIncidenciaReabierta.findByIncidencia(idIncidencia);
     }

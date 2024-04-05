@@ -57,7 +57,6 @@ public class Usuario {
     @JsonIgnore
     private List<Incidencia> listaIncidenciasTecnico;
 
-
     /************************************ Getters y Setters ********************************************/
 
      public Long getIdUsuario() {
