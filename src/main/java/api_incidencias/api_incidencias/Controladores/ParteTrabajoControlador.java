@@ -4,6 +4,7 @@ import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
 import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
+import api_incidencias.api_incidencias.Entidades.DTO.ParteTrabajoDTO;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.ParteTrabajoService;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
@@ -21,6 +22,9 @@ public class ParteTrabajoControlador {
     @Autowired
     private ParteTrabajoService parteTrabajoServicio;
 
+    @Autowired
+    private IncidenciaService incidenciaServicio;
+
     @GetMapping
     public List<ParteTrabajo> getPartesTrabajo(){
         return parteTrabajoServicio.getPartesTrabajo();
@@ -31,7 +35,6 @@ public class ParteTrabajoControlador {
         return parteTrabajoServicio.getPartesTrabajoPorId(idOrden);
     }
 
-    // Aqui Get de Partes de Trabajo por incidencia
     @GetMapping("incidencia/{idIncidencia}")
     public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
         return parteTrabajoServicio.getPartesTrabajoPorIncidencia(idIncidencia);
@@ -39,20 +42,20 @@ public class ParteTrabajoControlador {
 
 
     @PostMapping
-    public ResponseEntity<ParteTrabajo> crearParteTrabajo(@RequestBody ParteTrabajo parteTb){
+    public ResponseEntity<ParteTrabajo> crearParteTrabajo(@RequestBody ParteTrabajoDTO parteTrabajoDTO){
 
-        //ParteTrabajo parteTrabajo = cargarDTO(parteTbDTO);
+        ParteTrabajo parteTrabajo = cargarDTO(parteTrabajoDTO);
 
-        ParteTrabajo incidenciaGuardada = parteTrabajoServicio.addParteTrabajo(parteTb);
+        ParteTrabajo incidenciaGuardada = parteTrabajoServicio.addParteTrabajo(parteTrabajo);
         return new ResponseEntity<>(incidenciaGuardada, HttpStatus.CREATED);
     }
 
     @PutMapping("/{idOrden}")
-    public ResponseEntity<ParteTrabajo> actualizarIncidencia(@PathVariable Long idOrden, @RequestBody ParteTrabajo parteTb) {
+    public ResponseEntity<ParteTrabajo> actualizarIncidencia(@PathVariable Long idOrden, @RequestBody ParteTrabajoDTO parteTrabajoDTO) {
 
-        //ParteTrabajo parteTrabajo = cargarDTO(parteTbDTO);
+        ParteTrabajo parteTrabajo = cargarDTO(parteTrabajoDTO);
 
-        ParteTrabajo parteTrabajoActualizado = parteTrabajoServicio.updateParteTrabajo(idOrden, parteTb);
+        ParteTrabajo parteTrabajoActualizado = parteTrabajoServicio.updateParteTrabajo(idOrden, parteTrabajo);
         if (parteTrabajoActualizado != null) {
             return new ResponseEntity<>(parteTrabajoActualizado, HttpStatus.OK);
         } else {
@@ -66,29 +69,24 @@ public class ParteTrabajoControlador {
         return parteTrabajoServicio.deleteParteTrabajo(idOrden);
     }
 
-/*
-    private Incidencia cargarDTO(IncidenciaDTO incidenciaDTO){
-        Incidencia incidencia = new Incidencia();
 
-        incidencia.setIdIncidencia(incidenciaDTO.getIdIncidencia());
-        incidencia.setTitulo(incidenciaDTO.getTitulo());
-        incidencia.setDescripcion(incidenciaDTO.getDescripcion());
-        incidencia.setFechaCreacion(incidenciaDTO.getFechaCreacion());
-        incidencia.setEstado(incidenciaDTO.getEstado());
-        incidencia.setPrioridad(incidenciaDTO.getPrioridad());
+    private ParteTrabajo cargarDTO(ParteTrabajoDTO parteTrabajoDTO){
+        ParteTrabajo parteTrabajo = new ParteTrabajo();
 
-        Optional<Usuario> optionalCliente = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioCliente());
-        Optional<Usuario> optionalTecnico = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioTecnico());
-
-        if (optionalCliente.isPresent()){
-            incidencia.setUsuarioCliente(optionalCliente.get());
-        }
-        if (optionalTecnico.isPresent()){
-            incidencia.setUsuarioTecnico(optionalTecnico.get());
+        parteTrabajo.setIdOrden(parteTrabajoDTO.getIdOrden());
+        Optional<Incidencia> optionalIncidencia = incidenciaServicio.getIncidencias(parteTrabajoDTO.getIdIncidencia());
+        if (optionalIncidencia.isPresent()){
+            parteTrabajo.setIncidencia(optionalIncidencia.get());
         }
 
-        return incidencia;
+        parteTrabajo.setTrabajoRealizado(parteTrabajoDTO.getTrabajoRealizado());
+        parteTrabajo.setDiagnostico(parteTrabajoDTO.getDiagnostico());
+        parteTrabajo.setObservaciones(parteTrabajoDTO.getObservaciones());
+        parteTrabajo.setCosteReparacion(parteTrabajoDTO.getCosteReparacion());
+        parteTrabajo.setParteTrabajoImg(parteTrabajoDTO.getParteTrabajoImg());
+
+        return parteTrabajo;
     }
- */
+
 
 }
