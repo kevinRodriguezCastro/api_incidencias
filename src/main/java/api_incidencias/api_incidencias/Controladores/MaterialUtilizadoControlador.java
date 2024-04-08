@@ -33,9 +33,9 @@ public class MaterialUtilizadoControlador {
         return materialUtilizadoService.getMaterialUtilizados(idMaterial);
     }
 
-    @GetMapping("incidencia/{idOden}")
-    public List<MaterialUtilizado> getMaterialUtilizadosPorParteTrabajo(@PathVariable("idOden") Long idOden){
-        return materialUtilizadoService.getMaterialUtilizadosOrden(idOden);
+    @GetMapping("parte-trabajo/{idOrden}")
+    public List<MaterialUtilizado> getMaterialUtilizadosPorParteTrabajo(@PathVariable("idOrden") Long idOrden){
+        return materialUtilizadoService.getMaterialUtilizadosOrden(idOrden);
     }
 
     @PostMapping

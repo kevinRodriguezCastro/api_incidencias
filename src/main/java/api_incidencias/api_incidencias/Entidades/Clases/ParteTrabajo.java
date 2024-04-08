@@ -29,7 +29,7 @@ public class ParteTrabajo {
     @JsonIgnore
     private List<TiempoEmpleado> listaTiempoEmpleados;
 
-    @OneToMany(mappedBy = "idOrden")
+    @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
     private List<MaterialUtilizado> listaMaterialUtilizado;
 

@@ -5,6 +5,7 @@ import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,24 @@ import java.util.Optional;
 public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
+
+    @GetMapping("/registro")
+    public String mostrarFormularioRegistro(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "registro";
+    }
+
+    @PostMapping("/registro")
+    public String registrarUsuario(@ModelAttribute Usuario usuario) {
+        userServicio.addUser(usuario);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String mostrarFormularioLogin() {
+        return "login";
+    }
+
 
     @GetMapping
     public List<Usuario> getUsuarios(){
