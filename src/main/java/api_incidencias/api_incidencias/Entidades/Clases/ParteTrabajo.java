@@ -23,7 +23,7 @@ public class ParteTrabajo {
     @Column(name = "parte_trabajo_img")
     private String parteTrabajoImg;
     @ManyToOne
-    @JoinColumn(name = "incidencia")
+    @JoinColumn(name = "id_incidencia")
     private Incidencia incidencia;
     @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
