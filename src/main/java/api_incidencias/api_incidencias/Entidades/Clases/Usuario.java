@@ -34,7 +34,7 @@ public class Usuario {
     private LocalDate fechaRegistro;
 
     @Column(name = "Ruta_Imagen")
-    private String rutaImagen;
+    private String imagenPerfil;
     @Column(name = "Rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
@@ -115,12 +115,12 @@ public class Usuario {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public String getRutaImagen() {
-        return rutaImagen;
+    public String getImagenPerfil() {
+        return imagenPerfil;
     }
 
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
+    public void setImagenPerfil(String rutaImagen) {
+        this.imagenPerfil = rutaImagen;
     }
 
     public Rol getRol() {
