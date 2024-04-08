@@ -90,7 +90,7 @@ public class UsuarioService {
             return ResponseEntity.notFound().build();
         }
 
-        String rutaImagenUser = userOptional.get().getImagenPerfil();
+        String rutaImagenUser = RUTA_IMG+File.separator+userOptional.get().getImagenPerfil();
 
         if(rutaImagenUser == null){
             System.out.println("El usuario no tiene imagen asignada");
@@ -102,8 +102,9 @@ public class UsuarioService {
 
         try {
             // Construir la ruta completa de la imagen a partir de la ruta relativa y la ubicación del proyecto
-            //Path imagePath = Paths.get(System.getProperty("user.dir"), "uploads", rutaImagenLibro);
-            Path imagePath = Paths.get(RUTA_IMG);
+            //Path imagePath = Paths.get(System.getProperty("user.dir"), rutaImagenUser);
+            Path imagePath = Paths.get(rutaImagenUser);
+
             File imageFile = imagePath.toFile();
 
             if (!imageFile.exists()) {
