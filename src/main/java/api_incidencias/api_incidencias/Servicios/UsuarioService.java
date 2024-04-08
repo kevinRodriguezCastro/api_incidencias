@@ -3,16 +3,21 @@ package api_incidencias.api_incidencias.Servicios;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,14 +30,17 @@ public class UsuarioService {
 
     private static final String RUTA_IMG = "./imgUsuarios";
 
-    /**
+
+    /*
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = reposUser.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         return new User(usuario.getCorreoElectronico(), usuario.getContrasena(), new ArrayList<>());
     }
+
     */
+
     public Usuario addUser(Usuario user){
         return reposUser.save(user);
     }
@@ -63,7 +71,7 @@ public class UsuarioService {
             // Actualizar BD
             Optional<Usuario> usuario = getUser(idUsuario);
             if (usuario.isPresent()){
-                usuario.get().setRutaImagen(urlImagen);
+                usuario.get().setImagenPerfil(urlImagen);
                 updateUser(idUsuario,usuario.get());
             }else {
                 System.out.println("Error al actualizar imagen");
@@ -71,6 +79,65 @@ public class UsuarioService {
             return urlImagen;
         } catch (Exception e) {
             throw new RuntimeException("Falló la carga de la imagen", e);
+        }
+    }
+
+    public ResponseEntity<InputStreamResource> getImagenUser(Long idUser) {
+        Optional<Usuario> userOptional = getUser(idUser);
+
+        if (!userOptional.isPresent()) {
+            System.out.println("No existe el usuario que buscas");
+            return ResponseEntity.notFound().build();
+        }
+
+        String rutaImagenUser = userOptional.get().getImagenPerfil();
+
+        if(rutaImagenUser == null){
+            System.out.println("El usuario no tiene imagen asignada");
+            return ResponseEntity.notFound().build();
+        }
+
+        // Le quito la palabra uploads a la cadena rutaImagenLibro
+        //String rutaImgUserServidor = uploadDir + "/" +rutaImagenUser.replace("uploads", "");
+
+        try {
+            // Construir la ruta completa de la imagen a partir de la ruta relativa y la ubicación del proyecto
+            //Path imagePath = Paths.get(System.getProperty("user.dir"), "uploads", rutaImagenLibro);
+            Path imagePath = Paths.get(rutaImagenUser);
+            File imageFile = imagePath.toFile();
+
+            if (!imageFile.exists()) {
+                System.out.println("La imagen no fue encontrada en la ruta especificada: " + imagePath);
+                return ResponseEntity.notFound().build();
+            }
+
+            // Obtener la extensión del archivo
+            String extension = rutaImagenUser.substring(rutaImagenUser.lastIndexOf(".") + 1);
+
+            // Determinar el tipo de contenido basado en la extensión del archivo
+            MediaType mediaType = null;
+            if ("jpg".equalsIgnoreCase(extension) || "jpeg".equalsIgnoreCase(extension)) {
+                mediaType = MediaType.IMAGE_JPEG;
+            } else if ("png".equalsIgnoreCase(extension)) {
+                mediaType = MediaType.IMAGE_PNG;
+            } else if ("gif".equalsIgnoreCase(extension)) {
+                mediaType = MediaType.IMAGE_GIF;
+            } else {
+                System.out.println("Extensión de archivo no compatible: " + extension);
+                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
+            }
+
+            // Cargar la imagen desde el sistema de archivos
+            InputStream inputStream = new FileInputStream(imageFile);
+
+            // Devolver la imagen en la respuesta con el tipo de contenido adecuado
+            return ResponseEntity
+                    .ok()
+                    .contentType(mediaType)
+                    .body(new InputStreamResource(inputStream));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -100,7 +167,7 @@ public class UsuarioService {
                 usuarioExistente.setContrasena(user.getContrasena());
 
                 usuarioExistente.setFechaRegistro(user.getFechaRegistro());
-                usuarioExistente.setRutaImagen(user.getRutaImagen());
+                usuarioExistente.setImagenPerfil(user.getImagenPerfil());
                 usuarioExistente.setRol(user.getRol());
 
                 usuarioExistente.setTelefono(user.getTelefono());
