@@ -2,12 +2,9 @@ package api_incidencias.api_incidencias.Controladores;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
 import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Entidades.DTO.ParteTrabajoDTO;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.ParteTrabajoService;
-import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,12 +43,12 @@ public class ParteTrabajoControlador {
 
         ParteTrabajo parteTrabajo = cargarDTO(parteTrabajoDTO);
 
-        ParteTrabajo incidenciaGuardada = parteTrabajoServicio.addParteTrabajo(parteTrabajo);
-        return new ResponseEntity<>(incidenciaGuardada, HttpStatus.CREATED);
+        ParteTrabajo parteTrabajoGuardado = parteTrabajoServicio.addParteTrabajo(parteTrabajo);
+        return new ResponseEntity<>(parteTrabajoGuardado, HttpStatus.CREATED);
     }
 
     @PutMapping("/{idOrden}")
-    public ResponseEntity<ParteTrabajo> actualizarIncidencia(@PathVariable Long idOrden, @RequestBody ParteTrabajoDTO parteTrabajoDTO) {
+    public ResponseEntity<ParteTrabajo> actualizarParteTrabajo(@PathVariable Long idOrden, @RequestBody ParteTrabajoDTO parteTrabajoDTO) {
 
         ParteTrabajo parteTrabajo = cargarDTO(parteTrabajoDTO);
 
@@ -65,7 +62,7 @@ public class ParteTrabajoControlador {
     }
 
     @DeleteMapping("/{idOrden}")
-    public ResponseEntity<String> eliminarIncidencia(@PathVariable("idOrden") Long idOrden){
+    public ResponseEntity<String> eliminarParteTrabajo(@PathVariable("idOrden") Long idOrden){
         return parteTrabajoServicio.deleteParteTrabajo(idOrden);
     }
 
