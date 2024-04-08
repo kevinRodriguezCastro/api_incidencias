@@ -104,6 +104,7 @@ public class UsuarioService {
             // Construir la ruta completa de la imagen a partir de la ruta relativa y la ubicación del proyecto
             //Path imagePath = Paths.get(System.getProperty("user.dir"), rutaImagenUser);
             Path imagePath = Paths.get(rutaImagenUser);
+
             File imageFile = imagePath.toFile();
 
             if (!imageFile.exists()) {
