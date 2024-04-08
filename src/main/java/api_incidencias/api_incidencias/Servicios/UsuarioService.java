@@ -7,6 +7,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,7 @@ public class UsuarioService {
 
     private static final String RUTA_IMG = "./imgUsuarios";
 
+
     /*
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -36,7 +38,8 @@ public class UsuarioService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         return new User(usuario.getCorreoElectronico(), usuario.getContrasena(), new ArrayList<>());
     }
-     */
+
+    */
 
     public Usuario addUser(Usuario user){
         return reposUser.save(user);

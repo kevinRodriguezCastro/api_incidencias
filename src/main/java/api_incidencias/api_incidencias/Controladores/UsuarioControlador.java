@@ -19,6 +19,8 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
 
+
+
     /*
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
@@ -35,8 +37,10 @@ public class UsuarioControlador {
     @GetMapping("/login")
     public String mostrarFormularioLogin() {
         return "login";
-    }
-     */
+
+    }*/
+
+
 
     @GetMapping
     public List<Usuario> getUsuarios(){
