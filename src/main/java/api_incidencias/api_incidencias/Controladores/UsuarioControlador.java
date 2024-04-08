@@ -3,6 +3,7 @@ package api_incidencias.api_incidencias.Controladores;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
 
+    /*
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
@@ -34,7 +36,7 @@ public class UsuarioControlador {
     public String mostrarFormularioLogin() {
         return "login";
     }
-
+     */
 
     @GetMapping
     public List<Usuario> getUsuarios(){
@@ -49,6 +51,11 @@ public class UsuarioControlador {
     @GetMapping("/email/{emailUser}")
     public Optional<Usuario> getUserPorEmail(@PathVariable("emailUser") String email){
         return userServicio.getUser(email);
+    }
+
+    @GetMapping("/obtener-imagen-user/{idUser}")
+    public ResponseEntity<InputStreamResource> obtenerImagen(@PathVariable Long idUser) {
+        return userServicio.getImagenUser(idUser);
     }
 
     @PostMapping("/{idUsuario}/imagen")
