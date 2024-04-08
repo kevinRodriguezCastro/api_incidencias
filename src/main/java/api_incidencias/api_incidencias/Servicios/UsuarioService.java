@@ -66,7 +66,7 @@ public class UsuarioService {
             Files.copy(file.getInputStream(), filePath);
 
             // Devuelve la URL de la imagen
-            String urlImagen = RUTA_IMG + fileName;
+            String urlImagen = fileName;
 
             // Actualizar BD
             Optional<Usuario> usuario = getUser(idUsuario);
@@ -103,7 +103,7 @@ public class UsuarioService {
         try {
             // Construir la ruta completa de la imagen a partir de la ruta relativa y la ubicación del proyecto
             //Path imagePath = Paths.get(System.getProperty("user.dir"), "uploads", rutaImagenLibro);
-            Path imagePath = Paths.get(rutaImagenUser);
+            Path imagePath = Paths.get(RUTA_IMG);
             File imageFile = imagePath.toFile();
 
             if (!imageFile.exists()) {
