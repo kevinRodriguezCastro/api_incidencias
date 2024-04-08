@@ -18,7 +18,7 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
 
-    @GetMapping("/registro")
+   /** @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "registro";
@@ -33,7 +33,7 @@ public class UsuarioControlador {
     @GetMapping("/login")
     public String mostrarFormularioLogin() {
         return "login";
-    }
+    }*/
 
 
     @GetMapping
