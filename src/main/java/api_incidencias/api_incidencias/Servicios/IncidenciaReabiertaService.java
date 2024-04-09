@@ -73,7 +73,7 @@ public class IncidenciaReabiertaService {
         List<IncidenciaReabierta> listaIncidenciasReabiertas = getIncidenciasReabiertas(idIncidencia);
 
         //Coge el ultimo id registrado. coge el numero despues de la R y le suma uno. ejemplo si la ultima incidencia reabierta es 1455R2 dara 1455R3
-        String ultimoNumero = listaIncidenciasReabiertas.getLast().getIdIncidenciaReabierta().split("R")[1];
+        String ultimoNumero = listaIncidenciasReabiertas.get(listaIncidenciasReabiertas.size()-1).getIdIncidenciaReabierta().split("R")[1];
         int nuevoNumero = Integer.parseInt(ultimoNumero) + 1;
         String id = idIncidencia+"R"+nuevoNumero;
 
