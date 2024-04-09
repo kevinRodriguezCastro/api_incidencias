@@ -41,7 +41,7 @@ public class AuthService {
                 .nombre(request.getNombre())
                 .apellido(request.getApellido())
                 .correoElectronico(request.getCorreoElectronico())
-                .contrasena(request.getContrasena())
+                .contrasena(passwdEncoder.encode(request.getContrasena()))
                 .telefono(request.getTelefono())
                 .calle(request.getCalle())
                 .ciudad(request.getCiudad())
