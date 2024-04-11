@@ -76,14 +76,10 @@ public class IncidenciaControlador {
         incidencia.setEstado(incidenciaDTO.getEstado());
         incidencia.setPrioridad(incidenciaDTO.getPrioridad());
 
-        Optional<Usuario> optionalCliente = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioCliente());
-        Optional<Usuario> optionalTecnico = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioTecnico());
+        Optional<Usuario> optionalCliente = usuarioServicio.getUser(incidenciaDTO.getIdCliente());
 
         if (optionalCliente.isPresent()){
-            incidencia.setUsuarioCliente(optionalCliente.get());
-        }
-        if (optionalTecnico.isPresent()){
-            incidencia.setUsuarioTecnico(optionalTecnico.get());
+            incidencia.setCliente(optionalCliente.get());
         }
 
         return incidencia;

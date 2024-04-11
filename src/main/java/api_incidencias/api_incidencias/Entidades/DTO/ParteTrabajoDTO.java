@@ -11,6 +11,7 @@ public class ParteTrabajoDTO {
     private double costeReparacion;
     private String parteTrabajoImg;
     private Long idIncidencia;
+    private Long idTecnico;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -68,5 +69,13 @@ public class ParteTrabajoDTO {
 
     public void setIdIncidencia(Long idIncidencia) {
         this.idIncidencia = idIncidencia;
+    }
+
+    public Long getIdTecnico() {
+        return idTecnico;
+    }
+
+    public void setIdTecnico(Long idTecnico) {
+        this.idTecnico = idTecnico;
     }
 }

@@ -169,15 +169,7 @@ public class UsuarioService {
 
                 usuarioExistente.setFechaRegistro(user.getFechaRegistro());
                 usuarioExistente.setImagenPerfil(user.getImagenPerfil());
-                usuarioExistente.setRol(user.getRol());
-
                 usuarioExistente.setTelefono(user.getTelefono());
-                usuarioExistente.setCalle(user.getCalle());
-                usuarioExistente.setCiudad(user.getCiudad());
-                usuarioExistente.setProvincia(user.getProvincia());
-                usuarioExistente.setCodigoPostal(user.getCodigoPostal());
-                usuarioExistente.setPais(user.getPais());
-
                 // Guarda el usuario actualizado en el repositorio
                 return reposUser.save(usuarioExistente);
             } else {

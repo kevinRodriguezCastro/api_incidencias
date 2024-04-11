@@ -1,8 +1,6 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Repositorios.RepositorioIncidencia;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +52,7 @@ public class IncidenciaService {
                 incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
                 incidenciaExistente.setEstado(incidencia.getEstado());
                 incidenciaExistente.setPrioridad(incidencia.getPrioridad());
-                incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
-                incidenciaExistente.setUsuarioTecnico(incidencia.getUsuarioTecnico());
+                incidenciaExistente.setCliente(incidencia.getCliente());
                 // Guarda el usuario actualizado en el repositorio
                 return reposIncidencia.save(incidenciaExistente);
             } else {

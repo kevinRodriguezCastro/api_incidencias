@@ -12,8 +12,8 @@ public class IncidenciaDTO {
     private LocalDateTime fechaCreacion;
     private Estado estado;
     private Prioridad prioridad;
-    private Long idUsuarioCliente;
-    private Long idUsuarioTecnico;
+    private Long idCliente;
+
 
     /************************************ Getters y Setters ********************************************/
 
@@ -65,19 +65,12 @@ public class IncidenciaDTO {
         this.prioridad = prioridad;
     }
 
-    public Long getIdUsuarioCliente() {
-        return idUsuarioCliente;
+    public Long getIdCliente() {
+        return idCliente;
     }
 
-    public void setIdUsuarioCliente(Long idUsuarioCliente) {
-        this.idUsuarioCliente = idUsuarioCliente;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Long getIdUsuarioTecnico() {
-        return idUsuarioTecnico;
-    }
-
-    public void setIdUsuarioTecnico(Long idUsuarioTecnico) {
-        this.idUsuarioTecnico = idUsuarioTecnico;
-    }
 }
