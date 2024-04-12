@@ -70,36 +70,43 @@ public class Usuario implements UserDetails {
 
     /********************************* Metodos de la interface UserDetails ***********************************/
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return contrasena;
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return correoElectronico;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
