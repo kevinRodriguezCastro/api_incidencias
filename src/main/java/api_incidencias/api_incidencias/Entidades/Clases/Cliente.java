@@ -1,11 +1,25 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
+//@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "cliente")
 @PrimaryKeyJoinColumn(name = "ID_Usuario")
-public class Cliente extends Usuario{
+public class Cliente extends Usuario implements UserDetails {
     @Column(name = "Calle")
     private String calle;
     @Column(name = "Ciudad")
@@ -17,9 +31,55 @@ public class Cliente extends Usuario{
     @Column(name = "Pais")
     private String pais;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Usuario") // Esta anotación es opcional si el nombre de la columna en la tabla es el mismo que el atributo
     private Usuario usuario;
+
+    /********************************* Metodos de la interface UserDetails ***********************************/
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("cliente"));
+    }
+
+    @Override
+    @JsonIgnore
+    public String getPassword() {
+        return this.getContrasena();
+    }
+
+    @Override
+    @JsonIgnore
+    public String getUsername() {
+        return this.getCorreoElectronico();
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /********************************* Getters y Setters ***********************************/
 
     public String getCalle() {
         return calle;

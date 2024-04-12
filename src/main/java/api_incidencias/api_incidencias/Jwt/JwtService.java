@@ -17,28 +17,20 @@ import java.util.Map;
 
 @Service
 public class JwtService {
-    //private static final String CLAVE_SECRETA = "AVERSIFUNCIONA123456789MOHAMED";
-    //private static final Key CLAVE_SECRETA = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String getToken(UserDetails user){
+    public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
     }
 
-    private String getToken(Map<String, Object> extraClaims, UserDetails user){
-        return Jwts
-                .builder()
+    private String getToken(Map<String, Object> extraClaims, UserDetails user) {
+        return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
-                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .signWith(SECRET_KEY)
                 .compact();
-    }
-
-    private Key getKey(){
-        //byte[] keyBytes = Decoders.BASE64.decode(CLAVE_SECRETA);
-        //return Keys.hmacShaKeyFor(keyBytes);
-        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public String getUsernameFromToken(String token) {
@@ -50,25 +42,28 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private Claims getAllClaims(String token){
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getKey())
+    private Claims getAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    public <T> T getClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T getClaim(String token, ClaimsResolver<T> claimsResolver) {
         final Claims claims = getAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Date getExpiration(String token){
+    private Date getExpiration(String token) {
         return getClaim(token, Claims::getExpiration);
     }
 
-    private boolean isTokenExpired(String token){
+    private boolean isTokenExpired(String token) {
         return getExpiration(token).before(new Date());
+    }
+
+    interface ClaimsResolver<T> {
+        T apply(Claims claims);
     }
 }

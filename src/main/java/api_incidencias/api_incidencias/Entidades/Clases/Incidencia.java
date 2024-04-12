@@ -33,7 +33,11 @@ public class Incidencia {
 
     @ManyToOne
     @JoinColumn(name = "Id_Cliente")
-    private Cliente cliente;
+    private Usuario usuarioCliente;
+
+    @ManyToOne
+    @JoinColumn(name = "Id_Tecnico")
+    private Usuario usuarioTecnico;
 
     @OneToMany(mappedBy = "incidencia")
     @JsonIgnore
@@ -89,12 +93,20 @@ public class Incidencia {
         this.prioridad = prioridad;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Usuario getUsuarioCliente() {
+        return usuarioCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setUsuarioCliente(Usuario usuarioCliente) {
+        this.usuarioCliente = usuarioCliente;
+    }
+
+    public Usuario getUsuarioTecnico() {
+        return usuarioTecnico;
+    }
+
+    public void setUsuarioTecnico(Usuario usuarioTecnico) {
+        this.usuarioTecnico = usuarioTecnico;
     }
 
     public List<ParteTrabajo> getListaPartesTrabajo() {

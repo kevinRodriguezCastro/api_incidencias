@@ -1,0 +1,27 @@
+package api_incidencias.api_incidencias.Auth;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+//@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterRequest_Cliente {
+    private String dni;
+    private String nombre;
+    private String apellido;
+    private String correoElectronico;
+    private String contrasena;
+    //private LocalDate fechaRegistro;
+    //private String imagenPerfil;
+    //private Rol rol;
+    private String telefono;
+    private String calle;
+    private String ciudad;
+    private String provincia;
+    private String codigoPostal;
+    private String pais;
+}

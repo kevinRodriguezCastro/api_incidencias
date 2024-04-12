@@ -57,6 +57,7 @@ public class Usuario implements UserDetails {
 
     /********************************* Metodos de la interface UserDetails ***********************************/
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this instanceof  Trabajador){
             return List.of(new SimpleGrantedAuthority(((Trabajador) this).getRol().name()));
@@ -65,31 +66,37 @@ public class Usuario implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return contrasena;
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return correoElectronico;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
