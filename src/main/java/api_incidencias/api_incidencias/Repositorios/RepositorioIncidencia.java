@@ -12,6 +12,4 @@ public interface RepositorioIncidencia extends JpaRepository<Incidencia, Long> {
     @Query("SELECT i FROM Incidencia i WHERE i.usuarioCliente.idUsuario = ?1")
     List<Incidencia> findByCliente(Long idCliente);
 
-    @Query("SELECT i FROM Incidencia i WHERE i.usuarioTecnico.idUsuario = ?1")
-    List<Incidencia> findByTecnico(Long idTecnico);
 }
