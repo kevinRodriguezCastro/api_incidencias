@@ -27,7 +27,7 @@ public class ParteTrabajo {
     private Incidencia incidencia;
     @ManyToOne
     @JoinColumn(name = "id_tecnico")
-    private Usuario tecnico;
+    private Trabajador tecnico;
 
     @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
@@ -111,11 +111,11 @@ public class ParteTrabajo {
         this.listaMaterialUtilizado = listaMaterialUtilizado;
     }
 
-    public Usuario getTecnico() {
+    public Trabajador getTecnico() {
         return tecnico;
     }
 
-    public void setTecnico(Usuario tecnico) {
+    public void setTecnico(Trabajador tecnico) {
         this.tecnico = tecnico;
     }
 }

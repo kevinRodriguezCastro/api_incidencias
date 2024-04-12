@@ -32,11 +32,11 @@ public class TrabajadorControlador {
         return trabajadorService.getTrabajador(email);
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<Trabajador> crearTrabajador(@RequestBody Trabajador trabajador){
         Trabajador trabajadorNuevo = trabajadorService.addTrabajador(trabajador);
         return new ResponseEntity<>(trabajadorNuevo, HttpStatus.CREATED);
-    }
+    }*/
 
     @PutMapping("/{idUser}")
     public ResponseEntity<Trabajador> actualizarTrabajador(@PathVariable Long idUser, @RequestBody Trabajador trabajador) {
