@@ -32,11 +32,11 @@ public class ClienteControlador {
         return clienteServicio.getCliente(email);
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente){
         Cliente nuevoCliente = clienteServicio.addCliente(cliente);
         return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
-    }
+    }*/
 
     @PutMapping("/{idUser}")
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long idUser, @RequestBody Cliente cliente) {
