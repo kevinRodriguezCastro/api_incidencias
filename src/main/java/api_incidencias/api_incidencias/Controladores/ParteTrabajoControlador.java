@@ -2,9 +2,11 @@ package api_incidencias.api_incidencias.Controladores;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
 import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
+import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.ParteTrabajoDTO;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.ParteTrabajoService;
+import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,10 @@ import java.util.Optional;
 public class ParteTrabajoControlador {
     @Autowired
     private ParteTrabajoService parteTrabajoServicio;
-
     @Autowired
     private IncidenciaService incidenciaServicio;
-
+    @Autowired
+    private UsuarioService usuarioServicio;
     @GetMapping
     public List<ParteTrabajo> getPartesTrabajo(){
         return parteTrabajoServicio.getPartesTrabajo();
@@ -75,7 +77,10 @@ public class ParteTrabajoControlador {
         if (optionalIncidencia.isPresent()){
             parteTrabajo.setIncidencia(optionalIncidencia.get());
         }
-
+        Optional<Usuario> optionalUsuario = usuarioServicio.getUser(parteTrabajoDTO.getIdTecnico());
+        if(optionalUsuario.isPresent()){
+            parteTrabajo.setTecnico(optionalUsuario.get());
+        }
         parteTrabajo.setTrabajoRealizado(parteTrabajoDTO.getTrabajoRealizado());
         parteTrabajo.setDiagnostico(parteTrabajoDTO.getDiagnostico());
         parteTrabajo.setObservaciones(parteTrabajoDTO.getObservaciones());

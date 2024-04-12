@@ -13,6 +13,7 @@ public class IncidenciaDTO {
     private Estado estado;
     private Prioridad prioridad;
     private Long idUsuarioCliente;
+    private Long idUsuarioTecnico;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -72,4 +73,11 @@ public class IncidenciaDTO {
         this.idUsuarioCliente = idUsuarioCliente;
     }
 
+    public Long getIdUsuarioTecnico() {
+        return idUsuarioTecnico;
+    }
+
+    public void setIdUsuarioTecnico(Long idUsuarioTecnico) {
+        this.idUsuarioTecnico = idUsuarioTecnico;
+    }
 }

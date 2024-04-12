@@ -82,6 +82,9 @@ public class IncidenciaControlador {
         if (optionalCliente.isPresent()){
             incidencia.setUsuarioCliente(optionalCliente.get());
         }
+        if (optionalTecnico.isPresent()){
+            incidencia.setUsuarioTecnico(optionalTecnico.get());
+        }
 
         return incidencia;
     }

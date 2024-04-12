@@ -46,6 +46,7 @@ public class ParteTrabajoService {
                 parteTbExistente.setObservaciones(parteTb.getObservaciones());
                 parteTbExistente.setCosteReparacion(parteTb.getCosteReparacion());
                 parteTbExistente.setParteTrabajoImg(parteTb.getParteTrabajoImg());
+                parteTbExistente.setTecnico(parteTb.getTecnico());
                 //parteTbExistente.setIncidencia(parteTb.getIncidencia());
 
                 // Guarda el parte de trabajo actualizado en el repositorio

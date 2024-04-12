@@ -35,6 +35,10 @@ public class Incidencia {
     @JoinColumn(name = "Id_Cliente")
     private Usuario usuarioCliente;
 
+    @ManyToOne
+    @JoinColumn(name = "Id_Tecnico")
+    private Usuario usuarioTecnico;
+
     @OneToMany(mappedBy = "incidencia")
     @JsonIgnore
     private List<ParteTrabajo> listaPartesTrabajo;
@@ -95,6 +99,14 @@ public class Incidencia {
 
     public void setUsuarioCliente(Usuario usuarioCliente) {
         this.usuarioCliente = usuarioCliente;
+    }
+
+    public Usuario getUsuarioTecnico() {
+        return usuarioTecnico;
+    }
+
+    public void setUsuarioTecnico(Usuario usuarioTecnico) {
+        this.usuarioTecnico = usuarioTecnico;
     }
 
     public List<ParteTrabajo> getListaPartesTrabajo() {

@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "Usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,33 +47,22 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Ruta_Imagen")
     private String imagenPerfil;
-    @Column(name = "Rol")
-    @Enumerated(EnumType.STRING)
-    private Rol rol;
+
     @Column(name = "Telefono")
     private String telefono;
-    @Column(name = "Calle")
-    private String calle;
-    @Column(name = "Ciudad")
-    private String ciudad;
-    @Column(name = "Provincia")
-    private String provincia;
-    @Column(name = "Codigo_Postal")
-    private String codigoPostal;
-    @Column(name = "Pais")
-    private String pais;
+
     @OneToMany(mappedBy = "usuarioCliente")
     @JsonIgnore
     private List<Incidencia> listaIncidenciasUsuario;
-    @OneToMany(mappedBy = "usuarioTecnico")
-    @JsonIgnore
-    private List<Incidencia> listaIncidenciasTecnico;
 
     /********************************* Metodos de la interface UserDetails ***********************************/
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
+        if (this instanceof  Trabajador){
+            return List.of(new SimpleGrantedAuthority(((Trabajador) this).getRol().name()));
+        }
+        return List.of(new SimpleGrantedAuthority("cliente"));
     }
 
     @Override
@@ -177,60 +167,12 @@ public class Usuario implements UserDetails {
         this.imagenPerfil = rutaImagen;
     }
 
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
     public String getTelefono() {
         return telefono;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getCalle() {
-        return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getCodigoPostal() {
-        return codigoPostal;
-    }
-
-    public void setCodigoPostal(String codigoPostal) {
-        this.codigoPostal = codigoPostal;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
     }
 
     public List<Incidencia> getListaIncidenciasUsuario() {
@@ -240,14 +182,4 @@ public class Usuario implements UserDetails {
     public void setListaIncidenciasUsuario(List<Incidencia> listaIncidenciasUsuario) {
         this.listaIncidenciasUsuario = listaIncidenciasUsuario;
     }
-
-    public List<Incidencia> getListaIncidenciasTecnico() {
-        return listaIncidenciasTecnico;
-    }
-
-    public void setListaIncidenciasTecnico(List<Incidencia> listaIncidenciasTecnico) {
-        this.listaIncidenciasTecnico = listaIncidenciasTecnico;
-    }
-
-
 }
