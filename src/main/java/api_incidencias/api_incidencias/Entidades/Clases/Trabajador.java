@@ -11,6 +11,9 @@ public class Trabajador extends Usuario{
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_Usuario") // Esta anotación es opcional si el nombre de la columna en la tabla es el mismo que el atributo
+    private Usuario usuario;
     public Rol getRol() {
         return rol;
     }
