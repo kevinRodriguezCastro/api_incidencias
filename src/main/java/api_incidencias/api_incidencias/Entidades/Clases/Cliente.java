@@ -1,9 +1,6 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "cliente")
@@ -20,6 +17,9 @@ public class Cliente extends Usuario{
     @Column(name = "Pais")
     private String pais;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_Usuario") // Esta anotación es opcional si el nombre de la columna en la tabla es el mismo que el atributo
+    private Usuario usuario;
 
     public String getCalle() {
         return calle;
