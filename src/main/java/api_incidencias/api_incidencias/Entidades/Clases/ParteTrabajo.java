@@ -25,6 +25,10 @@ public class ParteTrabajo {
     @ManyToOne
     @JoinColumn(name = "id_incidencia")
     private Incidencia incidencia;
+    @ManyToOne
+    @JoinColumn(name = "id_tecnico")
+    private Usuario tecnico;
+
     @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
     private List<TiempoEmpleado> listaTiempoEmpleados;
@@ -105,5 +109,13 @@ public class ParteTrabajo {
 
     public void setListaMaterialUtilizado(List<MaterialUtilizado> listaMaterialUtilizado) {
         this.listaMaterialUtilizado = listaMaterialUtilizado;
+    }
+
+    public Usuario getTecnico() {
+        return tecnico;
+    }
+
+    public void setTecnico(Usuario tecnico) {
+        this.tecnico = tecnico;
     }
 }
