@@ -1,6 +1,5 @@
 package api_incidencias.api_incidencias.Auth;
 
-import api_incidencias.api_incidencias.Servicios.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +18,16 @@ public class AuthControlador {
         return ResponseEntity.ok(authServicio.login(request));
     }
 
-    @PostMapping("/registrar-user")
-    public ResponseEntity<AuthResponse> registro(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authServicio.registrarUser(request));
+
+    @PostMapping("/registrar-cliente")
+    public ResponseEntity<AuthResponse> registro(@RequestBody RegisterRequest_Cliente request){
+        return ResponseEntity.ok(authServicio.registrarCliente(request));
     }
+
+    @PostMapping("/registrar-trabajador")
+    public ResponseEntity<AuthResponse> registro(@RequestBody RegisterRequest_Trabajador request){
+        return ResponseEntity.ok(authServicio.registrarTrabajador(request));
+    }
+
 
 }

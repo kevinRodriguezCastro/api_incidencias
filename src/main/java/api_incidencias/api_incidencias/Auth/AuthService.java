@@ -1,5 +1,7 @@
 package api_incidencias.api_incidencias.Auth;
 
+import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
+import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
@@ -35,7 +37,8 @@ public class AuthService {
 
         return AuthResponse.builder().token(tokenUser).build();
     }
-    public AuthResponse registrarUser(RegisterRequest request){
+    public AuthResponse registrarCliente(RegisterRequest_Cliente request){
+        /*
         Usuario newUser = Usuario.builder()
                 .dni(request.getDni())
                 .nombre(request.getNombre())
@@ -50,13 +53,63 @@ public class AuthService {
                 .pais(request.getPais())
                 .rol(Rol.cliente)
                 .build();
+        */
+
+        /*
+        Cliente newCliente = Cliente.builder()
+                .dni(request.getDni())
+                .nombre(request.getNombre())
+                .apellido(request.getApellido())
+                .correoElectronico(request.getCorreoElectronico())
+                .contrasena(passwdEncoder.encode(request.getContrasena()))
+                .telefono(request.getTelefono())
+                .calle(request.getCalle())
+                .ciudad(request.getCiudad())
+                .provincia(request.getProvincia())
+                .codigoPostal(request.getCodigoPostal())
+                .pais(request.getPais())
+                .build();
+         */
+
+        Cliente newCliente = new Cliente();
+        newCliente.setDni(request.getDni());
+        newCliente.setNombre(request.getNombre());
+        newCliente.setApellido(request.getApellido());
+        newCliente.setCorreoElectronico(request.getCorreoElectronico());
+        newCliente.setContrasena(passwdEncoder.encode(request.getContrasena()));
+        newCliente.setTelefono(request.getTelefono());
+        newCliente.setCalle(request.getCalle());
+        newCliente.setCiudad(request.getCiudad());
+        newCliente.setProvincia(request.getProvincia());
+        newCliente.setCodigoPostal(request.getCodigoPostal());
+        newCliente.setPais(request.getPais());
 
         // Guardamos el usuario usando el repositorio del usuario
-        reposUser.save(newUser);
+        reposUser.save(newCliente);
 
         // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
         return AuthResponse.builder()
-                .token(jwtService.getToken(newUser))
+                .token(jwtService.getToken(newCliente))
+                .build();
+    }
+
+    public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
+
+        Trabajador newTrabajador = new Trabajador();
+        newTrabajador.setDni(request.getDni());
+        newTrabajador.setNombre(request.getNombre());
+        newTrabajador.setApellido(request.getApellido());
+        newTrabajador.setCorreoElectronico(request.getCorreoElectronico());
+        newTrabajador.setContrasena(passwdEncoder.encode(request.getContrasena()));
+        newTrabajador.setTelefono(request.getTelefono());
+        newTrabajador.setRol(request.getRol());
+
+        // Guardamos el usuario usando el repositorio del usuario
+        reposUser.save(newTrabajador);
+
+        // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
+        return AuthResponse.builder()
+                .token(jwtService.getToken(newTrabajador))
                 .build();
     }
 
