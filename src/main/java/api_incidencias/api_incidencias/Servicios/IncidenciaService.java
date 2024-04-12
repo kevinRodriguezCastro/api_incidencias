@@ -32,7 +32,6 @@ public class IncidenciaService {
         return reposIncidencia.findByCliente(idCliente);
     }
 
-
     public Optional<Incidencia> getIncidencias(Long id){
         return reposIncidencia.findById(id);
     }
@@ -40,10 +39,10 @@ public class IncidenciaService {
 
 
     public Incidencia updateIncidencia(Long idIncidencia, Incidencia incidencia){
-        Optional<Incidencia> userExistenteOptional = reposIncidencia.findById(idIncidencia);
+        Optional<Incidencia> incidenciaExistenteOptional = reposIncidencia.findById(idIncidencia);
 
-        if (userExistenteOptional.isPresent()) {
-            Incidencia incidenciaExistente = userExistenteOptional.get();
+        if (incidenciaExistenteOptional.isPresent()) {
+            Incidencia incidenciaExistente = incidenciaExistenteOptional.get();
 
             if (idIncidencia.equals(incidencia.getIdIncidencia())) {
                 // Actualizo los atributos del libro existente con los del libro proporcionado

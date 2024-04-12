@@ -51,9 +51,9 @@ public class Usuario implements UserDetails {
     @Column(name = "Telefono")
     private String telefono;
 
-    @OneToMany(mappedBy = "usuarioCliente")
-    @JsonIgnore
-    private List<Incidencia> listaIncidenciasUsuario;
+    //@OneToMany(mappedBy = "usuarioCliente")
+    //@JsonIgnore
+    //private List<Incidencia> listaIncidenciasUsuario;
 
     /********************************* Metodos de la interface UserDetails ***********************************/
     @Override
@@ -175,6 +175,7 @@ public class Usuario implements UserDetails {
         this.telefono = telefono;
     }
 
+/*
     public List<Incidencia> getListaIncidenciasUsuario() {
         return listaIncidenciasUsuario;
     }
@@ -182,4 +183,8 @@ public class Usuario implements UserDetails {
     public void setListaIncidenciasUsuario(List<Incidencia> listaIncidenciasUsuario) {
         this.listaIncidenciasUsuario = listaIncidenciasUsuario;
     }
+
+
+ */
+
 }

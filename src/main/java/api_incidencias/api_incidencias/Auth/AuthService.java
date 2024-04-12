@@ -2,8 +2,6 @@ package api_incidencias.api_incidencias.Auth;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import lombok.RequiredArgsConstructor;

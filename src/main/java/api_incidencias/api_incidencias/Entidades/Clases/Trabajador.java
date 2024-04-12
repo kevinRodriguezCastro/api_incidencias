@@ -30,6 +30,11 @@ public class Trabajador extends Usuario implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Usuario") // Esta anotación es opcional si el nombre de la columna en la tabla es el mismo que el atributo
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "tecnico")
+    @JsonIgnore
+    private List<ParteTrabajo> listaPartesTrabajo;
+
     /********************************* Getters y Setters ***********************************/
     public Rol getRol() {
         return rol;

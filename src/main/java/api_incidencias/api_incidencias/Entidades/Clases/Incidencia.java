@@ -30,11 +30,9 @@ public class Incidencia {
     @Enumerated(EnumType.STRING)
     @Column(name = "Prioridad")
     private Prioridad prioridad;
-
     @ManyToOne
     @JoinColumn(name = "Id_Cliente")
-    private Usuario usuarioCliente;
-
+    private Cliente usuarioCliente;
     @OneToMany(mappedBy = "incidencia")
     @JsonIgnore
     private List<ParteTrabajo> listaPartesTrabajo;
@@ -89,11 +87,11 @@ public class Incidencia {
         this.prioridad = prioridad;
     }
 
-    public Usuario getUsuarioCliente() {
+    public Cliente getUsuarioCliente() {
         return usuarioCliente;
     }
 
-    public void setUsuarioCliente(Usuario usuarioCliente) {
+    public void setUsuarioCliente(Cliente usuarioCliente) {
         this.usuarioCliente = usuarioCliente;
     }
 

@@ -1,14 +1,19 @@
 package api_incidencias.api_incidencias.Controladores;
 
+import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
+import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +27,7 @@ public class IncidenciaControlador {
     @Autowired
     private IncidenciaService incidenciaServicio;
     @Autowired
-    private UsuarioService usuarioServicio;
+    private ClienteService clienteServicio;
 
     @GetMapping
     public List<Incidencia> getIncidencias(){
@@ -86,7 +91,7 @@ public class IncidenciaControlador {
         incidencia.setEstado(incidenciaDTO.getEstado());
         incidencia.setPrioridad(incidenciaDTO.getPrioridad());
 
-        Optional<Usuario> optionalCliente = usuarioServicio.getUser(incidenciaDTO.getIdUsuarioCliente());
+        Optional<Cliente> optionalCliente = clienteServicio.getCliente(incidenciaDTO.getIdUsuarioCliente());
 
 
         if (optionalCliente.isPresent()){
