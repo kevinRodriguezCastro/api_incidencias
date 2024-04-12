@@ -2,8 +2,6 @@ package api_incidencias.api_incidencias.Auth;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +29,8 @@ public class AuthService {
     private PasswordEncoder passwdEncoder;
 
     public AuthResponse login(LoginRequest request){
-        authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmailUser(), request.getPassword()));
-        UserDetails userLogueado = reposUser.findByEmail(request.getEmailUser()).orElseThrow();
+        authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCorreoElectronico(), request.getContrasena()));
+        UserDetails userLogueado = reposUser.findByEmail(request.getCorreoElectronico()).orElseThrow();
         String tokenUser = jwtService.getToken(userLogueado);
 
         return AuthResponse.builder().token(tokenUser).build();

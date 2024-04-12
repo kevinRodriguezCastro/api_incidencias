@@ -26,6 +26,7 @@ public class ParteTrabajoControlador {
     private IncidenciaService incidenciaServicio;
     @Autowired
     private TrabajadorService trabajadorService;
+
     @GetMapping
     public List<ParteTrabajo> getPartesTrabajo(){
         return parteTrabajoServicio.getPartesTrabajo();
