@@ -7,10 +7,16 @@ import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +31,15 @@ public class IncidenciaControlador {
 
     @GetMapping
     public List<Incidencia> getIncidencias(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Verificar si la autenticación es válida y si contiene detalles del usuario
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+            System.out.println("USUARIO = "+username);
+            // Aquí puedes usar el username para obtener más detalles del usuario si es necesario
+        }
         return incidenciaServicio.getIncidencias();
     }
 
@@ -36,12 +51,7 @@ public class IncidenciaControlador {
     public List<Incidencia> getIncidenciaCliente(@PathVariable("idCliente") Long idCliente){
         return incidenciaServicio.getIncidenciasCliente(idCliente);
     }
-    /*
-    @GetMapping("/tecnico/{idTecnico}")
-    public List<Incidencia> getIncidenciaTecnico(@PathVariable("idTecnico") Long idTecnico){
-        return incidenciaServicio.getIncidenciasTecnico(idTecnico);
-    }
-     */
+
     @PostMapping
     public ResponseEntity<Incidencia> crearIncidencia(@RequestBody IncidenciaDTO incidenciaDTO){
 
