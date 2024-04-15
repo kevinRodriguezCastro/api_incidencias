@@ -35,9 +35,7 @@ public class UsuarioService {
     @Autowired
     private RepositorioUsuario reposUser;
     @Autowired
-    private TrabajadorService trabajadorService;
-    @Autowired
-    private ClienteService clienteService;
+    private Seguridad seguridad;
 
     private static final String RUTA_IMG = "./imgUsuarios";
 
@@ -158,7 +156,7 @@ public class UsuarioService {
      * @return
      */
     public List<Usuario> getUser(){
-        if (isTrabajador()){
+        if (seguridad.isTrabajador()){
             return reposUser.findAll();
         }
         return null;
@@ -178,7 +176,7 @@ public class UsuarioService {
      * @return
      */
     public Usuario updateUser(Long idUser, Usuario user){
-        if (isElMismo(idUser)|| isAdmin()){
+        if (seguridad.isElMismo(idUser)|| seguridad.isAdmin()){
 
             Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
             if (userExistenteOptional.isPresent()) {
@@ -196,7 +194,7 @@ public class UsuarioService {
                     usuarioExistente.setImagenPerfil(user.getImagenPerfil());
                     usuarioExistente.setTelefono(user.getTelefono());
 
-                    usuarioExistente.setUsuarioModificacion(getUsuarioPeticion());
+                    usuarioExistente.setUsuarioModificacion(seguridad.getUsuarioPeticion());
                     usuarioExistente.setFechaModificacion(LocalDateTime.now());
 
                     return reposUser.save(usuarioExistente);
@@ -216,7 +214,7 @@ public class UsuarioService {
      * @return
      */
     public ResponseEntity<String> deleteUser(Long id){
-        if (isAdmin()){
+        if (seguridad.isAdmin()){
             //si es admin
             Optional<Usuario> userOptional = reposUser.findById(id);
             if (userOptional.isPresent()) {
@@ -233,76 +231,5 @@ public class UsuarioService {
                 .body("No es admin.");
     }
 
-    /**
-     * devuelve el usuario que hace la peticion
-     * @return
-     */
-    public Usuario getUsuarioPeticion(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String correo = userDetails.getUsername();
 
-            // Aquí puedes usar el username para obtener más detalles del usuario si es necesario
-            Optional<Usuario> optional = getUser(correo);
-            if (optional.isPresent()) {
-                return optional.get();
-            }
-        }
-        return null;
-    }
-
-    public boolean isAdmin(){
-      Usuario usuario = getUsuarioPeticion();
-      if (usuario != null){
-          Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
-          if (optional.isPresent()){
-            if (optional.get().getRol() == Rol.administrador){
-                return true;
-            }
-          }
-      }
-      return false;
-    }
-    public boolean isTrabajador(){
-        Usuario usuario = getUsuarioPeticion();
-        if (usuario != null){
-            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
-            if (optional.isPresent()){
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean isTecnicoJefe(){
-        Usuario usuario = getUsuarioPeticion();
-        if (usuario != null){
-            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
-            if (optional.isPresent()){
-                if (optional.get().getRol() == Rol.tecnico_jefe){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public boolean isElMismo(Long id){
-        Usuario usuario = getUsuarioPeticion();
-        if (usuario != null){
-            if (usuario.getIdUsuario().equals(id)){
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean isCliente(){
-        Usuario usuario = getUsuarioPeticion();
-        if (usuario != null){
-            Optional<Cliente> optional = clienteService.getCliente(usuario.getIdUsuario());
-            if (optional.isPresent()){
-                return true;
-            }
-        }
-        return false;
-    }
 }

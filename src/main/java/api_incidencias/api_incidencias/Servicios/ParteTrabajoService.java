@@ -15,16 +15,16 @@ public class ParteTrabajoService {
     @Autowired
     private RepositorioParteTrabajo reposParteTrabajo;
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public ParteTrabajo addParteTrabajo(ParteTrabajo parteTb){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return reposParteTrabajo.save(parteTb);
         return null;
     }
 
     public List<ParteTrabajo> getPartesTrabajo(){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return reposParteTrabajo.findAll();
         return null;
     }
@@ -40,7 +40,7 @@ public class ParteTrabajoService {
     }
 
     public ParteTrabajo updateParteTrabajo(Long idOrden, ParteTrabajo parteTb){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<ParteTrabajo> parteTbExistenteOptional = reposParteTrabajo.findById(idOrden);
 
             if (parteTbExistenteOptional.isPresent()) {
@@ -69,7 +69,7 @@ public class ParteTrabajoService {
     }
 
     public ResponseEntity<String> deleteParteTrabajo(Long idOrden){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
 
             if (parteTb.isPresent()) {

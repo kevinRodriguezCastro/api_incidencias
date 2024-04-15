@@ -15,7 +15,7 @@ public class IncidenciaReabiertaService {
     @Autowired
     private RepositorioIncidenciaReabierta reposIncidenciaReabierta;
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
         String id = generarId(incidenciaReabierta);
@@ -28,7 +28,7 @@ public class IncidenciaReabiertaService {
      * @return
      */
     public List<IncidenciaReabierta> getIncidenciasReabiertas(){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
             return reposIncidenciaReabierta.findAll();
         return null;
     }
@@ -48,7 +48,7 @@ public class IncidenciaReabiertaService {
      * @return
      */
     public IncidenciaReabierta updateIncidenciaReabierta(String idIncidenciaReabierta, IncidenciaReabierta incidenciaReabierta){
-        if(usuarioService.isAdmin()){
+        if(seguridad.isAdmin()){
             Optional<IncidenciaReabierta> incidenciaOptional = reposIncidenciaReabierta.findById(idIncidenciaReabierta);
 
             if (incidenciaOptional.isPresent()) {
@@ -77,7 +77,7 @@ public class IncidenciaReabiertaService {
      * @return
      */
     public ResponseEntity<String> deleteIncidenciaReabierta(String id){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<IncidenciaReabierta> incidenciaReabierta = reposIncidenciaReabierta.findById(id);
             if (incidenciaReabierta.isPresent()) {
                 reposIncidenciaReabierta.deleteById(id);;
