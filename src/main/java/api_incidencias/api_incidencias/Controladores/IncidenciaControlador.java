@@ -2,17 +2,13 @@ package api_incidencias.api_incidencias.Controladores;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
-import api_incidencias.api_incidencias.Servicios.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,8 +75,7 @@ public class IncidenciaControlador {
     public ResponseEntity<String> eliminarIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
         return incidenciaServicio.deleteIncidencia(idIncidencia);
     }
-
-
+    
     private Incidencia cargarDTO(IncidenciaDTO incidenciaDTO){
         Incidencia incidencia = new Incidencia();
 
@@ -93,11 +88,9 @@ public class IncidenciaControlador {
 
         Optional<Cliente> optionalCliente = clienteServicio.getCliente(incidenciaDTO.getIdUsuarioCliente());
 
-
         if (optionalCliente.isPresent()){
             incidencia.setUsuarioCliente(optionalCliente.get());
         }
-
 
         return incidencia;
     }
