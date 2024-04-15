@@ -2,10 +2,13 @@ package api_incidencias.api_incidencias.Controladores;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
+import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
+import api_incidencias.api_incidencias.Entidades.Enum.Estado;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
+import api_incidencias.api_incidencias.Servicios.TrabajadorService;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +31,11 @@ public class IncidenciaControlador {
     private IncidenciaService incidenciaServicio;
     @Autowired
     private ClienteService clienteServicio;
+    @Autowired
+    private TrabajadorService trabajadorService;
 
     @GetMapping
     public List<Incidencia> getIncidencias(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Verificar si la autenticación es válida y si contiene detalles del usuario
-        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
-            System.out.println("USUARIO = "+username);
-            // Aquí puedes usar el username para obtener más detalles del usuario si es necesario
-        }
         return incidenciaServicio.getIncidencias();
     }
 
@@ -66,13 +62,13 @@ public class IncidenciaControlador {
 
         Incidencia incidencia = cargarDTO(incidenciaDTO);
 
-        Incidencia incidenciaActualizada = incidenciaServicio.updateIncidencia(idIncidencia, incidencia);
-        if (incidenciaActualizada != null) {
-            return new ResponseEntity<>(incidenciaActualizada, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+            Incidencia incidenciaActualizada = incidenciaServicio.updateIncidencia(idIncidencia, incidencia);
 
+            if (incidenciaActualizada != null) {
+                return new ResponseEntity<>(incidenciaActualizada, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
     }
 
     @DeleteMapping("/{idIncidencia}")

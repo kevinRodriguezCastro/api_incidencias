@@ -15,54 +15,69 @@ import java.util.Optional;
 public class MaterialUtilizadoService {
     @Autowired
     private RepositorioMaterialUtilizado repositorioMaterialUtilizado;
+    @Autowired
+    private UsuarioService usuarioService;
     public MaterialUtilizado addMaterialUtilizado(MaterialUtilizado materialUtilizado){
         return repositorioMaterialUtilizado.save(materialUtilizado);
     }
 
     public List<MaterialUtilizado> getMaterialUtilizados(){
+        if (usuarioService.isTrabajador())
         return repositorioMaterialUtilizado.findAll();
+        return null;
     }
 
     public Optional<MaterialUtilizado> getMaterialUtilizados(Long id){
+        if (usuarioService.isTrabajador())
         return repositorioMaterialUtilizado.findById(id);
+        return null;
     }
     public List<MaterialUtilizado> getMaterialUtilizadosOrden(Long idOrden){
+        if (usuarioService.isTrabajador())
         return repositorioMaterialUtilizado.findByIdOrden(idOrden);
+        return null;
     }
 
     public MaterialUtilizado updateMaterialUtilizado(Long idMaterialutilizado, MaterialUtilizado materialUtilizado){
-        Optional<MaterialUtilizado> optional = repositorioMaterialUtilizado.findById(idMaterialutilizado);
+        if (usuarioService.isAdmin()){
+            Optional<MaterialUtilizado> optional = repositorioMaterialUtilizado.findById(idMaterialutilizado);
 
-        if (optional.isPresent()) {
-            MaterialUtilizado materialUtilizadoExistente = optional.get();
+            if (optional.isPresent()) {
+                MaterialUtilizado materialUtilizadoExistente = optional.get();
 
-            if (idMaterialutilizado.equals(materialUtilizado.getIdMaterial())) {
+                if (idMaterialutilizado.equals(materialUtilizado.getIdMaterial())) {
 
-                materialUtilizadoExistente.setNombre(materialUtilizado.getNombre());
-                materialUtilizadoExistente.setCantidad(materialUtilizado.getCantidad());
-                materialUtilizadoExistente.setCoste(materialUtilizado.getCoste());
-                materialUtilizadoExistente.setParteTrabajo(materialUtilizado.getParteTrabajo());
+                    materialUtilizadoExistente.setNombre(materialUtilizado.getNombre());
+                    materialUtilizadoExistente.setCantidad(materialUtilizado.getCantidad());
+                    materialUtilizadoExistente.setCoste(materialUtilizado.getCoste());
+                    materialUtilizadoExistente.setParteTrabajo(materialUtilizado.getParteTrabajo());
 
-                return repositorioMaterialUtilizado.save(materialUtilizadoExistente);
+                    return repositorioMaterialUtilizado.save(materialUtilizadoExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID del material.");
+                }
             } else {
-                throw new IllegalArgumentException("El id proporcionado no coincide con el ID del material.");
+                throw new IllegalArgumentException("El material con el ID proporcionado no existe.");
             }
-        } else {
-            throw new IllegalArgumentException("El material con el ID proporcionado no existe.");
         }
+        throw new IllegalArgumentException("No eres admin.");
     }
 
     public ResponseEntity<String> deleteMaterialUtilizado(Long id){
-        Optional<MaterialUtilizado> materialUtilizado = repositorioMaterialUtilizado.findById(id);
+        if (usuarioService.isAdmin()){
+            Optional<MaterialUtilizado> materialUtilizado = repositorioMaterialUtilizado.findById(id);
 
-        if (materialUtilizado.isPresent()) {
-            repositorioMaterialUtilizado.deleteById(id);;
+            if (materialUtilizado.isPresent()) {
+                repositorioMaterialUtilizado.deleteById(id);;
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Material eliminado correctamente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el material correspondiente.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .body("Material eliminado correctamente.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró el material correspondiente.");
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No eres admin.");
     }
 }
