@@ -14,6 +14,8 @@ import java.util.Optional;
 public class ComentarioService {
     @Autowired
     private RepositorioComentario reposComentario;
+    @Autowired
+    private UsuarioService usuarioService;
 
     public Comentario addComentario(Comentario comentario){
         return reposComentario.save(comentario);
@@ -33,7 +35,7 @@ public class ComentarioService {
     }
 
     public Comentario updateComentario(Long idComentario, Comentario comentario){
-        //reposUser.save(user);
+
         Optional<Comentario> comentarioExistenteOptional = reposComentario.findById(idComentario);
 
         if (comentarioExistenteOptional.isPresent()) {

@@ -1,6 +1,9 @@
 package api_incidencias.api_incidencias.Servicios;
 
+import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
+import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -8,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +24,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +34,10 @@ public class UsuarioService {
 
     @Autowired
     private RepositorioUsuario reposUser;
+    @Autowired
+    private TrabajadorService trabajadorService;
+    @Autowired
+    private ClienteService clienteService;
 
     private static final String RUTA_IMG = "./imgUsuarios";
 
@@ -142,8 +153,15 @@ public class UsuarioService {
         }
     }
 
+    /**
+     * Solo trabajadores
+     * @return
+     */
     public List<Usuario> getUser(){
-        return reposUser.findAll();
+        if (isTrabajador()){
+            return reposUser.findAll();
+        }
+        return null;
     }
     public Optional<Usuario> getUser(Long id){
         return reposUser.findById(id);
@@ -152,45 +170,139 @@ public class UsuarioService {
     public Optional<Usuario> getUser(String email){
         return reposUser.findByEmail(email);
     }
+
+    /**
+     * Solo si es admin o el mismo
+     * @param idUser
+     * @param user
+     * @return
+     */
     public Usuario updateUser(Long idUser, Usuario user){
-        //reposUser.save(user);
-        Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
+        if (isElMismo(idUser)|| isAdmin()){
 
-        if (userExistenteOptional.isPresent()) {
-            Usuario usuarioExistente = userExistenteOptional.get();
+            Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
+            if (userExistenteOptional.isPresent()) {
+                Usuario usuarioExistente = userExistenteOptional.get();
 
-            if (idUser.equals(user.getIdUsuario())) {
-                // Actualizo los atributos del libro existente con los del libro proporcionado
-                usuarioExistente.setDni(user.getDni());
-                usuarioExistente.setNombre(user.getNombre());
-                usuarioExistente.setApellido(user.getApellido());
-                usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
-                usuarioExistente.setContrasena(user.getContrasena());
+                if (idUser.equals(user.getIdUsuario())) {
 
-                usuarioExistente.setFechaRegistro(user.getFechaRegistro());
-                usuarioExistente.setImagenPerfil(user.getImagenPerfil());
-                usuarioExistente.setTelefono(user.getTelefono());
-                // Guarda el usuario actualizado en el repositorio
-                return reposUser.save(usuarioExistente);
+                    usuarioExistente.setDni(user.getDni());
+                    usuarioExistente.setNombre(user.getNombre());
+                    usuarioExistente.setApellido(user.getApellido());
+                    usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
+                    usuarioExistente.setContrasena(user.getContrasena());
+
+                    usuarioExistente.setFechaRegistro(user.getFechaRegistro());
+                    usuarioExistente.setImagenPerfil(user.getImagenPerfil());
+                    usuarioExistente.setTelefono(user.getTelefono());
+
+                    usuarioExistente.setUsuarioModificacion(getUsuarioPeticion());
+                    usuarioExistente.setFechaModificacion(LocalDateTime.now());
+
+                    return reposUser.save(usuarioExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID del usuario.");
+                }
             } else {
-                throw new IllegalArgumentException("El id proporcionado no coincide con el ID del usuario.");
+                throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
             }
-        } else {
-            throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
         }
+        throw new IllegalArgumentException("No tienes permisos");
     }
 
+    /**
+     * Solo si es admin
+     * @param id
+     * @return
+     */
     public ResponseEntity<String> deleteUser(Long id){
-        Optional<Usuario> userOptional = reposUser.findById(id);
+        if (isAdmin()){
+            //si es admin
+            Optional<Usuario> userOptional = reposUser.findById(id);
+            if (userOptional.isPresent()) {
+                reposUser.deleteById(id);;
 
-        if (userOptional.isPresent()) {
-            reposUser.deleteById(id);;
-
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Usuario eliminado correctamente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el usuario correspondiente.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .body("Usuario eliminado correctamente.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró el usuario correspondiente.");
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No es admin.");
+    }
+
+    /**
+     * devuelve el usuario que hace la peticion
+     * @return
+     */
+    public Usuario getUsuarioPeticion(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String correo = userDetails.getUsername();
+
+            // Aquí puedes usar el username para obtener más detalles del usuario si es necesario
+            Optional<Usuario> optional = getUser(correo);
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+        }
+        return null;
+    }
+
+    public boolean isAdmin(){
+      Usuario usuario = getUsuarioPeticion();
+      if (usuario != null){
+          Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
+          if (optional.isPresent()){
+            if (optional.get().getRol() == Rol.administrador){
+                return true;
+            }
+          }
+      }
+      return false;
+    }
+    public boolean isTrabajador(){
+        Usuario usuario = getUsuarioPeticion();
+        if (usuario != null){
+            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
+            if (optional.isPresent()){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isTecnicoJefe(){
+        Usuario usuario = getUsuarioPeticion();
+        if (usuario != null){
+            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
+            if (optional.isPresent()){
+                if (optional.get().getRol() == Rol.tecnico_jefe){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isElMismo(Long id){
+        Usuario usuario = getUsuarioPeticion();
+        if (usuario != null){
+            if (usuario.getIdUsuario().equals(id)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isCliente(){
+        Usuario usuario = getUsuarioPeticion();
+        if (usuario != null){
+            Optional<Cliente> optional = clienteService.getCliente(usuario.getIdUsuario());
+            if (optional.isPresent()){
+                return true;
+            }
+        }
+        return false;
     }
 }

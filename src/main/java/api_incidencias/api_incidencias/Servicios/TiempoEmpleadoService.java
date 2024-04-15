@@ -14,57 +14,75 @@ public class TiempoEmpleadoService {
     @Autowired
     private RepositorioTiempoEmpleado repositorioTiempoEmpleado;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     public TiempoEmpleado addTiempoEmpleado(TiempoEmpleado tiempoEmpleado){
+        if (usuarioService.isTrabajador())
         return repositorioTiempoEmpleado.save(tiempoEmpleado);
+        return null;
     }
 
     public List<TiempoEmpleado> getTiempoEmpleado(){
+        if (usuarioService.isTrabajador())
         return repositorioTiempoEmpleado.findAll();
+        return null;
     }
 
     public Optional<TiempoEmpleado> getTiempoEmpleadoPorId(Long id){
+        if (usuarioService.isTrabajador())
         return repositorioTiempoEmpleado.findById(id);
+        return null;
     }
 
     public List<TiempoEmpleado> getTiempoEmpleadoPorIdOrden(Long idOrdenParteTb){
+        if (usuarioService.isTrabajador())
         return repositorioTiempoEmpleado.findByIdOrden(idOrdenParteTb);
+        return null;
     }
     public TiempoEmpleado updateTiempoEmpleado(Long idTiempoEmpleado, TiempoEmpleado tiempoEmpleado){
-        Optional<TiempoEmpleado> optional = repositorioTiempoEmpleado.findById(idTiempoEmpleado);
+        if (usuarioService.isAdmin()){
+            Optional<TiempoEmpleado> optional = repositorioTiempoEmpleado.findById(idTiempoEmpleado);
 
-        if (optional.isPresent()) {
-            TiempoEmpleado tiempoEmpleadoExistente = optional.get();
+            if (optional.isPresent()) {
+                TiempoEmpleado tiempoEmpleadoExistente = optional.get();
 
-            if (idTiempoEmpleado.equals(tiempoEmpleado.getIdTiempoEmpleado())) {
+                if (idTiempoEmpleado.equals(tiempoEmpleado.getIdTiempoEmpleado())) {
 
-                tiempoEmpleadoExistente.setFecha(tiempoEmpleado.getFecha());
-                tiempoEmpleadoExistente.setParteTrabajo(tiempoEmpleado.getParteTrabajo());
-                tiempoEmpleadoExistente.setHoraEntrada(tiempoEmpleado.getHoraEntrada());
-                tiempoEmpleadoExistente.setHoraSalida(tiempoEmpleado.getHoraSalida());
-                tiempoEmpleadoExistente.setModoResolucion(tiempoEmpleado.getModoResolucion());
+                    tiempoEmpleadoExistente.setFecha(tiempoEmpleado.getFecha());
+                    tiempoEmpleadoExistente.setParteTrabajo(tiempoEmpleado.getParteTrabajo());
+                    tiempoEmpleadoExistente.setHoraEntrada(tiempoEmpleado.getHoraEntrada());
+                    tiempoEmpleadoExistente.setHoraSalida(tiempoEmpleado.getHoraSalida());
+                    tiempoEmpleadoExistente.setModoResolucion(tiempoEmpleado.getModoResolucion());
 
 
-                return repositorioTiempoEmpleado.save(tiempoEmpleadoExistente);
+                    return repositorioTiempoEmpleado.save(tiempoEmpleadoExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID del tiempo empleado.");
+                }
             } else {
-                throw new IllegalArgumentException("El id proporcionado no coincide con el ID del tiempo empleado.");
+                throw new IllegalArgumentException("El tiempo empleado con el ID proporcionado no existe.");
             }
-        } else {
-            throw new IllegalArgumentException("El tiempo empleado con el ID proporcionado no existe.");
         }
+        throw new IllegalArgumentException("No eres admin.");
     }
 
     public ResponseEntity<String> deleteTiempoUsado(Long id){
-        Optional<TiempoEmpleado> tiempoEmpleado = repositorioTiempoEmpleado.findById(id);
+        if (usuarioService.isAdmin()){
+            Optional<TiempoEmpleado> tiempoEmpleado = repositorioTiempoEmpleado.findById(id);
 
-        if (tiempoEmpleado.isPresent()) {
-            repositorioTiempoEmpleado.deleteById(id);;
+            if (tiempoEmpleado.isPresent()) {
+                repositorioTiempoEmpleado.deleteById(id);;
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Tiempo usado eliminado correctamente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el tiempo empleado correspondiente.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .body("Tiempo usado eliminado correctamente.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró el tiempo empleado correspondiente.");
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No eres admin.");
     }
 
 }

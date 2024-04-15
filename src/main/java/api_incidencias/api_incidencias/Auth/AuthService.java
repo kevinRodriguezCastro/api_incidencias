@@ -2,8 +2,12 @@ package api_incidencias.api_incidencias.Auth;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
+import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
+import api_incidencias.api_incidencias.Servicios.TrabajadorService;
+import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +31,10 @@ public class AuthService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authManager;
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private TrabajadorService trabajadorService;
     @Autowired
     private PasswordEncoder passwdEncoder;
 
@@ -81,6 +91,7 @@ public class AuthService {
         newCliente.setProvincia(request.getProvincia());
         newCliente.setCodigoPostal(request.getCodigoPostal());
         newCliente.setPais(request.getPais());
+        newCliente.setFechaRegistro(LocalDate.now());
 
         // Guardamos el usuario usando el repositorio del usuario
         reposUser.save(newCliente);
@@ -91,24 +102,36 @@ public class AuthService {
                 .build();
     }
 
+    /**
+     * Solo admin y tecnicos jefe
+     * @param request
+     * @return
+     */
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
 
-        Trabajador newTrabajador = new Trabajador();
-        newTrabajador.setDni(request.getDni());
-        newTrabajador.setNombre(request.getNombre());
-        newTrabajador.setApellido(request.getApellido());
-        newTrabajador.setCorreoElectronico(request.getCorreoElectronico());
-        newTrabajador.setContrasena(passwdEncoder.encode(request.getContrasena()));
-        newTrabajador.setTelefono(request.getTelefono());
-        newTrabajador.setRol(request.getRol());
+        if (usuarioService.isTecnicoJefe()  || usuarioService.isAdmin()){
+            Trabajador newTrabajador = new Trabajador();
 
-        // Guardamos el usuario usando el repositorio del usuario
-        reposUser.save(newTrabajador);
+            newTrabajador.setDni(request.getDni());
+            newTrabajador.setNombre(request.getNombre());
+            newTrabajador.setApellido(request.getApellido());
+            newTrabajador.setCorreoElectronico(request.getCorreoElectronico());
+            newTrabajador.setContrasena(passwdEncoder.encode(request.getContrasena()));
+            newTrabajador.setTelefono(request.getTelefono());
+            newTrabajador.setRol(request.getRol());
+            newTrabajador.setFechaRegistro(LocalDate.now());
 
-        // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
-        return AuthResponse.builder()
-                .token(jwtService.getToken(newTrabajador))
-                .build();
+
+            // Guardamos el usuario usando el repositorio del usuario
+            reposUser.save(newTrabajador);
+
+            // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
+            return AuthResponse.builder()
+                    .token(jwtService.getToken(newTrabajador))
+                    .build();
+        }
+
+        return null;
     }
 
 }

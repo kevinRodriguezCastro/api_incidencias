@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class Usuario implements UserDetails {
     private String contrasena;
 
     @Column(name = "Fecha_Registro")
+    @JsonIgnore
     private LocalDate fechaRegistro;
 
     @Column(name = "Ruta_Imagen")
@@ -50,6 +52,15 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Telefono")
     private String telefono;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "ID_Usuario_Modificacion")
+    private Usuario usuarioModificacion;
+
+    @Column(name = "Fecha_Modificacion")
+    @JsonIgnore
+    private LocalDateTime fechaModificacion;
 
     //@OneToMany(mappedBy = "usuarioCliente")
     //@JsonIgnore
@@ -175,7 +186,23 @@ public class Usuario implements UserDetails {
         this.telefono = telefono;
     }
 
-/*
+    public Usuario getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(Usuario usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(LocalDateTime fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    /*
     public List<Incidencia> getListaIncidenciasUsuario() {
         return listaIncidenciasUsuario;
     }
