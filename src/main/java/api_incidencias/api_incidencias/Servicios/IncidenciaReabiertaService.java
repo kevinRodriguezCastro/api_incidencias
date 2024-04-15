@@ -14,6 +14,8 @@ import java.util.Optional;
 public class IncidenciaReabiertaService {
     @Autowired
     private RepositorioIncidenciaReabierta reposIncidenciaReabierta;
+    @Autowired
+    private UsuarioService usuarioService;
 
     public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
         String id = generarId(incidenciaReabierta);
@@ -21,8 +23,14 @@ public class IncidenciaReabiertaService {
         return reposIncidenciaReabierta.save(incidenciaReabierta);
     }
 
+    /**
+     * solo trabajadores
+     * @return
+     */
     public List<IncidenciaReabierta> getIncidenciasReabiertas(){
-        return reposIncidenciaReabierta.findAll();
+        if (usuarioService.isTrabajador())
+            return reposIncidenciaReabierta.findAll();
+        return null;
     }
 
     public Optional<IncidenciaReabierta> getIncidenciasReabiertas(String idIncidenciaReabierta){
@@ -32,40 +40,57 @@ public class IncidenciaReabiertaService {
     public List<IncidenciaReabierta> getIncidenciasReabiertas(Long idIncidencia){
         return reposIncidenciaReabierta.findByIncidencia(idIncidencia);
     }
-  
+
+    /**
+     * Solo admin
+      * @param idIncidenciaReabierta
+     * @param incidenciaReabierta
+     * @return
+     */
     public IncidenciaReabierta updateIncidenciaReabierta(String idIncidenciaReabierta, IncidenciaReabierta incidenciaReabierta){
-        Optional<IncidenciaReabierta> incidenciaOptional = reposIncidenciaReabierta.findById(idIncidenciaReabierta);
+        if(usuarioService.isAdmin()){
+            Optional<IncidenciaReabierta> incidenciaOptional = reposIncidenciaReabierta.findById(idIncidenciaReabierta);
 
-        if (incidenciaOptional.isPresent()) {
-            IncidenciaReabierta incidenciaReabiertaExistente = incidenciaOptional.get();
+            if (incidenciaOptional.isPresent()) {
+                IncidenciaReabierta incidenciaReabiertaExistente = incidenciaOptional.get();
 
-            if (idIncidenciaReabierta.equals(incidenciaReabierta.getIdIncidenciaReabierta())) {
-                // Actualizo los atributos del libro existente con los del libro proporcionado
-                incidenciaReabiertaExistente.setDescripcionReapertura(incidenciaReabierta.getDescripcionReapertura());
-                incidenciaReabiertaExistente.setFechaReapertura(incidenciaReabierta.getFechaReapertura());
-                incidenciaReabiertaExistente.setIncidenciaPrincipal(incidenciaReabierta.getIncidenciaPrincipal());
-                // Guarda el usuario actualizado en el repositorio
-                return reposIncidenciaReabierta.save(incidenciaReabiertaExistente);
+                if (idIncidenciaReabierta.equals(incidenciaReabierta.getIdIncidenciaReabierta())) {
+
+                    incidenciaReabiertaExistente.setDescripcionReapertura(incidenciaReabierta.getDescripcionReapertura());
+                    incidenciaReabiertaExistente.setFechaReapertura(incidenciaReabierta.getFechaReapertura());
+                    incidenciaReabiertaExistente.setIncidenciaPrincipal(incidenciaReabierta.getIncidenciaPrincipal());
+
+                    return reposIncidenciaReabierta.save(incidenciaReabiertaExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
+                }
             } else {
-                throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
+                throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
             }
-        } else {
-            throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
         }
+        throw new IllegalArgumentException("No eres admin");
     }
 
+    /**
+     * Solo admin
+     * @param id
+     * @return
+     */
     public ResponseEntity<String> deleteIncidenciaReabierta(String id){
-        Optional<IncidenciaReabierta> incidenciaReabierta = reposIncidenciaReabierta.findById(id);
+        if (usuarioService.isAdmin()){
+            Optional<IncidenciaReabierta> incidenciaReabierta = reposIncidenciaReabierta.findById(id);
+            if (incidenciaReabierta.isPresent()) {
+                reposIncidenciaReabierta.deleteById(id);;
 
-        if (incidenciaReabierta.isPresent()) {
-            reposIncidenciaReabierta.deleteById(id);;
-
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Incidencia eliminado correctamente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró la incidencia correspondiente.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .body("Incidencia eliminado correctamente.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró la incidencia correspondiente.");
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No eres admin");
     }
 
     private String generarId(IncidenciaReabierta incidenciaReabierta){

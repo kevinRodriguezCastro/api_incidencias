@@ -14,13 +14,19 @@ import java.util.Optional;
 public class ParteTrabajoService {
     @Autowired
     private RepositorioParteTrabajo reposParteTrabajo;
+    @Autowired
+    private UsuarioService usuarioService;
 
     public ParteTrabajo addParteTrabajo(ParteTrabajo parteTb){
+        if (usuarioService.isTrabajador())
         return reposParteTrabajo.save(parteTb);
+        return null;
     }
 
     public List<ParteTrabajo> getPartesTrabajo(){
+        if (usuarioService.isTrabajador())
         return reposParteTrabajo.findAll();
+        return null;
     }
 
 
@@ -34,42 +40,49 @@ public class ParteTrabajoService {
     }
 
     public ParteTrabajo updateParteTrabajo(Long idOrden, ParteTrabajo parteTb){
-        Optional<ParteTrabajo> parteTbExistenteOptional = reposParteTrabajo.findById(idOrden);
+        if (usuarioService.isAdmin()){
+            Optional<ParteTrabajo> parteTbExistenteOptional = reposParteTrabajo.findById(idOrden);
 
-        if (parteTbExistenteOptional.isPresent()) {
-            ParteTrabajo parteTbExistente = parteTbExistenteOptional.get();
+            if (parteTbExistenteOptional.isPresent()) {
+                ParteTrabajo parteTbExistente = parteTbExistenteOptional.get();
 
-            if (idOrden.equals(parteTb.getIdOrden())) {
-                // Actualizo los atributos del parteTrabajo existente con los del parteTrabajo proporcionado
-                parteTbExistente.setTrabajoRealizado(parteTb.getTrabajoRealizado());
-                parteTbExistente.setDiagnostico(parteTb.getDiagnostico());
-                parteTbExistente.setObservaciones(parteTb.getObservaciones());
-                parteTbExistente.setCosteReparacion(parteTb.getCosteReparacion());
-                parteTbExistente.setParteTrabajoImg(parteTb.getParteTrabajoImg());
-                parteTbExistente.setTecnico(parteTb.getTecnico());
-                //parteTbExistente.setIncidencia(parteTb.getIncidencia());
+                if (idOrden.equals(parteTb.getIdOrden())) {
+                    // Actualizo los atributos del parteTrabajo existente con los del parteTrabajo proporcionado
+                    parteTbExistente.setTrabajoRealizado(parteTb.getTrabajoRealizado());
+                    parteTbExistente.setDiagnostico(parteTb.getDiagnostico());
+                    parteTbExistente.setObservaciones(parteTb.getObservaciones());
+                    parteTbExistente.setCosteReparacion(parteTb.getCosteReparacion());
+                    parteTbExistente.setParteTrabajoImg(parteTb.getParteTrabajoImg());
+                    parteTbExistente.setTecnico(parteTb.getTecnico());
+                    //parteTbExistente.setIncidencia(parteTb.getIncidencia());
 
-                // Guarda el parte de trabajo actualizado en el repositorio
-                return reposParteTrabajo.save(parteTbExistente);
+                    // Guarda el parte de trabajo actualizado en el repositorio
+                    return reposParteTrabajo.save(parteTbExistente);
+                } else {
+                    throw new IllegalArgumentException("El idOrden proporcionado no coincide con el ID del parteTrabajo.");
+                }
             } else {
-                throw new IllegalArgumentException("El idOrden proporcionado no coincide con el ID del parteTrabajo.");
+                throw new IllegalArgumentException("El parteTrabajo con el ID proporcionado no existe.");
             }
-        } else {
-            throw new IllegalArgumentException("El parteTrabajo con el ID proporcionado no existe.");
         }
+        throw new IllegalArgumentException("No eres admin.");
     }
 
     public ResponseEntity<String> deleteParteTrabajo(Long idOrden){
-        Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
+        if (usuarioService.isAdmin()){
+            Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
 
-        if (parteTb.isPresent()) {
-            reposParteTrabajo.deleteById(idOrden);;
+            if (parteTb.isPresent()) {
+                reposParteTrabajo.deleteById(idOrden);;
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("ParteTrabajo eliminado correctamente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el parteTrabajo correspondiente.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .body("ParteTrabajo eliminado correctamente.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró el parteTrabajo correspondiente.");
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No eres admin.");
     }
 }
