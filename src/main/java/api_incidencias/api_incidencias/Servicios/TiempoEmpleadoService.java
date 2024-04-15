@@ -15,33 +15,33 @@ public class TiempoEmpleadoService {
     private RepositorioTiempoEmpleado repositorioTiempoEmpleado;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public TiempoEmpleado addTiempoEmpleado(TiempoEmpleado tiempoEmpleado){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.save(tiempoEmpleado);
         return null;
     }
 
     public List<TiempoEmpleado> getTiempoEmpleado(){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.findAll();
         return null;
     }
 
     public Optional<TiempoEmpleado> getTiempoEmpleadoPorId(Long id){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.findById(id);
         return null;
     }
 
     public List<TiempoEmpleado> getTiempoEmpleadoPorIdOrden(Long idOrdenParteTb){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.findByIdOrden(idOrdenParteTb);
         return null;
     }
     public TiempoEmpleado updateTiempoEmpleado(Long idTiempoEmpleado, TiempoEmpleado tiempoEmpleado){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<TiempoEmpleado> optional = repositorioTiempoEmpleado.findById(idTiempoEmpleado);
 
             if (optional.isPresent()) {
@@ -68,7 +68,7 @@ public class TiempoEmpleadoService {
     }
 
     public ResponseEntity<String> deleteTiempoUsado(Long id){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<TiempoEmpleado> tiempoEmpleado = repositorioTiempoEmpleado.findById(id);
 
             if (tiempoEmpleado.isPresent()) {

@@ -15,7 +15,7 @@ public class ComentarioService {
     @Autowired
     private RepositorioComentario reposComentario;
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public Comentario addComentario(Comentario comentario){
         return reposComentario.save(comentario);

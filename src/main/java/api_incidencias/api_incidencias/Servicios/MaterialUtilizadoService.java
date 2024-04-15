@@ -1,9 +1,7 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.MaterialUtilizado;
-import api_incidencias.api_incidencias.Entidades.Clases.TiempoEmpleado;
 import api_incidencias.api_incidencias.Repositorios.RepositorioMaterialUtilizado;
-import api_incidencias.api_incidencias.Repositorios.RepositorioTiempoEmpleado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,30 +14,30 @@ public class MaterialUtilizadoService {
     @Autowired
     private RepositorioMaterialUtilizado repositorioMaterialUtilizado;
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
     public MaterialUtilizado addMaterialUtilizado(MaterialUtilizado materialUtilizado){
         return repositorioMaterialUtilizado.save(materialUtilizado);
     }
 
     public List<MaterialUtilizado> getMaterialUtilizados(){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.findAll();
         return null;
     }
 
     public Optional<MaterialUtilizado> getMaterialUtilizados(Long id){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.findById(id);
         return null;
     }
     public List<MaterialUtilizado> getMaterialUtilizadosOrden(Long idOrden){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.findByIdOrden(idOrden);
         return null;
     }
 
     public MaterialUtilizado updateMaterialUtilizado(Long idMaterialutilizado, MaterialUtilizado materialUtilizado){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<MaterialUtilizado> optional = repositorioMaterialUtilizado.findById(idMaterialutilizado);
 
             if (optional.isPresent()) {
@@ -64,7 +62,7 @@ public class MaterialUtilizadoService {
     }
 
     public ResponseEntity<String> deleteMaterialUtilizado(Long id){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<MaterialUtilizado> materialUtilizado = repositorioMaterialUtilizado.findById(id);
 
             if (materialUtilizado.isPresent()) {

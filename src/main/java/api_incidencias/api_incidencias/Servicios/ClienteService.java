@@ -1,9 +1,7 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Repositorios.RepositorioCliente;
-import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,7 @@ public class ClienteService {
     @Autowired
     private RepositorioCliente reposCliente;
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public Cliente addCliente(Cliente cliente){
         return reposCliente.save(cliente);
@@ -41,7 +39,7 @@ public class ClienteService {
      * @return
      */
     public Cliente updateCliente(Long idCliente, Cliente cliente){
-        if (usuarioService.isAdmin() || usuarioService.isElMismo(idCliente)){
+        if (seguridad.isAdmin() || seguridad.isElMismo(idCliente)){
             Optional<Cliente> clienteExistenteOptional = reposCliente.findById(idCliente);
 
             if (clienteExistenteOptional.isPresent()) {
@@ -83,7 +81,7 @@ public class ClienteService {
      * @return
      */
     public ResponseEntity<String> deleteCliente(Long id){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<Cliente> userOptional = reposCliente.findById(id);
             if (userOptional.isPresent()) {
                 reposCliente.deleteById(id);;
