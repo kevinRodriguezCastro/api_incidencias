@@ -1,9 +1,6 @@
 package api_incidencias.api_incidencias.Servicios;
 
-import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Repositorios.RepositorioCliente;
 import api_incidencias.api_incidencias.Repositorios.RepositorioTrabajador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,34 +15,34 @@ public class TrabajadorService {
     @Autowired
     private RepositorioTrabajador reposTrabajador;
     @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public Trabajador addTrabajador(Trabajador trabajador){
-        if (usuarioService.isAdmin())
+        if (seguridad.isAdmin())
         return reposTrabajador.save(trabajador);
         return null;
     }
 
     public List<Trabajador> getTrabajador(){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return reposTrabajador.findAll();
         return null;
     }
     public Optional<Trabajador> getTrabajador(Long id){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return reposTrabajador.findById(id);
         return null;
     }
 
     public Optional<Trabajador> getTrabajador(String email){
-        if (usuarioService.isTrabajador())
+        if (seguridad.isTrabajador())
         return reposTrabajador.findByEmail(email);
         return null;
     }
 
     public Trabajador updateTrabajador(Long idUser, Trabajador trabajador){
         //reposUser.save(user);
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<Trabajador> trabajadorExistenteOptional = reposTrabajador.findById(idUser);
 
             if (trabajadorExistenteOptional.isPresent()) {
@@ -76,7 +73,7 @@ public class TrabajadorService {
     }
 
     public ResponseEntity<String> deleteTrabajador(Long id){
-        if (usuarioService.isAdmin()){
+        if (seguridad.isAdmin()){
             Optional<Trabajador> userOptional = reposTrabajador.findById(id);
 
             if (userOptional.isPresent()) {

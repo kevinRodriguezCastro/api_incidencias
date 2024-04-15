@@ -1,19 +1,11 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
-import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Entidades.Enum.Estado;
-import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Repositorios.RepositorioIncidencia;
-import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +17,7 @@ public class IncidenciaService {
     @Autowired
     private RepositorioIncidencia reposIncidencia;
     @Autowired
-    private RepositorioUsuario reposUsuario;
-    @Autowired
-    private TrabajadorService trabajadorService;
-    @Autowired
-    private UsuarioService usuarioService;
+    private Seguridad seguridad;
 
     public Incidencia addIncidencia(Incidencia incidencia){
         return reposIncidencia.save(incidencia);
@@ -40,7 +28,7 @@ public class IncidenciaService {
      * @return
      */
     public List<Incidencia> getIncidencias() {
-        if (usuarioService.isTrabajador()){
+        if (seguridad.isTrabajador()){
             return reposIncidencia.findAll();
         }
         return null;
@@ -95,7 +83,7 @@ public class IncidenciaService {
      * @return
      */
     public ResponseEntity<String> deleteIncidencia(Long id){
-        if (usuarioService.isAdmin()) {
+        if (seguridad.isAdmin()) {
             Optional<Incidencia> incidencia = reposIncidencia.findById(id);
             if (incidencia.isPresent()) {
                 reposIncidencia.deleteById(id);
