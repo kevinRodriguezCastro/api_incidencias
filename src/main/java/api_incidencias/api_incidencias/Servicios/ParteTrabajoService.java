@@ -14,8 +14,12 @@ import java.util.Optional;
 public class ParteTrabajoService {
     @Autowired
     private RepositorioParteTrabajo reposParteTrabajo;
-    @Autowired
+
     private Seguridad seguridad;
+
+    public ParteTrabajoService(){
+        seguridad = new Seguridad();
+    }
 
     public ParteTrabajo addParteTrabajo(ParteTrabajo parteTb){
         if (seguridad.isTrabajador())

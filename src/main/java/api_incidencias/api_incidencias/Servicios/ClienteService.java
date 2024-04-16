@@ -14,8 +14,12 @@ import java.util.Optional;
 public class ClienteService {
     @Autowired
     private RepositorioCliente reposCliente;
-    @Autowired
+
     private Seguridad seguridad;
+
+    public ClienteService(){
+        seguridad = new Seguridad();
+    }
 
     public Cliente addCliente(Cliente cliente){
         return reposCliente.save(cliente);

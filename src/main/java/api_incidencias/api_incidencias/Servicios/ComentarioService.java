@@ -14,9 +14,12 @@ import java.util.Optional;
 public class ComentarioService {
     @Autowired
     private RepositorioComentario reposComentario;
-    @Autowired
+
     private Seguridad seguridad;
 
+    public ComentarioService(){
+        seguridad = new Seguridad();
+    }
     public Comentario addComentario(Comentario comentario){
         return reposComentario.save(comentario);
     }

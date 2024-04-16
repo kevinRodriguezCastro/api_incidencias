@@ -14,9 +14,11 @@ import java.util.Optional;
 public class TrabajadorService {
     @Autowired
     private RepositorioTrabajador reposTrabajador;
-    @Autowired
     private Seguridad seguridad;
 
+    public TrabajadorService(){
+        seguridad = new Seguridad();
+    }
     public Trabajador addTrabajador(Trabajador trabajador){
         if (seguridad.isAdmin())
         return reposTrabajador.save(trabajador);
