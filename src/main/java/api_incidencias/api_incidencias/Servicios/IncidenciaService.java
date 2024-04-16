@@ -16,8 +16,12 @@ public class IncidenciaService {
 
     @Autowired
     private RepositorioIncidencia reposIncidencia;
-    @Autowired
+
     private Seguridad seguridad;
+
+    public IncidenciaService(){
+        seguridad = new Seguridad();
+    }
 
     public Incidencia addIncidencia(Incidencia incidencia){
         return reposIncidencia.save(incidencia);

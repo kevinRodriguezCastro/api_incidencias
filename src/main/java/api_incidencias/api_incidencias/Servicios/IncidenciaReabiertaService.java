@@ -14,8 +14,11 @@ import java.util.Optional;
 public class IncidenciaReabiertaService {
     @Autowired
     private RepositorioIncidenciaReabierta reposIncidenciaReabierta;
-    @Autowired
+
     private Seguridad seguridad;
+    public IncidenciaReabiertaService(){
+        seguridad = new Seguridad();
+    }
 
     public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
         String id = generarId(incidenciaReabierta);

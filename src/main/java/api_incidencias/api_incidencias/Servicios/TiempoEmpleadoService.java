@@ -14,9 +14,11 @@ public class TiempoEmpleadoService {
     @Autowired
     private RepositorioTiempoEmpleado repositorioTiempoEmpleado;
 
-    @Autowired
     private Seguridad seguridad;
 
+    public TiempoEmpleadoService(){
+        seguridad = new Seguridad();
+    }
     public TiempoEmpleado addTiempoEmpleado(TiempoEmpleado tiempoEmpleado){
         if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.save(tiempoEmpleado);

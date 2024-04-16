@@ -33,7 +33,7 @@ public class AuthService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authManager;
-    @Autowired
+
     private Seguridad seguridad;
     @Autowired
     private TrabajadorService trabajadorService;
@@ -114,7 +114,7 @@ public class AuthService {
      * @return
      */
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
-
+        seguridad = new Seguridad();
         if (seguridad.isTecnicoJefe()  || seguridad.isAdmin()){
 
             System.out.println("Estoy aqui Admin o TecnicoJefe");

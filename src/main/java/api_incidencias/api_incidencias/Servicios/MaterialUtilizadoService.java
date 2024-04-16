@@ -13,8 +13,10 @@ import java.util.Optional;
 public class MaterialUtilizadoService {
     @Autowired
     private RepositorioMaterialUtilizado repositorioMaterialUtilizado;
-    @Autowired
     private Seguridad seguridad;
+    public MaterialUtilizadoService(){
+        seguridad = new Seguridad();
+    }
     public MaterialUtilizado addMaterialUtilizado(MaterialUtilizado materialUtilizado){
         return repositorioMaterialUtilizado.save(materialUtilizado);
     }
