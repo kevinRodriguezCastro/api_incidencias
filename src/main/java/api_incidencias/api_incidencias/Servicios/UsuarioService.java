@@ -34,9 +34,11 @@ public class UsuarioService {
 
     @Autowired
     private RepositorioUsuario reposUser;
-    @Autowired
     private Seguridad seguridad;
 
+    public UsuarioService(){
+        seguridad = new Seguridad();
+    }
     private static final String RUTA_IMG = "./imgUsuarios";
 
 

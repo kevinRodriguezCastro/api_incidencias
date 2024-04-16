@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@Service
+
 public class Seguridad {
     @Autowired
     private TrabajadorService trabajadorService;
