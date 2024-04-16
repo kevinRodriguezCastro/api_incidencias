@@ -2,10 +2,7 @@ package api_incidencias.api_incidencias.Auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -21,6 +18,7 @@ public class AuthControlador {
 
     @PostMapping("/registrar-cliente")
     public ResponseEntity<AuthResponse> registro(@RequestBody RegisterRequest_Cliente request){
+        System.out.println("Registramos cliente nuevo");
         return ResponseEntity.ok(authServicio.registrarCliente(request));
     }
 
@@ -28,6 +26,5 @@ public class AuthControlador {
     public ResponseEntity<AuthResponse> registro(@RequestBody RegisterRequest_Trabajador request){
         return ResponseEntity.ok(authServicio.registrarTrabajador(request));
     }
-
 
 }

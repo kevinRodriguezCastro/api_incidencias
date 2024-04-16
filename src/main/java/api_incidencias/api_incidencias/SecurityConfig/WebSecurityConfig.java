@@ -26,6 +26,7 @@ public class WebSecurityConfig {
     @Autowired
     private AuthenticationProvider authProvider;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -42,4 +43,24 @@ public class WebSecurityConfig {
                 .build();
     }
 
+
+
+    /*
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/auth/**").permitAll() // Permitir acceso sin autenticación a las rutas bajo /auth/**
+                        .requestMatchers("/auth/hola").permitAll() // Permitir acceso sin autenticación al método hola()
+                        .anyRequest().authenticated())
+                .sessionManagement(sessionManager ->
+                        sessionManager
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+     */
 }

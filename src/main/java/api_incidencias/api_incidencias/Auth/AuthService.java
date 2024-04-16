@@ -4,6 +4,7 @@ import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
+import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.TrabajadorService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,9 @@ public class AuthService {
     @Autowired
     private RepositorioUsuario reposUser;
 
+    @Autowired
+    private ClienteService clienteService;
+
     // Inyectamos el servicio del Jwt encargado de los tokens
     @Autowired
     private JwtService jwtService;
@@ -35,6 +39,7 @@ public class AuthService {
     private TrabajadorService trabajadorService;
     @Autowired
     private PasswordEncoder passwdEncoder;
+
 
     public AuthResponse login(LoginRequest request){
         authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCorreoElectronico(), request.getContrasena()));
@@ -76,6 +81,7 @@ public class AuthService {
                 .pais(request.getPais())
                 .build();
          */
+        System.out.println("Registramos cleinte");
 
         Cliente newCliente = new Cliente();
         newCliente.setDni(request.getDni());
@@ -92,7 +98,9 @@ public class AuthService {
         newCliente.setFechaRegistro(LocalDate.now());
 
         // Guardamos el usuario usando el repositorio del usuario
-        reposUser.save(newCliente);
+        clienteService.addCliente(newCliente);
+
+        System.out.println("cliente guardado");
 
         // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
         return AuthResponse.builder()
@@ -108,6 +116,9 @@ public class AuthService {
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
 
         if (seguridad.isTecnicoJefe()  || seguridad.isAdmin()){
+
+            System.out.println("Estoy aqui Admin o TecnicoJefe");
+
             Trabajador newTrabajador = new Trabajador();
 
             newTrabajador.setDni(request.getDni());
@@ -119,7 +130,6 @@ public class AuthService {
             newTrabajador.setRol(request.getRol());
             newTrabajador.setFechaRegistro(LocalDate.now());
 
-
             // Guardamos el usuario usando el repositorio del usuario
             trabajadorService.addTrabajador(newTrabajador);
 
@@ -128,7 +138,7 @@ public class AuthService {
                     .token(jwtService.getToken(newTrabajador))
                     .build();
         }
-
+        System.out.println("No soy ni admin ni TecnicoJefe");
         return null;
     }
 
