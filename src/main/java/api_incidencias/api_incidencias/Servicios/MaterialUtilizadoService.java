@@ -13,33 +13,28 @@ import java.util.Optional;
 public class MaterialUtilizadoService {
     @Autowired
     private RepositorioMaterialUtilizado repositorioMaterialUtilizado;
-    private Seguridad seguridad;
-    public MaterialUtilizadoService(){
-        seguridad = new Seguridad();
-    }
+
     public MaterialUtilizado addMaterialUtilizado(MaterialUtilizado materialUtilizado){
         return repositorioMaterialUtilizado.save(materialUtilizado);
     }
 
     public List<MaterialUtilizado> getMaterialUtilizados(){
-        if (seguridad.isTrabajador())
+
         return repositorioMaterialUtilizado.findAll();
-        return null;
+
     }
 
     public Optional<MaterialUtilizado> getMaterialUtilizados(Long id){
-        if (seguridad.isTrabajador())
+
         return repositorioMaterialUtilizado.findById(id);
-        return null;
+
     }
     public List<MaterialUtilizado> getMaterialUtilizadosOrden(Long idOrden){
-        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.findByIdOrden(idOrden);
-        return null;
     }
 
     public MaterialUtilizado updateMaterialUtilizado(Long idMaterialutilizado, MaterialUtilizado materialUtilizado){
-        if (seguridad.isAdmin()){
+
             Optional<MaterialUtilizado> optional = repositorioMaterialUtilizado.findById(idMaterialutilizado);
 
             if (optional.isPresent()) {
@@ -59,12 +54,10 @@ public class MaterialUtilizadoService {
             } else {
                 throw new IllegalArgumentException("El material con el ID proporcionado no existe.");
             }
-        }
-        throw new IllegalArgumentException("No eres admin.");
     }
 
     public ResponseEntity<String> deleteMaterialUtilizado(Long id){
-        if (seguridad.isAdmin()){
+
             Optional<MaterialUtilizado> materialUtilizado = repositorioMaterialUtilizado.findById(id);
 
             if (materialUtilizado.isPresent()) {
@@ -76,8 +69,5 @@ public class MaterialUtilizadoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el material correspondiente.");
             }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("No eres admin.");
     }
 }

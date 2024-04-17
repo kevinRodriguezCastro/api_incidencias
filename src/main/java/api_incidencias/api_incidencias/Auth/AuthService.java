@@ -5,7 +5,6 @@ import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
-import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.TrabajadorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class AuthService {
     @Autowired
     private AuthenticationManager authManager;
 
-    private Seguridad seguridad;
+    //private Seguridad seguridad;
     @Autowired
     private TrabajadorService trabajadorService;
     @Autowired
@@ -114,8 +113,8 @@ public class AuthService {
      * @return
      */
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
-        seguridad = new Seguridad();
-        if (seguridad.isTecnicoJefe()  || seguridad.isAdmin()){
+       // seguridad = new Seguridad();
+       // if (seguridad.isTecnicoJefe()  || seguridad.isAdmin()){
 
             System.out.println("Estoy aqui Admin o TecnicoJefe");
 
@@ -138,8 +137,7 @@ public class AuthService {
                     .token(jwtService.getToken(newTrabajador))
                     .build();
         }
-        System.out.println("No soy ni admin ni TecnicoJefe");
-        return null;
-    }
+
+    //}
 
 }

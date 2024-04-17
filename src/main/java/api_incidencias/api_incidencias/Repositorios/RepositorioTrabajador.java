@@ -5,9 +5,10 @@ import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public interface RepositorioTrabajador extends JpaRepository<Trabajador, Long> {
     @Query("SELECT u FROM Trabajador u WHERE u.correoElectronico = ?1")
     Optional<Trabajador> findByEmail(String email);

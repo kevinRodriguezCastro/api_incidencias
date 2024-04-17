@@ -34,11 +34,7 @@ public class UsuarioService {
 
     @Autowired
     private RepositorioUsuario reposUser;
-    private Seguridad seguridad;
 
-    public UsuarioService(){
-        seguridad = new Seguridad();
-    }
     private static final String RUTA_IMG = "./imgUsuarios";
 
 
@@ -158,10 +154,7 @@ public class UsuarioService {
      * @return
      */
     public List<Usuario> getUser(){
-        if (seguridad.isTrabajador()){
-            return reposUser.findAll();
-        }
-        return null;
+        return reposUser.findAll();
     }
     public Optional<Usuario> getUser(Long id){
         return reposUser.findById(id);
@@ -178,8 +171,6 @@ public class UsuarioService {
      * @return
      */
     public Usuario updateUser(Long idUser, Usuario user){
-        if (seguridad.isElMismo(idUser)|| seguridad.isAdmin()){
-
             Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
             if (userExistenteOptional.isPresent()) {
                 Usuario usuarioExistente = userExistenteOptional.get();
@@ -196,7 +187,7 @@ public class UsuarioService {
                     usuarioExistente.setImagenPerfil(user.getImagenPerfil());
                     usuarioExistente.setTelefono(user.getTelefono());
 
-                    usuarioExistente.setUsuarioModificacion(seguridad.getUsuarioPeticion());
+                    usuarioExistente.setUsuarioModificacion(user.getUsuarioModificacion());
                     usuarioExistente.setFechaModificacion(LocalDateTime.now());
 
                     return reposUser.save(usuarioExistente);
@@ -206,8 +197,7 @@ public class UsuarioService {
             } else {
                 throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
             }
-        }
-        throw new IllegalArgumentException("No tienes permisos");
+
     }
 
     /**
@@ -216,7 +206,7 @@ public class UsuarioService {
      * @return
      */
     public ResponseEntity<String> deleteUser(Long id){
-        if (seguridad.isAdmin()){
+
             //si es admin
             Optional<Usuario> userOptional = reposUser.findById(id);
             if (userOptional.isPresent()) {
@@ -228,10 +218,6 @@ public class UsuarioService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el usuario correspondiente.");
             }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("No es admin.");
+
     }
-
-
 }
