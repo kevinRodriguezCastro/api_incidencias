@@ -4,21 +4,28 @@ import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.Enum.Rol;
+import api_incidencias.api_incidencias.Repositorios.RepositorioCliente;
+import api_incidencias.api_incidencias.Repositorios.RepositorioTrabajador;
+import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class Seguridad {
     @Autowired
-    private TrabajadorService trabajadorService;
+    private UsuarioService reposUser;
+
     @Autowired
-    private ClienteService clienteService;
+    private TrabajadorService reposTrabajador;
+
     @Autowired
-    private UsuarioService usuarioService;
+    private ClienteService reposCliente;
+
     /**
      * devuelve el usuario que hace la peticion
      * @return
@@ -30,7 +37,8 @@ public class Seguridad {
             String correo = userDetails.getUsername();
 
             // Aquí puedes usar el username para obtener más detalles del usuario si es necesario
-            Optional<Usuario> optional = usuarioService.getUser(correo);
+
+            Optional<Usuario> optional = reposUser.getUser(correo);
             if (optional.isPresent()) {
                 return optional.get();
             }
@@ -41,7 +49,7 @@ public class Seguridad {
     public boolean isAdmin(){
         Usuario usuario = getUsuarioPeticion();
         if (usuario != null){
-            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
+            Optional<Trabajador> optional =  reposTrabajador.getTrabajador(usuario.getIdUsuario());
             if (optional.isPresent()){
                 if (optional.get().getRol() == Rol.administrador){
                     return true;
@@ -53,7 +61,7 @@ public class Seguridad {
     public boolean isTrabajador(){
         Usuario usuario = getUsuarioPeticion();
         if (usuario != null){
-            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
+            Optional<Trabajador> optional = reposTrabajador.getTrabajador(usuario.getIdUsuario());
             if (optional.isPresent()){
                 return true;
             }
@@ -63,7 +71,7 @@ public class Seguridad {
     public boolean isTecnicoJefe(){
         Usuario usuario = getUsuarioPeticion();
         if (usuario != null){
-            Optional<Trabajador> optional = trabajadorService.getTrabajador(usuario.getIdUsuario());
+            Optional<Trabajador> optional = reposTrabajador.getTrabajador(usuario.getIdUsuario());
             if (optional.isPresent()){
                 if (optional.get().getRol() == Rol.tecnico_jefe){
                     return true;
@@ -84,7 +92,7 @@ public class Seguridad {
     public boolean isCliente(){
         Usuario usuario = getUsuarioPeticion();
         if (usuario != null){
-            Optional<Cliente> optional = clienteService.getCliente(usuario.getIdUsuario());
+            Optional<Cliente> optional = reposCliente.getCliente(usuario.getIdUsuario());
             if (optional.isPresent()){
                 return true;
             }

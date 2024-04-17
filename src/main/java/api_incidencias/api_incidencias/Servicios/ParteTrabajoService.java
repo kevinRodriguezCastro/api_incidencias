@@ -15,22 +15,12 @@ public class ParteTrabajoService {
     @Autowired
     private RepositorioParteTrabajo reposParteTrabajo;
 
-    private Seguridad seguridad;
-
-    public ParteTrabajoService(){
-        seguridad = new Seguridad();
-    }
-
     public ParteTrabajo addParteTrabajo(ParteTrabajo parteTb){
-        if (seguridad.isTrabajador())
         return reposParteTrabajo.save(parteTb);
-        return null;
     }
 
     public List<ParteTrabajo> getPartesTrabajo(){
-        if (seguridad.isTrabajador())
         return reposParteTrabajo.findAll();
-        return null;
     }
 
 
@@ -44,7 +34,6 @@ public class ParteTrabajoService {
     }
 
     public ParteTrabajo updateParteTrabajo(Long idOrden, ParteTrabajo parteTb){
-        if (seguridad.isAdmin()){
             Optional<ParteTrabajo> parteTbExistenteOptional = reposParteTrabajo.findById(idOrden);
 
             if (parteTbExistenteOptional.isPresent()) {
@@ -68,12 +57,11 @@ public class ParteTrabajoService {
             } else {
                 throw new IllegalArgumentException("El parteTrabajo con el ID proporcionado no existe.");
             }
-        }
-        throw new IllegalArgumentException("No eres admin.");
+
     }
 
     public ResponseEntity<String> deleteParteTrabajo(Long idOrden){
-        if (seguridad.isAdmin()){
+
             Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
 
             if (parteTb.isPresent()) {
@@ -85,8 +73,5 @@ public class ParteTrabajoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el parteTrabajo correspondiente.");
             }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("No eres admin.");
     }
 }

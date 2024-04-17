@@ -1,6 +1,8 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
+import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Repositorios.RepositorioTrabajador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,37 +16,25 @@ import java.util.Optional;
 public class TrabajadorService {
     @Autowired
     private RepositorioTrabajador reposTrabajador;
-    private Seguridad seguridad;
 
-    public TrabajadorService(){
-        seguridad = new Seguridad();
-    }
     public Trabajador addTrabajador(Trabajador trabajador){
-        if (seguridad.isAdmin())
         return reposTrabajador.save(trabajador);
-        return null;
     }
 
     public List<Trabajador> getTrabajador(){
-        if (seguridad.isTrabajador())
         return reposTrabajador.findAll();
-        return null;
     }
     public Optional<Trabajador> getTrabajador(Long id){
-        if (seguridad.isTrabajador())
         return reposTrabajador.findById(id);
-        return null;
     }
 
     public Optional<Trabajador> getTrabajador(String email){
-        if (seguridad.isTrabajador())
         return reposTrabajador.findByEmail(email);
-        return null;
     }
 
     public Trabajador updateTrabajador(Long idUser, Trabajador trabajador){
         //reposUser.save(user);
-        if (seguridad.isAdmin()){
+
             Optional<Trabajador> trabajadorExistenteOptional = reposTrabajador.findById(idUser);
 
             if (trabajadorExistenteOptional.isPresent()) {
@@ -69,13 +59,13 @@ public class TrabajadorService {
                 }
             } else {
                 throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
+
             }
-        }
-        throw new IllegalArgumentException("No eres admin.");
+
     }
 
     public ResponseEntity<String> deleteTrabajador(Long id){
-        if (seguridad.isAdmin()){
+
             Optional<Trabajador> userOptional = reposTrabajador.findById(id);
 
             if (userOptional.isPresent()) {
@@ -87,8 +77,6 @@ public class TrabajadorService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el usuario correspondiente.");
             }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("No eres admin.");
     }
+
 }

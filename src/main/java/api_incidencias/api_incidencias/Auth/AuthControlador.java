@@ -1,6 +1,7 @@
 package api_incidencias.api_incidencias.Auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,11 @@ public class AuthControlador {
 
     @PostMapping("/registrar-trabajador")
     public ResponseEntity<AuthResponse> registro(@RequestBody RegisterRequest_Trabajador request){
-        return ResponseEntity.ok(authServicio.registrarTrabajador(request));
+        AuthResponse au = authServicio.registrarTrabajador(request);
+        if (au==null){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+        return ResponseEntity.ok(au);
     }
 
 }

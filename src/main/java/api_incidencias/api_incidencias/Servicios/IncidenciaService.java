@@ -17,11 +17,9 @@ public class IncidenciaService {
     @Autowired
     private RepositorioIncidencia reposIncidencia;
 
-    private Seguridad seguridad;
 
-    public IncidenciaService(){
-        seguridad = new Seguridad();
-    }
+
+
 
     public Incidencia addIncidencia(Incidencia incidencia){
         return reposIncidencia.save(incidencia);
@@ -32,10 +30,7 @@ public class IncidenciaService {
      * @return
      */
     public List<Incidencia> getIncidencias() {
-        if (seguridad.isTrabajador()){
             return reposIncidencia.findAll();
-        }
-        return null;
     }
     public List<Incidencia> getIncidenciasCliente(Long idCliente){
         return reposIncidencia.findByCliente(idCliente);
@@ -87,7 +82,7 @@ public class IncidenciaService {
      * @return
      */
     public ResponseEntity<String> deleteIncidencia(Long id){
-        if (seguridad.isAdmin()) {
+
             Optional<Incidencia> incidencia = reposIncidencia.findById(id);
             if (incidencia.isPresent()) {
                 reposIncidencia.deleteById(id);
@@ -98,11 +93,6 @@ public class IncidenciaService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró la incidencia correspondiente.");
             }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("No tienes permisos de admnistrador");
     }
-
-
 
 }
