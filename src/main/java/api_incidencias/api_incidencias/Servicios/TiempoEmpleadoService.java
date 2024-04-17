@@ -14,36 +14,31 @@ public class TiempoEmpleadoService {
     @Autowired
     private RepositorioTiempoEmpleado repositorioTiempoEmpleado;
 
-    private Seguridad seguridad;
-
-    public TiempoEmpleadoService(){
-        seguridad = new Seguridad();
-    }
     public TiempoEmpleado addTiempoEmpleado(TiempoEmpleado tiempoEmpleado){
-        if (seguridad.isTrabajador())
+
         return repositorioTiempoEmpleado.save(tiempoEmpleado);
-        return null;
+
     }
 
     public List<TiempoEmpleado> getTiempoEmpleado(){
-        if (seguridad.isTrabajador())
+
         return repositorioTiempoEmpleado.findAll();
-        return null;
+
     }
 
     public Optional<TiempoEmpleado> getTiempoEmpleadoPorId(Long id){
-        if (seguridad.isTrabajador())
+
         return repositorioTiempoEmpleado.findById(id);
-        return null;
+
     }
 
     public List<TiempoEmpleado> getTiempoEmpleadoPorIdOrden(Long idOrdenParteTb){
-        if (seguridad.isTrabajador())
+
         return repositorioTiempoEmpleado.findByIdOrden(idOrdenParteTb);
-        return null;
+
     }
     public TiempoEmpleado updateTiempoEmpleado(Long idTiempoEmpleado, TiempoEmpleado tiempoEmpleado){
-        if (seguridad.isAdmin()){
+
             Optional<TiempoEmpleado> optional = repositorioTiempoEmpleado.findById(idTiempoEmpleado);
 
             if (optional.isPresent()) {
@@ -65,12 +60,11 @@ public class TiempoEmpleadoService {
             } else {
                 throw new IllegalArgumentException("El tiempo empleado con el ID proporcionado no existe.");
             }
-        }
-        throw new IllegalArgumentException("No eres admin.");
+
+
     }
 
     public ResponseEntity<String> deleteTiempoUsado(Long id){
-        if (seguridad.isAdmin()){
             Optional<TiempoEmpleado> tiempoEmpleado = repositorioTiempoEmpleado.findById(id);
 
             if (tiempoEmpleado.isPresent()) {
@@ -82,9 +76,6 @@ public class TiempoEmpleadoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el tiempo empleado correspondiente.");
             }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("No eres admin.");
     }
 
 }
