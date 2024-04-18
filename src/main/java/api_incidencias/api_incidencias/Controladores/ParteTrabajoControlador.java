@@ -5,12 +5,14 @@ import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.ParteTrabajoDTO;
+import api_incidencias.api_incidencias.Pdf.GenerarPDF;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.ParteTrabajoService;
 import api_incidencias.api_incidencias.Servicios.TrabajadorService;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +39,21 @@ public class ParteTrabajoControlador {
         return parteTrabajoServicio.getPartesTrabajoPorId(idOrden);
     }
 
-    @GetMapping("incidencia/{idIncidencia}")
+    @GetMapping("/incidencia/{idIncidencia}")
     public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
         return parteTrabajoServicio.getPartesTrabajoPorIncidencia(idIncidencia);
     }
 
+    @GetMapping(value = "/generar-pdf/{idOrden}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> enviarpdf(@PathVariable("idOrden") Long idOrden){
+        ParteTrabajo parteTrabajo;
+        Optional<ParteTrabajo> optional = parteTrabajoServicio.getPartesTrabajoPorId(idOrden);
+        if (optional.isPresent()){
+            parteTrabajo = optional.get();
+            return GenerarPDF.generarPDF(parteTrabajo);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @PostMapping
     public ResponseEntity<ParteTrabajo> crearParteTrabajo(@RequestBody ParteTrabajoDTO parteTrabajoDTO){

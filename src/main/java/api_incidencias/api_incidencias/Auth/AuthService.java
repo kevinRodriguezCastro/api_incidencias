@@ -2,6 +2,8 @@ package api_incidencias.api_incidencias.Auth;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
+import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +44,19 @@ public class AuthService {
 
 
     public AuthResponse login(LoginRequest request){
+        String rol;
         authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCorreoElectronico(), request.getContrasena()));
-        UserDetails userLogueado = reposUser.findByEmail(request.getCorreoElectronico()).orElseThrow();
-        String tokenUser = jwtService.getToken(userLogueado);
+        Optional<Usuario> optional = reposUser.findByEmail(request.getCorreoElectronico());
+        UserDetails userLogueado = optional.orElseThrow();
+
+        if (trabajadorService.getTrabajador(optional.get().getIdUsuario()).isPresent()){
+            Rol r = trabajadorService.getTrabajador(optional.get().getIdUsuario()).get().getRol();
+            rol = r.name();
+        }else {
+            rol = "cliente";
+        }
+
+        String tokenUser = jwtService.getToken(userLogueado,rol);
 
         return AuthResponse.builder().token(tokenUser).build();
     }
@@ -103,7 +116,7 @@ public class AuthService {
 
         // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
         return AuthResponse.builder()
-                .token(jwtService.getToken(newCliente))
+                .token(jwtService.getToken(newCliente,"cliente"))
                 .build();
     }
 
@@ -134,7 +147,7 @@ public class AuthService {
 
             // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
             return AuthResponse.builder()
-                    .token(jwtService.getToken(newTrabajador))
+                    .token(jwtService.getToken(newTrabajador,newTrabajador.getRol().name()))
                     .build();
         }
 

@@ -54,7 +54,7 @@ public class IncidenciaService {
             Incidencia incidenciaExistente = incidenciaExistenteOptional.get();
 
             //Si la incidencia es aceptada o finalizada no se podra modificar
-            if (incidencia.getEstado() != Estado.abierto) {
+            if (incidencia.getEstado() != Estado.pendiente) {
 
                 if (idIncidencia.equals(incidencia.getIdIncidencia())) {
                     // Actualizo los atributos del libro existente con los del libro proporcionado
