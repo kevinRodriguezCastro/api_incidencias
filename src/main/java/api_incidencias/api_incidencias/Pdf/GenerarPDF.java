@@ -3,12 +3,19 @@ package api_incidencias.api_incidencias.Pdf;
 import java.io.*;
 
 import api_incidencias.api_incidencias.Entidades.Clases.*;
+import api_incidencias.api_incidencias.Entidades.Enum.Estado;
+import api_incidencias.api_incidencias.Entidades.Enum.ModoResolucion;
+import api_incidencias.api_incidencias.Entidades.Enum.Prioridad;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -22,14 +29,21 @@ public class GenerarPDF {
     private static String motivo, diagnostico, solucion, observacion;
     private static ArrayList<MaterialUtilizado> material;
     private static ArrayList<TiempoEmpleado> tiempoEmpleado;
-    public static void generarPDF(ParteTrabajo parteTrabajo){
+    private static Estado estado;
+    public static ResponseEntity<byte[]> generarPDF(ParteTrabajo parteTrabajo){
 
-        Cliente cliente = parteTrabajo.getIncidencia().getUsuarioCliente();
+         Cliente clienteTmp = parteTrabajo.getIncidencia().getUsuarioCliente();
          nOrden = parteTrabajo.getIdOrden().toString();
-         nombreCliente = cliente.getNombre();
-         apellidosCliente = cliente.getApellido();
-         emailCliente = cliente.getCorreoElectronico();
-         telefonoCLiente = cliente.getTelefono();
+         nombreCliente = clienteTmp.getNombre();
+         apellidosCliente = clienteTmp.getApellido();
+         emailCliente = clienteTmp.getCorreoElectronico();
+         telefonoCLiente = clienteTmp.getTelefono();
+
+         cliente = " cliente: "+nombreCliente + apellidosCliente +"\n"
+                    +" dni: "+clienteTmp.getDni()
+                    +" telefono: "+telefonoCLiente + "\n"
+                    +" correo: "+emailCliente +"\n"
+                    +"direccion: "+clienteTmp.getCalle();
 
          motivo = parteTrabajo.getIncidencia().getDescripcion();
          diagnostico = parteTrabajo.getDiagnostico();
@@ -39,11 +53,13 @@ public class GenerarPDF {
          material = (ArrayList<MaterialUtilizado>) parteTrabajo.getListaMaterialUtilizado();
          tiempoEmpleado = (ArrayList<TiempoEmpleado>) parteTrabajo.getListaTiempoEmpleados();
 
+         estado = parteTrabajo.getIncidencia().getEstado();
         try {
             convertHTMLToPDF(ruta);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return enviarPdf();
     }
     private static String filasMaterial(){
         String txt = "";
@@ -56,6 +72,7 @@ public class GenerarPDF {
         }
         return txt;
     }
+    //limite 5
     private static String filasTiempo(){
         String txt = "";
         for (TiempoEmpleado tmp: tiempoEmpleado){
@@ -74,9 +91,23 @@ public class GenerarPDF {
                         "                    </td>\n" +
                         "                    <td style=\"padding: 0 3px 0;\">"+ tmp.getHoraEntrada().until(tmp.getHoraSalida(), ChronoUnit.HOURS)+"</td>\n" +
                         "          </tr>\n";
-
             }
         return txt;
+    }
+    private static String situacion(){
+        String estadoTxt = estado.name();
+        return  "<label for=\"situacion\" style=\"margin-right: 30px\">SITUACIÓN : </label>\n" +
+                "<label for=\"terminado\">TERMINADO</label>\n" +
+                "<input type=\"checkbox\" id=\"terminado\" name=\"situacion\" value=\"terminado\"" +
+                (estadoTxt.equals("terminado") ? " checked" : "") + ">\n" +  // Aquí se comprueba y marca la opción
+
+                "<label for=\"pendiente\">PENDIENTE</label>\n" +
+                "<input type=\"checkbox\" id=\"pendiente\" name=\"situacion\" value=\"pendiente\"" +
+                (estadoTxt.equals("pendiente") ? " checked" : "") + ">\n" +  // Aquí se comprueba y marca la opción
+
+                "<label for=\"seguimiento\">EN SEGUIMIENTO</label>\n" +
+                "<input type=\"checkbox\" id=\"seguimiento\" name=\"situacion\" value=\"seguimiento\"" +
+                (estadoTxt.equals("seguimiento") ? " checked" : "") + ">\n";
     }
     private static String contenidoHTML(){
         return  "<!DOCTYPE html>\n" +
@@ -171,8 +202,8 @@ public class GenerarPDF {
                 "        }\n" +
                 "\n" +
                 "        .altura_fija_tabla_materiales {\n" +
-                "            min-height: 140px; /* Establece la altura mínima para el contenedor */\n" +
-                "            max-height: 140px; /* Ajusta esta altura según sea necesario */\n" +
+                "            min-height: 118px; /* Establece la altura mínima para el contenedor */\n" +
+                "            max-height: 118px; /* Ajusta esta altura según sea necesario */\n" +
                 "            overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */\n" +
                 "        }\n" +
                 "        .altura_fija_tabla_tiempo {\n" +
@@ -214,7 +245,7 @@ public class GenerarPDF {
                 "                    <td style=\"width: 20%; border: none;\">\n" +
                 "                        <!-- Contenedor para el número de orden -->\n" +
                 "                        <label>Nº DE ORDEN</label>\n" +
-                "                        <textarea class=\"text-input\" style=\"width: 100%; height: 40px;\"></textarea>\n" +
+                "                        <textarea class=\"text-input\" style=\"width: 100%; height: 40px;\">"+nOrden+"</textarea>\n" +
                 "                        <textarea class=\"rayas-negras\" style=\"width: 100%; height: 40px;\"></textarea>\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +
@@ -225,19 +256,19 @@ public class GenerarPDF {
                 "    <!-- Contenedor para MOTIVO DE LA LLAMADA -->\n" +
                 "    <div class=\"motivo-container\">\n" +
                 "        <label>MOTIVO DE LA LLAMADA O CONSULTA</label>\n" +
-                "        <textarea class=\"text-input\" style=\"height: 60px;\"></textarea>\n" +
+                "        <textarea class=\"text-input\" style=\"height: 60px;\">"+motivo+"</textarea>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para DIAGNÓSTICO -->\n" +
                 "    <div class=\"diagnostico-container\">\n" +
                 "        <label>DIAGNÓSTICO</label>\n" +
-                "        <textarea class=\"text-input\" style=\"height: 120px;\"></textarea>\n" +
+                "        <textarea class=\"text-input\" style=\"height: 120px;\">"+diagnostico+"</textarea>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para TRABAJO REALIZADO -->\n" +
                 "    <div class=\"trabajo-realizado-container\">\n" +
                 "        <label>SOLUCIÓN / TRABAJO REALIZADO</label>\n" +
-                "        <textarea class=\"text-input\" style=\"height: 120px;\"></textarea>\n" +
+                "        <textarea class=\"text-input\" style=\"height: 120px;\">"+solucion+"</textarea>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para la tabla de materiales -->\n" +
@@ -276,16 +307,16 @@ public class GenerarPDF {
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para las opciones de SITUACIÓN -->\n" +
-                "    <div class=\"situacion-container\" style=\"padding: 2px\">\n" +
-                "        <div class=\"checkbox-options\">\n" +
-                "            <label for=\"situacion\" style=\"margin-right: 30px\">SITUACIÓN : </label>\n" +
+                "    <div class=\"situacion-container\" style=\"padding: 1px\">\n" +
+                "        <div class=\"checkbox-options\" style=\"margin-top: 8px; margin-bottom: 10px\">\n" + situacion() +
+                /*"           <label for=\"situacion\" style=\"margin-right: 30px\">SITUACIÓN : </label>\n" +
                 "            <label for=\"terminado\">TERMINADO</label>\n" +
                 "            <input type=\"checkbox\" id=\"terminado\" name=\"situacion\" value=\"terminado\">\n" +
                 "            <label for=\"pendiente\">PENDIENTE</label>\n" +
                 "            <input type=\"checkbox\" id=\"pendiente\" name=\"situacion\" value=\"pendiente\">\n" +
                 "            <label for=\"seguimiento\">EN SEGUIMIENTO</label>\n" +
                 "            <input type=\"checkbox\" id=\"seguimiento\" name=\"situacion\" value=\"seguimiento\">\n" +
-                "        </div>\n" +
+                "        </div>\n" +        */
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para la tabla de TIEMPO EMPLEADO -->\n" +
@@ -311,9 +342,9 @@ public class GenerarPDF {
                 "                        <label for=\"presencial\">PRESENCIAL</label>\n" +
                 "                        <input type=\"checkbox\" id=\"telefonica\" name=\"resolucion\" value=\"telefonica\">\n" +
                 "                        <label for=\"telefonica\">TELEFÓNICA</label>\n" +
-                "                    </td>\n" +     */
+                "                    </td>\n" +
                 "                    <td style=\"padding: 0 3px 0;\">8 horas</td>\n" +
-                "                </tr>\n" +
+                "                </tr>\n" + */
                 "                <!-- Aquí van más filas si es necesario -->\n" +
                 "            </tbody>\n" +
                 "        </table>\n" +
@@ -326,7 +357,7 @@ public class GenerarPDF {
                 "                <tr>\n" +
                 "                    <td style=\"width: 50%; border: none;\">\n" +
                 "                        <label>OBSERVACIONES</label>\n" +
-                "                        <textarea class=\"text-input\" style=\"height: 80px;\"></textarea>\n" +
+                "                        <textarea class=\"text-input\" style=\"height: 80px;\">"+observacion+"</textarea>\n" +
                 "                    </td>\n" +
                 "                    <td style=\"border: none;\">\n" +
                 "                        <label>FIRMA TÉCNICO</label>\n" +
@@ -345,12 +376,31 @@ public class GenerarPDF {
                 "</html>";
 
     }
-    public static void convertHTMLToPDF(String outputFile) throws IOException {
+    private static void convertHTMLToPDF(String outputFile) throws IOException {
         // Convertir el HTML a PDF
         ConverterProperties properties = new ConverterProperties();
         HtmlConverter.convertToPdf(contenidoHTML(), new FileOutputStream(outputFile), properties);
     }
+    private static ResponseEntity<byte[]> enviarPdf() {
 
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ConverterProperties properties = new ConverterProperties();
+
+        // Aquí llamas a tu método contenidoHTML() para obtener el contenido HTML
+        String htmlContent = contenidoHTML();
+
+        HtmlConverter.convertToPdf(htmlContent, outputStream, properties);
+
+        byte[] pdfContents = outputStream.toByteArray();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", "documento.pdf");
+        headers.setContentLength(pdfContents.length);
+
+        return new ResponseEntity<>(pdfContents, headers, org.springframework.http.HttpStatus.OK);
+
+    }
     public static void main(String[] args) {
 
         //String htmlContent = contenidoHTML();
@@ -368,10 +418,18 @@ public class GenerarPDF {
 */
         Cliente c = new Cliente();
         c.setNombre("nombre");
-        c.setCorreoElectronico("correo");
+        c.setApellido("apellido apellidoo");
+        c.setCorreoElectronico("correo@gmail.com");
+        c.setDni("12345678a");
+        c.setTelefono("123456789");
 
         Incidencia i = new Incidencia();
         i.setUsuarioCliente(c);
+        i.setTitulo("titulo");
+        i.setDescripcion("descripcion");
+        i.setFechaCreacion(LocalDateTime.now());
+        i.setEstado(Estado.pendiente);
+        i.setPrioridad(Prioridad.alta);
 
         MaterialUtilizado m = new MaterialUtilizado();
         m.setCoste(23);
@@ -379,21 +437,87 @@ public class GenerarPDF {
         m.setNombre("obj1");
 
         MaterialUtilizado m2 = new MaterialUtilizado();
-        m.setCoste(278);
-        m.setCantidad(1);
-        m.setNombre("obj2");
+        m2.setCoste(278);
+        m2.setCantidad(1);
+        m2.setNombre("obj2");
+
+        MaterialUtilizado m3 = new MaterialUtilizado();
+        m3.setCoste(56575);
+        m3.setCantidad(17);
+        m3.setNombre("obj3");
+
+        MaterialUtilizado m4 = new MaterialUtilizado();
+        m4.setCoste(56575);
+        m4.setCantidad(17);
+        m4.setNombre("obj3");
+
+        MaterialUtilizado m5 = new MaterialUtilizado();
+        m5.setCoste(56575);
+        m5.setCantidad(17);
+        m5.setNombre("obj3");
+
+
 
         TiempoEmpleado t = new TiempoEmpleado();
+        t.setHoraEntrada(LocalTime.now());
+        t.setHoraSalida(LocalTime.now());
+        t.setModoResolucion(ModoResolucion.presencial);
+
+        TiempoEmpleado t1 = new TiempoEmpleado();
+        t1.setHoraEntrada(LocalTime.now());
+        t1.setHoraSalida(LocalTime.now());
+        t1.setModoResolucion(ModoResolucion.remota);
+
+        TiempoEmpleado t2 = new TiempoEmpleado();
+        t2.setHoraEntrada(LocalTime.now());
+        t2.setHoraSalida(LocalTime.now());
+        t2.setModoResolucion(ModoResolucion.remota);
+
+        TiempoEmpleado t3 = new TiempoEmpleado();
+        t3.setHoraEntrada(LocalTime.now());
+        t3.setHoraSalida(LocalTime.now());
+        t3.setModoResolucion(ModoResolucion.remota);
+
+        TiempoEmpleado t4 = new TiempoEmpleado();
+        t4.setHoraEntrada(LocalTime.now());
+        t4.setHoraSalida(LocalTime.now());
+        t4.setModoResolucion(ModoResolucion.telefonica);
+
+        TiempoEmpleado t5 = new TiempoEmpleado();
+        t5.setHoraEntrada(LocalTime.now());
+        t5.setHoraSalida(LocalTime.now());
+        t5.setModoResolucion(ModoResolucion.remota);
+
+        TiempoEmpleado t6 = new TiempoEmpleado();
+        t6.setHoraEntrada(LocalTime.now());
+        t6.setHoraSalida(LocalTime.now());
+        t6.setModoResolucion(ModoResolucion.remota);
+
+
         List<TiempoEmpleado> lis = new ArrayList<>();
         lis.add(t);
+        lis.add(t1);
+        lis.add(t2);
+        lis.add(t3);
+        lis.add(t4);
+        lis.add(t5);
+        lis.add(t6);
 
         List<MaterialUtilizado> lista = new ArrayList<>();
         lista.add(m);
         lista.add(m2);
+        lista.add(m3);
+        lista.add(m4);
+        lista.add(m5);
+
+
 
         ParteTrabajo p = new ParteTrabajo();
         p.setIncidencia(i);
         p.setIdOrden(133l);
+        p.setTrabajoRealizado("trabajo realizado");
+        p.setDiagnostico("diagnostico");
+        p.setObservaciones("observaciones");
         p.setListaMaterialUtilizado(lista);
         p.setListaTiempoEmpleados(lis);
 
