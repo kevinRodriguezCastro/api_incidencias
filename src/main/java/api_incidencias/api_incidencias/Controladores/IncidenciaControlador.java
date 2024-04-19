@@ -4,6 +4,7 @@ import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
+import api_incidencias.api_incidencias.Entidades.Enum.Estado;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
 import api_incidencias.api_incidencias.Servicios.Seguridad;
@@ -93,7 +94,7 @@ public class IncidenciaControlador {
         incidencia.setTitulo(incidenciaDTO.getTitulo());
         incidencia.setDescripcion(incidenciaDTO.getDescripcion());
         incidencia.setFechaCreacion(LocalDateTime.now());
-        incidencia.setEstado(incidenciaDTO.getEstado());
+        incidencia.setEstado(Estado.pendiente);
         incidencia.setPrioridad(incidenciaDTO.getPrioridad());
 
         Optional<Cliente> optionalCliente = clienteServicio.getCliente(seguridad.getIdUsuario());
