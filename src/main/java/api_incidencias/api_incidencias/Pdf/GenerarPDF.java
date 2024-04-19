@@ -136,7 +136,7 @@ public class GenerarPDF {
                 "                        <!-- Contenedor para el logo -->\n" +
                 "                        <div class=\"logo-container\">\n" +
                 "                            <!-- Aquí va el logo de la empresa -->\n" +
-                "                            <img src=\"\\Pdf\\logo_DonDigital.png\" alt=\"Logo de la empresa\" width=\"200\" height=\"50\">\n" +
+                "                            <img src=\"src\\main\\java\\api_incidencias\\api_incidencias\\Pdf\\logo_DonDigital.png\" alt=\"Logo de la empresa\" width=\"200\" height=\"50\">\n" +
                 "                        </div>\n" +
                 "                    </td>\n" +
                 "                    <td style=\"width: 70%; border: none;\">\n" +
