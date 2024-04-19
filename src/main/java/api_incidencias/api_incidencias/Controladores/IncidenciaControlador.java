@@ -6,6 +6,7 @@ import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.IncidenciaDTO;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
 import api_incidencias.api_incidencias.Servicios.IncidenciaService;
+import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @RestController
@@ -28,6 +31,8 @@ public class IncidenciaControlador {
     private IncidenciaService incidenciaServicio;
     @Autowired
     private ClienteService clienteServicio;
+    @Autowired
+    private Seguridad seguridad;
 
     @GetMapping
     public List<Incidencia> getIncidencias(){
@@ -87,18 +92,14 @@ public class IncidenciaControlador {
         incidencia.setIdIncidencia(incidenciaDTO.getIdIncidencia());
         incidencia.setTitulo(incidenciaDTO.getTitulo());
         incidencia.setDescripcion(incidenciaDTO.getDescripcion());
-        incidencia.setFechaCreacion(incidenciaDTO.getFechaCreacion());
+        incidencia.setFechaCreacion(LocalDateTime.now());
         incidencia.setEstado(incidenciaDTO.getEstado());
         incidencia.setPrioridad(incidenciaDTO.getPrioridad());
 
-        Optional<Cliente> optionalCliente = clienteServicio.getCliente(incidenciaDTO.getIdUsuarioCliente());
-
-
+        Optional<Cliente> optionalCliente = clienteServicio.getCliente(seguridad.getIdUsuario());
         if (optionalCliente.isPresent()){
             incidencia.setUsuarioCliente(optionalCliente.get());
         }
-
-
         return incidencia;
     }
 }

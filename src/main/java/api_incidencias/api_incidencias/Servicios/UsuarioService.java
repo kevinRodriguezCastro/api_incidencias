@@ -34,6 +34,8 @@ public class UsuarioService {
 
     @Autowired
     private RepositorioUsuario reposUser;
+    @Autowired
+    private Seguridad seguridad;
 
     private static final String RUTA_IMG = "./imgUsuarios";
 
@@ -171,6 +173,7 @@ public class UsuarioService {
      * @return
      */
     public Usuario updateUser(Long idUser, Usuario user){
+        if (seguridad.isAdmin() || seguridad.isElMismo(user.getCorreoElectronico())) {
             Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
             if (userExistenteOptional.isPresent()) {
                 Usuario usuarioExistente = userExistenteOptional.get();
@@ -197,7 +200,8 @@ public class UsuarioService {
             } else {
                 throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
             }
-
+        }
+        throw new IllegalArgumentException("No tienes permisos.");
     }
 
     /**
@@ -206,18 +210,19 @@ public class UsuarioService {
      * @return
      */
     public ResponseEntity<String> deleteUser(Long id){
-
+        if (seguridad.isAdmin()) {
             //si es admin
             Optional<Usuario> userOptional = reposUser.findById(id);
             if (userOptional.isPresent()) {
-                reposUser.deleteById(id);;
-
+                reposUser.deleteById(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("Usuario eliminado correctamente.");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el usuario correspondiente.");
             }
-
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 }

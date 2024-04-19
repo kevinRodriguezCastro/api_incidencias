@@ -19,8 +19,9 @@ import java.util.Map;
 public class JwtService {
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String getToken(UserDetails user,String rol) {
+    public String getToken(UserDetails user, String rol, Long id) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", id);
         claims.put("rol", rol);
         return getToken(claims, user);
     }
@@ -41,6 +42,10 @@ public class JwtService {
 
     public String getRoleFromToken(String token) {
         return getClaim(token, claims -> claims.get("rol", String.class));
+    }
+
+    public Long getIdFromToken(String token) {
+        return getClaim(token, claims -> claims.get("id", Long.class)); // Cambiado para obtener el Long directamente
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -73,3 +78,4 @@ public class JwtService {
         T apply(Claims claims);
     }
 }
+

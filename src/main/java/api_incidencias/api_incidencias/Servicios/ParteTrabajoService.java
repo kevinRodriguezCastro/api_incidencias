@@ -14,13 +14,28 @@ import java.util.Optional;
 public class ParteTrabajoService {
     @Autowired
     private RepositorioParteTrabajo reposParteTrabajo;
+    @Autowired
+    private Seguridad seguridad;
 
+    /**
+     * solo trabajadores
+     * @param parteTb
+     * @return
+     */
     public ParteTrabajo addParteTrabajo(ParteTrabajo parteTb){
+        if (seguridad.isTrabajador())
         return reposParteTrabajo.save(parteTb);
+        return null;
     }
 
+    /**
+     * solo trabajadores
+     * @return
+     */
     public List<ParteTrabajo> getPartesTrabajo(){
+        if (seguridad.isTrabajador())
         return reposParteTrabajo.findAll();
+        return null;
     }
 
 
@@ -28,12 +43,18 @@ public class ParteTrabajoService {
         return reposParteTrabajo.findByIdIncidencia(idIncidencia);
     }
 
-
     public Optional<ParteTrabajo> getPartesTrabajoPorId(Long idOrden){
         return reposParteTrabajo.findById(idOrden);
     }
 
+    /**
+     * solo admin
+     * @param idOrden
+     * @param parteTb
+     * @return
+     */
     public ParteTrabajo updateParteTrabajo(Long idOrden, ParteTrabajo parteTb){
+        if (seguridad.isAdmin()) {
             Optional<ParteTrabajo> parteTbExistenteOptional = reposParteTrabajo.findById(idOrden);
 
             if (parteTbExistenteOptional.isPresent()) {
@@ -57,15 +78,22 @@ public class ParteTrabajoService {
             } else {
                 throw new IllegalArgumentException("El parteTrabajo con el ID proporcionado no existe.");
             }
-
+        }
+        throw new IllegalArgumentException("No eres admin.");
     }
 
+    /**
+     * solo admin
+     * @param idOrden
+     * @return
+     */
     public ResponseEntity<String> deleteParteTrabajo(Long idOrden){
-
+        if(seguridad.isAdmin()) {
             Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
 
             if (parteTb.isPresent()) {
-                reposParteTrabajo.deleteById(idOrden);;
+                reposParteTrabajo.deleteById(idOrden);
+                ;
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("ParteTrabajo eliminado correctamente.");
@@ -73,5 +101,8 @@ public class ParteTrabajoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el parteTrabajo correspondiente.");
             }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 }

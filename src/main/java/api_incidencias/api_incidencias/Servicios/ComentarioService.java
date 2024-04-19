@@ -15,9 +15,6 @@ public class ComentarioService {
     @Autowired
     private RepositorioComentario reposComentario;
 
-
-
-
     public Comentario addComentario(Comentario comentario){
         return reposComentario.save(comentario);
     }
@@ -29,8 +26,6 @@ public class ComentarioService {
     public Optional<Comentario> getComentarioPorId(Long idComentario){
         return reposComentario.findById(idComentario);
     }
-
-
     public List<Comentario> getComentarioPorIncidencia(Long idIncedencia){
         return reposComentario.findByIncidencia(idIncedencia);
     }
