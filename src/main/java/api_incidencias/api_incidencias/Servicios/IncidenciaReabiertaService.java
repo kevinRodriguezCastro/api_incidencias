@@ -15,7 +15,8 @@ public class IncidenciaReabiertaService {
     @Autowired
     private RepositorioIncidenciaReabierta reposIncidenciaReabierta;
 
-
+    @Autowired
+    private Seguridad seguridad;
 
     public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
         String id = generarId(incidenciaReabierta);
@@ -28,9 +29,9 @@ public class IncidenciaReabiertaService {
      * @return
      */
     public List<IncidenciaReabierta> getIncidenciasReabiertas(){
-
+        if (seguridad.isTrabajador())
             return reposIncidenciaReabierta.findAll();
-
+        return null;
     }
 
     public Optional<IncidenciaReabierta> getIncidenciasReabiertas(String idIncidenciaReabierta){
@@ -48,7 +49,7 @@ public class IncidenciaReabiertaService {
      * @return
      */
     public IncidenciaReabierta updateIncidenciaReabierta(String idIncidenciaReabierta, IncidenciaReabierta incidenciaReabierta){
-
+        if(seguridad.isAdmin()) {
             Optional<IncidenciaReabierta> incidenciaOptional = reposIncidenciaReabierta.findById(idIncidenciaReabierta);
 
             if (incidenciaOptional.isPresent()) {
@@ -67,8 +68,8 @@ public class IncidenciaReabiertaService {
             } else {
                 throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
             }
-
-
+        }
+        throw new IllegalArgumentException("No eres admin.");
     }
 
     /**
@@ -77,17 +78,20 @@ public class IncidenciaReabiertaService {
      * @return
      */
     public ResponseEntity<String> deleteIncidenciaReabierta(String id){
+        if (seguridad.isAdmin()) {
 
             Optional<IncidenciaReabierta> incidenciaReabierta = reposIncidenciaReabierta.findById(id);
             if (incidenciaReabierta.isPresent()) {
-                reposIncidenciaReabierta.deleteById(id);;
-
+                reposIncidenciaReabierta.deleteById(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("Incidencia eliminado correctamente.");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró la incidencia correspondiente.");
             }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 
     private String generarId(IncidenciaReabierta incidenciaReabierta){

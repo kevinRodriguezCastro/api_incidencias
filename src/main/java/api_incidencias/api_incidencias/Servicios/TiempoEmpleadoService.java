@@ -13,17 +13,18 @@ import java.util.Optional;
 public class TiempoEmpleadoService {
     @Autowired
     private RepositorioTiempoEmpleado repositorioTiempoEmpleado;
-
+    @Autowired
+    private Seguridad seguridad;
     public TiempoEmpleado addTiempoEmpleado(TiempoEmpleado tiempoEmpleado){
-
+        if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.save(tiempoEmpleado);
-
+        return null;
     }
 
     public List<TiempoEmpleado> getTiempoEmpleado(){
-
+        if (seguridad.isTrabajador())
         return repositorioTiempoEmpleado.findAll();
-
+        return null;
     }
 
     public Optional<TiempoEmpleado> getTiempoEmpleadoPorId(Long id){
@@ -38,7 +39,7 @@ public class TiempoEmpleadoService {
 
     }
     public TiempoEmpleado updateTiempoEmpleado(Long idTiempoEmpleado, TiempoEmpleado tiempoEmpleado){
-
+        if (seguridad.isAdmin()) {
             Optional<TiempoEmpleado> optional = repositorioTiempoEmpleado.findById(idTiempoEmpleado);
 
             if (optional.isPresent()) {
@@ -60,15 +61,16 @@ public class TiempoEmpleadoService {
             } else {
                 throw new IllegalArgumentException("El tiempo empleado con el ID proporcionado no existe.");
             }
-
-
+        }
+        throw new IllegalArgumentException("No tienes permisos.");
     }
 
     public ResponseEntity<String> deleteTiempoUsado(Long id){
+        if (seguridad.isAdmin()) {
             Optional<TiempoEmpleado> tiempoEmpleado = repositorioTiempoEmpleado.findById(id);
 
             if (tiempoEmpleado.isPresent()) {
-                repositorioTiempoEmpleado.deleteById(id);;
+                repositorioTiempoEmpleado.deleteById(id);
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("Tiempo usado eliminado correctamente.");
@@ -76,6 +78,9 @@ public class TiempoEmpleadoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el tiempo empleado correspondiente.");
             }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 
 }

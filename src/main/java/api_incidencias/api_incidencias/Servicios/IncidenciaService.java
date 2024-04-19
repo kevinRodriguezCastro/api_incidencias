@@ -16,11 +16,8 @@ public class IncidenciaService {
 
     @Autowired
     private RepositorioIncidencia reposIncidencia;
-
-
-
-
-
+    @Autowired
+    private Seguridad seguridad;
     public Incidencia addIncidencia(Incidencia incidencia){
         return reposIncidencia.save(incidencia);
     }
@@ -30,7 +27,9 @@ public class IncidenciaService {
      * @return
      */
     public List<Incidencia> getIncidencias() {
+        if (seguridad.isTrabajador())
             return reposIncidencia.findAll();
+        return null;
     }
     public List<Incidencia> getIncidenciasCliente(Long idCliente){
         return reposIncidencia.findByCliente(idCliente);
@@ -42,38 +41,40 @@ public class IncidenciaService {
 
 
     /**
-     * Solo se puede editar si la incidencia esta abierta
+     * Solo se puede editar si la incidencia esta abierta y es el mismo o tranajador
      * @param idIncidencia
      * @param incidencia
      * @return
      */
     public Incidencia updateIncidencia(Long idIncidencia, Incidencia incidencia) {
-        Optional<Incidencia> incidenciaExistenteOptional = reposIncidencia.findById(idIncidencia);
+        if (seguridad.isTrabajador() ||seguridad.isElMismo(incidencia.getUsuarioCliente().getCorreoElectronico())) {
+            Optional<Incidencia> incidenciaExistenteOptional = reposIncidencia.findById(idIncidencia);
 
-        if (incidenciaExistenteOptional.isPresent()) {
-            Incidencia incidenciaExistente = incidenciaExistenteOptional.get();
+            if (incidenciaExistenteOptional.isPresent()) {
+                Incidencia incidenciaExistente = incidenciaExistenteOptional.get();
 
-            //Si la incidencia es aceptada o finalizada no se podra modificar
-            if (incidencia.getEstado() != Estado.abierto) {
+                //Si la incidencia es aceptada o finalizada no se podra modificar
+                if (incidencia.getEstado() != Estado.pendiente) {
 
-                if (idIncidencia.equals(incidencia.getIdIncidencia())) {
-                    // Actualizo los atributos del libro existente con los del libro proporcionado
-                    incidenciaExistente.setTitulo(incidencia.getTitulo());
-                    incidenciaExistente.setDescripcion(incidencia.getDescripcion());
-                    incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
-                    incidenciaExistente.setEstado(incidencia.getEstado());
-                    incidenciaExistente.setPrioridad(incidencia.getPrioridad());
-                    incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
-                    // Guarda el usuario actualizado en el repositorio
-                    return reposIncidencia.save(incidenciaExistente);
-                } else {
-                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
+                    if (idIncidencia.equals(incidencia.getIdIncidencia())) {
+                        // Actualizo los atributos del libro existente con los del libro proporcionado
+                        incidenciaExistente.setTitulo(incidencia.getTitulo());
+                        incidenciaExistente.setDescripcion(incidencia.getDescripcion());
+                        incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
+                        incidenciaExistente.setEstado(incidencia.getEstado());
+                        incidenciaExistente.setPrioridad(incidencia.getPrioridad());
+                        incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
+                        // Guarda el usuario actualizado en el repositorio
+                        return reposIncidencia.save(incidenciaExistente);
+                    } else {
+                        throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
+                    }
                 }
+            } else {
+                throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
             }
-        } else {
-            throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
         }
-        return null;
+            return null;
     }
 
     /**
@@ -82,7 +83,7 @@ public class IncidenciaService {
      * @return
      */
     public ResponseEntity<String> deleteIncidencia(Long id){
-
+        if (seguridad.isAdmin()) {
             Optional<Incidencia> incidencia = reposIncidencia.findById(id);
             if (incidencia.isPresent()) {
                 reposIncidencia.deleteById(id);
@@ -93,6 +94,9 @@ public class IncidenciaService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró la incidencia correspondiente.");
             }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 
 }

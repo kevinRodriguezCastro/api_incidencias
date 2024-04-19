@@ -1,6 +1,7 @@
 package api_incidencias.api_incidencias.Controladores;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -18,7 +19,8 @@ import java.util.Optional;
 public class UsuarioControlador {
     @Autowired
     private UsuarioService userServicio;
-
+    @Autowired
+    private Seguridad seguridad;
 
 
     /*

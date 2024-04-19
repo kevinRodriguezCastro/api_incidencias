@@ -2,9 +2,12 @@ package api_incidencias.api_incidencias.Auth;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
+import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
+import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.TrabajadorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +36,8 @@ public class AuthService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authManager;
-
-    //private Seguridad seguridad;
+    @Autowired
+    private Seguridad seguridad;
     @Autowired
     private TrabajadorService trabajadorService;
     @Autowired
@@ -41,9 +45,19 @@ public class AuthService {
 
 
     public AuthResponse login(LoginRequest request){
+        String rol;
         authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCorreoElectronico(), request.getContrasena()));
-        UserDetails userLogueado = reposUser.findByEmail(request.getCorreoElectronico()).orElseThrow();
-        String tokenUser = jwtService.getToken(userLogueado);
+        Optional<Usuario> optional = reposUser.findByEmail(request.getCorreoElectronico());
+        UserDetails userLogueado = optional.orElseThrow();
+
+        if (trabajadorService.getTrabajador(optional.get().getIdUsuario()).isPresent()){
+            Rol r = trabajadorService.getTrabajador(optional.get().getIdUsuario()).get().getRol();
+            rol = r.name();
+        }else {
+            rol = "cliente";
+        }
+
+        String tokenUser = jwtService.getToken(userLogueado,rol,optional.get().getIdUsuario());
 
         return AuthResponse.builder().token(tokenUser).build();
     }
@@ -80,7 +94,7 @@ public class AuthService {
                 .pais(request.getPais())
                 .build();
          */
-        System.out.println("Registramos cleinte");
+
 
         Cliente newCliente = new Cliente();
         newCliente.setDni(request.getDni());
@@ -99,24 +113,22 @@ public class AuthService {
         // Guardamos el usuario usando el repositorio del usuario
         clienteService.addCliente(newCliente);
 
-        System.out.println("cliente guardado");
+        Long id = clienteService.getCliente(newCliente.getCorreoElectronico()).get().getIdUsuario();
 
         // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
         return AuthResponse.builder()
-                .token(jwtService.getToken(newCliente))
+                .token(jwtService.getToken(newCliente,"cliente",id))
                 .build();
     }
 
     /**
-     * Solo admin y tecnicos jefe
+     * Solo admin
      * @param request
      * @return
      */
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
        // seguridad = new Seguridad();
-       // if (seguridad.isTecnicoJefe()  || seguridad.isAdmin()){
-
-            System.out.println("Estoy aqui Admin o TecnicoJefe");
+        if (seguridad.isAdmin()){
 
             Trabajador newTrabajador = new Trabajador();
 
@@ -132,12 +144,14 @@ public class AuthService {
             // Guardamos el usuario usando el repositorio del usuario
             trabajadorService.addTrabajador(newTrabajador);
 
+            Long id = trabajadorService.getTrabajador(newTrabajador.getCorreoElectronico()).get().getIdUsuario();
+
             // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
             return AuthResponse.builder()
-                    .token(jwtService.getToken(newTrabajador))
+                    .token(jwtService.getToken(newTrabajador,newTrabajador.getRol().name(),id))
                     .build();
         }
-
-    //}
+        return null;
+    }
 
 }
