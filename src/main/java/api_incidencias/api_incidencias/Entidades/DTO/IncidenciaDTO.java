@@ -10,7 +10,7 @@ public class IncidenciaDTO {
     private String titulo;
     private String descripcion;
     // private LocalDateTime fechaCreacion;
-    private Estado estado;
+    //private Estado estado;
     private Prioridad prioridad;
     //private Long idUsuarioCliente;
 
@@ -39,14 +39,6 @@ public class IncidenciaDTO {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
     }
 
     public Prioridad getPrioridad() {
