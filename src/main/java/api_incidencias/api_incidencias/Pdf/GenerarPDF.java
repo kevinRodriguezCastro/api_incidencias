@@ -39,7 +39,7 @@ public class GenerarPDF {
          emailCliente = clienteTmp.getCorreoElectronico();
          telefonoCLiente = clienteTmp.getTelefono();
 
-         cliente = " cliente: "+nombreCliente + apellidosCliente +"\n"
+         cliente = " cliente: "+nombreCliente +" "+ apellidosCliente +"\n"
                     +" dni: "+clienteTmp.getDni()
                     +" telefono: "+telefonoCLiente + "\n"
                     +" correo: "+emailCliente +"\n"

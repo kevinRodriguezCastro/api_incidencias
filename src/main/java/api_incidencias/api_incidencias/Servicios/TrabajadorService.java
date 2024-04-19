@@ -16,7 +16,8 @@ import java.util.Optional;
 public class TrabajadorService {
     @Autowired
     private RepositorioTrabajador reposTrabajador;
-
+    @Autowired
+    private Seguridad seguridad;
     public Trabajador addTrabajador(Trabajador trabajador){
         return reposTrabajador.save(trabajador);
     }
@@ -34,7 +35,7 @@ public class TrabajadorService {
 
     public Trabajador updateTrabajador(Long idUser, Trabajador trabajador){
         //reposUser.save(user);
-
+        if (seguridad.isAdmin()) {
             Optional<Trabajador> trabajadorExistenteOptional = reposTrabajador.findById(idUser);
 
             if (trabajadorExistenteOptional.isPresent()) {
@@ -59,17 +60,19 @@ public class TrabajadorService {
                 }
             } else {
                 throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
-
             }
-
+        }
+        throw new IllegalArgumentException("No tienes permisos.");
     }
 
     public ResponseEntity<String> deleteTrabajador(Long id){
+        if (seguridad.isAdmin()) {
 
             Optional<Trabajador> userOptional = reposTrabajador.findById(id);
 
             if (userOptional.isPresent()) {
-                reposTrabajador.deleteById(id);;
+                reposTrabajador.deleteById(id);
+                ;
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("Usuario eliminado correctamente.");
@@ -77,6 +80,9 @@ public class TrabajadorService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el usuario correspondiente.");
             }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 
 }

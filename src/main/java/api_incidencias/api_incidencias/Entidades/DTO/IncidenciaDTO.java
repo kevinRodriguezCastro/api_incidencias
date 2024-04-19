@@ -9,10 +9,10 @@ public class IncidenciaDTO {
     private Long idIncidencia;
     private String titulo;
     private String descripcion;
-    private LocalDateTime fechaCreacion;
+    // private LocalDateTime fechaCreacion;
     private Estado estado;
     private Prioridad prioridad;
-    private Long idUsuarioCliente;
+    //private Long idUsuarioCliente;
 
 
     /************************************ Getters y Setters ********************************************/
@@ -41,14 +41,6 @@ public class IncidenciaDTO {
         this.descripcion = descripcion;
     }
 
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
     public Estado getEstado() {
         return estado;
     }
@@ -63,14 +55,6 @@ public class IncidenciaDTO {
 
     public void setPrioridad(Prioridad prioridad) {
         this.prioridad = prioridad;
-    }
-
-    public Long getIdUsuarioCliente() {
-        return idUsuarioCliente;
-    }
-
-    public void setIdUsuarioCliente(Long idUsuarioCliente) {
-        this.idUsuarioCliente = idUsuarioCliente;
     }
 
 }

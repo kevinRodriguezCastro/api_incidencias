@@ -7,6 +7,7 @@ import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import api_incidencias.api_incidencias.Servicios.ClienteService;
+import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.TrabajadorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class AuthService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authManager;
-
-    //private Seguridad seguridad;
+    @Autowired
+    private Seguridad seguridad;
     @Autowired
     private TrabajadorService trabajadorService;
     @Autowired
@@ -56,7 +57,7 @@ public class AuthService {
             rol = "cliente";
         }
 
-        String tokenUser = jwtService.getToken(userLogueado,rol);
+        String tokenUser = jwtService.getToken(userLogueado,rol,optional.get().getIdUsuario());
 
         return AuthResponse.builder().token(tokenUser).build();
     }
@@ -93,7 +94,7 @@ public class AuthService {
                 .pais(request.getPais())
                 .build();
          */
-        System.out.println("Registramos cleinte");
+
 
         Cliente newCliente = new Cliente();
         newCliente.setDni(request.getDni());
@@ -112,24 +113,22 @@ public class AuthService {
         // Guardamos el usuario usando el repositorio del usuario
         clienteService.addCliente(newCliente);
 
-        System.out.println("cliente guardado");
+        Long id = clienteService.getCliente(newCliente.getCorreoElectronico()).get().getIdUsuario();
 
         // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
         return AuthResponse.builder()
-                .token(jwtService.getToken(newCliente,"cliente"))
+                .token(jwtService.getToken(newCliente,"cliente",id))
                 .build();
     }
 
     /**
-     * Solo admin y tecnicos jefe
+     * Solo admin
      * @param request
      * @return
      */
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
        // seguridad = new Seguridad();
-       // if (seguridad.isTecnicoJefe()  || seguridad.isAdmin()){
-
-            System.out.println("Estoy aqui Admin o TecnicoJefe");
+        if (seguridad.isAdmin()){
 
             Trabajador newTrabajador = new Trabajador();
 
@@ -145,12 +144,14 @@ public class AuthService {
             // Guardamos el usuario usando el repositorio del usuario
             trabajadorService.addTrabajador(newTrabajador);
 
+            Long id = trabajadorService.getTrabajador(newTrabajador.getCorreoElectronico()).get().getIdUsuario();
+
             // Retornamos el objeto usuario creado junto con el token que obtenemos mediante el servicio JWT
             return AuthResponse.builder()
-                    .token(jwtService.getToken(newTrabajador,newTrabajador.getRol().name()))
+                    .token(jwtService.getToken(newTrabajador,newTrabajador.getRol().name(),id))
                     .build();
         }
-
-    //}
+        return null;
+    }
 
 }

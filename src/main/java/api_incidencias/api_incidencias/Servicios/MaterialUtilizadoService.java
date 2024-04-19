@@ -13,27 +13,52 @@ import java.util.Optional;
 public class MaterialUtilizadoService {
     @Autowired
     private RepositorioMaterialUtilizado repositorioMaterialUtilizado;
+    @Autowired
+    private Seguridad seguridad;
 
+    /**
+     * solo trabajador
+     * @param materialUtilizado
+     * @return
+     */
     public MaterialUtilizado addMaterialUtilizado(MaterialUtilizado materialUtilizado){
+        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.save(materialUtilizado);
+        return null;
     }
 
+    /**
+     * solo trabajador
+     * @return
+     */
     public List<MaterialUtilizado> getMaterialUtilizados(){
-
+        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.findAll();
-
+        return null;
     }
 
+    /**
+     * solo trabajador
+     * @param id
+     * @return
+     */
     public Optional<MaterialUtilizado> getMaterialUtilizados(Long id){
-
+        if (seguridad.isTrabajador())
         return repositorioMaterialUtilizado.findById(id);
-
+        return null;
     }
     public List<MaterialUtilizado> getMaterialUtilizadosOrden(Long idOrden){
         return repositorioMaterialUtilizado.findByIdOrden(idOrden);
     }
 
+    /**
+     * solo admin
+     * @param idMaterialutilizado
+     * @param materialUtilizado
+     * @return
+     */
     public MaterialUtilizado updateMaterialUtilizado(Long idMaterialutilizado, MaterialUtilizado materialUtilizado){
+        if (seguridad.isAdmin()) {
 
             Optional<MaterialUtilizado> optional = repositorioMaterialUtilizado.findById(idMaterialutilizado);
 
@@ -54,14 +79,22 @@ public class MaterialUtilizadoService {
             } else {
                 throw new IllegalArgumentException("El material con el ID proporcionado no existe.");
             }
+        }
+        throw new IllegalArgumentException("No eres admin");
     }
 
+    /**
+     * solo admin
+     * @param id
+     * @return
+     */
     public ResponseEntity<String> deleteMaterialUtilizado(Long id){
-
+        if (seguridad.isAdmin()) {
             Optional<MaterialUtilizado> materialUtilizado = repositorioMaterialUtilizado.findById(id);
 
             if (materialUtilizado.isPresent()) {
-                repositorioMaterialUtilizado.deleteById(id);;
+                repositorioMaterialUtilizado.deleteById(id);
+                ;
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("Material eliminado correctamente.");
@@ -69,5 +102,8 @@ public class MaterialUtilizadoService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontró el material correspondiente.");
             }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("No tienes permisos.");
     }
 }
