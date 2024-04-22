@@ -34,9 +34,10 @@ public class TiempoEmpleadoService {
     }
 
     public List<TiempoEmpleado> getTiempoEmpleadoPorIdOrden(Long idOrdenParteTb){
-
         return repositorioTiempoEmpleado.findByIdOrden(idOrdenParteTb);
-
+    }
+    public List<TiempoEmpleado> getTiempoEmpleadoNoTerminado(Long idOrdenParteTb){
+        return repositorioTiempoEmpleado.findByTiempoNoTerminado(seguridad.getIdUsuario(),idOrdenParteTb);
     }
     public TiempoEmpleado updateTiempoEmpleado(Long idTiempoEmpleado, TiempoEmpleado tiempoEmpleado){
         if (seguridad.isAdmin()) {
