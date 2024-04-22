@@ -1,8 +1,5 @@
 package api_incidencias.api_incidencias.Entidades.DTO;
 
-import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
-
-
 public class ParteTrabajoDTO {
     private Long idOrden;
     private String trabajoRealizado;
