@@ -6,10 +6,7 @@ import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Entidades.DTO.ParteTrabajoDTO;
 import api_incidencias.api_incidencias.Pdf.GenerarPDF;
-import api_incidencias.api_incidencias.Servicios.IncidenciaService;
-import api_incidencias.api_incidencias.Servicios.ParteTrabajoService;
-import api_incidencias.api_incidencias.Servicios.TrabajadorService;
-import api_incidencias.api_incidencias.Servicios.UsuarioService;
+import api_incidencias.api_incidencias.Servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +25,8 @@ public class ParteTrabajoControlador {
     private IncidenciaService incidenciaServicio;
     @Autowired
     private TrabajadorService trabajadorService;
+    @Autowired
+    private Seguridad seguridad;
 
     @GetMapping
     public List<ParteTrabajo> getPartesTrabajo(){
@@ -42,6 +41,11 @@ public class ParteTrabajoControlador {
     @GetMapping("/incidencia/{idIncidencia}")
     public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
         return parteTrabajoServicio.getPartesTrabajoPorIncidencia(idIncidencia);
+    }
+
+    @GetMapping("/incidencia-no-terminada/{idIncidencia}")
+    public List<ParteTrabajo> getPartesTrabajoNoTerminado(@PathVariable("idIncidencia") Long idIncidencia){
+        return parteTrabajoServicio.getPartesTrabajosNoTerminado(seguridad.getIdUsuario(),idIncidencia);
     }
 
     @GetMapping(value = "/generar-pdf/{idOrden}", produces = MediaType.APPLICATION_PDF_VALUE)
@@ -101,7 +105,7 @@ public class ParteTrabajoControlador {
         parteTrabajo.setObservaciones(parteTrabajoDTO.getObservaciones());
         parteTrabajo.setCosteReparacion(parteTrabajoDTO.getCosteReparacion());
         parteTrabajo.setParteTrabajoImg(parteTrabajoDTO.getParteTrabajoImg());
-
+        parteTrabajo.setTerminado(parteTrabajoDTO.isTerminado());
         return parteTrabajo;
     }
 

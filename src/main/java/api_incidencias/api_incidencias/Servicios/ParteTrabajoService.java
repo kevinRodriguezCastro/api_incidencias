@@ -47,6 +47,10 @@ public class ParteTrabajoService {
         return reposParteTrabajo.findById(idOrden);
     }
 
+    public List<ParteTrabajo> getPartesTrabajosNoTerminado(Long idUsuario,Long idIncidencia){
+        return reposParteTrabajo.findByNoTerminado(idUsuario,idIncidencia);
+    }
+
     /**
      * solo admin
      * @param idOrden
@@ -68,6 +72,7 @@ public class ParteTrabajoService {
                     parteTbExistente.setCosteReparacion(parteTb.getCosteReparacion());
                     parteTbExistente.setParteTrabajoImg(parteTb.getParteTrabajoImg());
                     parteTbExistente.setTecnico(parteTb.getTecnico());
+                    parteTbExistente.setTerminado(parteTb.isTerminado());
                     //parteTbExistente.setIncidencia(parteTb.getIncidencia());
 
                     // Guarda el parte de trabajo actualizado en el repositorio

@@ -12,6 +12,7 @@ public class ParteTrabajoDTO {
     private String parteTrabajoImg;
     private Long idIncidencia;
     private Long idTecnico;
+    private boolean terminado;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -77,5 +78,13 @@ public class ParteTrabajoDTO {
 
     public void setIdTecnico(Long idTecnico) {
         this.idTecnico = idTecnico;
+    }
+
+    public boolean isTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(boolean terminado) {
+        this.terminado = terminado;
     }
 }
