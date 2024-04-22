@@ -11,4 +11,6 @@ public interface RepositorioParteTrabajo extends JpaRepository<ParteTrabajo, Lon
     @Query("SELECT p FROM ParteTrabajo p WHERE p.incidencia.idIncidencia = ?1")
     List<ParteTrabajo> findByIdIncidencia(Long idIncidencia);
 
+    @Query("SELECT p FROM ParteTrabajo p WHERE p.tecnico.idUsuario = ?1 AND p.incidencia.idIncidencia = ?2 AND p.terminado = false")
+    List<ParteTrabajo> findByNoTerminado(Long idUsuario, Long idIncidencia);
 }

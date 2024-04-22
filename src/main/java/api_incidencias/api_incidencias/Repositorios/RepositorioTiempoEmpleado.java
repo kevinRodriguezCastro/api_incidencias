@@ -11,4 +11,7 @@ import java.util.List;
 public interface RepositorioTiempoEmpleado extends JpaRepository<TiempoEmpleado, Long> {
     @Query("SELECT t FROM TiempoEmpleado t WHERE t.parteTrabajo.idOrden = ?1")
     List<TiempoEmpleado> findByIdOrden(Long idOrden);
+
+    @Query("SELECT t FROM TiempoEmpleado t WHERE t.parteTrabajo.tecnico.idUsuario = ?1 AND t.parteTrabajo.idOrden = ?2 and t.horaSalida IS NULL")
+    List<TiempoEmpleado> findByTiempoNoTerminado(Long idUsuario,Long idOrden);
 }

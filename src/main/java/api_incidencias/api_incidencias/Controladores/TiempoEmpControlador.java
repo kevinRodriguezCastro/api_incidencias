@@ -36,6 +36,10 @@ public class TiempoEmpControlador {
     public List<TiempoEmpleado> getTiempoEmpleadoPorIdOrden(@PathVariable("idOrden") Long idOrden){
         return tiempoEmpleadoServicio.getTiempoEmpleadoPorIdOrden(idOrden);
     }
+    @GetMapping("parte-trabajo-no-terminado/{idOrden}")
+    public List<TiempoEmpleado> getTiempoEmpleadoNoTerminado(@PathVariable("idOrden") Long idOrden){
+        return tiempoEmpleadoServicio.getTiempoEmpleadoNoTerminado(idOrden);
+    }
 
     @PostMapping
     public ResponseEntity<TiempoEmpleado> crearTiempoEmpleado(@RequestBody TiempoEmpleadoDTO timepoEmpDTO){

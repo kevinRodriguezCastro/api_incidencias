@@ -22,7 +22,6 @@ public class Incidencia {
     @Column(name = "Descripcion")
     private String descripcion;
     @Column(name = "Fecha_Creacion")
-    @JsonIgnore
     private LocalDateTime fechaCreacion;
     @Enumerated(EnumType.STRING)
     @Column(name = "Estado")

@@ -29,6 +29,9 @@ public class ParteTrabajo {
     @JoinColumn(name = "id_tecnico")
     private Trabajador tecnico;
 
+    @Column(name = "terminado")
+    private boolean terminado;
+
     @OneToMany(mappedBy = "parteTrabajo")
     @JsonIgnore
     private List<TiempoEmpleado> listaTiempoEmpleados;
@@ -117,5 +120,13 @@ public class ParteTrabajo {
 
     public void setTecnico(Trabajador tecnico) {
         this.tecnico = tecnico;
+    }
+
+    public boolean isTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(boolean terminado) {
+        this.terminado = terminado;
     }
 }
