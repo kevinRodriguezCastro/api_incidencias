@@ -94,10 +94,11 @@ public class IncidenciaControlador {
         incidencia.setTitulo(incidenciaDTO.getTitulo());
         incidencia.setDescripcion(incidenciaDTO.getDescripcion());
         incidencia.setFechaCreacion(LocalDateTime.now());
-        incidencia.setEstado(Estado.terminado);
+        incidencia.setEstado(incidenciaDTO.getEstado());
         incidencia.setPrioridad(incidenciaDTO.getPrioridad());
 
         Optional<Cliente> optionalCliente = clienteServicio.getCliente(seguridad.getIdUsuario());
+
         if (optionalCliente.isPresent()){
             incidencia.setUsuarioCliente(optionalCliente.get());
         }
