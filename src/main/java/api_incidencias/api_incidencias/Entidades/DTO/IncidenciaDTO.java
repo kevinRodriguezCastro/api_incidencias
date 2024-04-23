@@ -10,7 +10,6 @@ public class IncidenciaDTO {
     private String titulo;
     private String descripcion;
     // private LocalDateTime fechaCreacion;
-    //private Estado estado;
     private Prioridad prioridad;
     //private Long idUsuarioCliente;
 
