@@ -127,8 +127,8 @@ public class AuthService {
      * @return
      */
     public AuthResponse registrarTrabajador(RegisterRequest_Trabajador request){
-       // seguridad = new Seguridad();
-        if (seguridad.isAdmin()){
+
+      //  if (seguridad.isAdmin()){
 
             Trabajador newTrabajador = new Trabajador();
 
@@ -151,7 +151,7 @@ public class AuthService {
                     .token(jwtService.getToken(newTrabajador,newTrabajador.getRol().name(),id))
                     .build();
         }
-        return null;
-    }
+       // return null;
+   // }
 
 }

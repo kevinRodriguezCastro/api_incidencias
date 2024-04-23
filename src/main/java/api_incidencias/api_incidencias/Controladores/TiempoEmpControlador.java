@@ -52,7 +52,7 @@ public class TiempoEmpControlador {
 
     @PutMapping("/{idTiempoEmpleado}")
     public ResponseEntity<TiempoEmpleado> actualizarTiempoEmpleado(@PathVariable Long idTiempoEmpleado, @RequestBody TiempoEmpleadoDTO timepoEmpDTO) {
-
+        System.out.println("holaa id = "+idTiempoEmpleado);
         TiempoEmpleado tiempoEmpleado = cargarDTO(timepoEmpDTO);
 
         TiempoEmpleado tiempoEmpActualizado = tiempoEmpleadoServicio.updateTiempoEmpleado(idTiempoEmpleado, tiempoEmpleado);
