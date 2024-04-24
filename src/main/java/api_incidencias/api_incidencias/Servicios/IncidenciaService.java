@@ -50,12 +50,21 @@ public class IncidenciaService {
         if (seguridad.isTrabajador() ||seguridad.isElMismo(incidencia.getUsuarioCliente().getCorreoElectronico())) {
             Optional<Incidencia> incidenciaExistenteOptional = reposIncidencia.findById(idIncidencia);
 
+            System.out.println(" Estoy dentro del update incidencia "+ seguridad.getRol());
+
+            System.out.println("El estado que ha entrado es : "+incidencia.getEstado().name());
+
+
+
             if (incidenciaExistenteOptional.isPresent()) {
                 Incidencia incidenciaExistente = incidenciaExistenteOptional.get();
 
-                //Si la incidencia es aceptada o finalizada no se podra modificar
-                if (incidencia.getEstado() != Estado.pendiente) {
+                Optional<Incidencia> incidenciaOriginal = getIncidencias(idIncidencia);
 
+                Estado estadoOriginal = incidenciaOriginal.get().getEstado();
+
+                //Si la incidencia es aceptada o finalizada no se podra modificar
+                if (estadoOriginal == Estado.pendiente) {
                     if (idIncidencia.equals(incidencia.getIdIncidencia())) {
                         // Actualizo los atributos del libro existente con los del libro proporcionado
                         incidenciaExistente.setTitulo(incidencia.getTitulo());
@@ -69,6 +78,8 @@ public class IncidenciaService {
                     } else {
                         throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
                     }
+                }else{
+
                 }
             } else {
                 throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
