@@ -1,5 +1,6 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class MaterialUtilizado {
     private double coste;
     @ManyToOne
     @JoinColumn(name = "id_orden")
+    @JsonBackReference
     private ParteTrabajo parteTrabajo;
 
     /************************************ Getters y Setters ********************************************/
