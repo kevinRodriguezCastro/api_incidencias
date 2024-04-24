@@ -84,8 +84,9 @@ public class IncidenciaService {
             } else {
                 throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
             }
+
         }
-            return null;
+        return null;
     }
 
     /**

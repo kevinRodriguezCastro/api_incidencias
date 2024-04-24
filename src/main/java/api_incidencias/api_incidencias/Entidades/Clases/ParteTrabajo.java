@@ -1,6 +1,7 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -33,11 +34,13 @@ public class ParteTrabajo {
     private boolean terminado;
 
     @OneToMany(mappedBy = "parteTrabajo")
-    @JsonIgnore
+    @JsonManagedReference
+    //@JsonIgnore
     private List<TiempoEmpleado> listaTiempoEmpleados;
 
     @OneToMany(mappedBy = "parteTrabajo")
-    @JsonIgnore
+    @JsonManagedReference
+    //@JsonIgnore
     private List<MaterialUtilizado> listaMaterialUtilizado;
 
     /************************************ Getters y Setters ********************************************/
