@@ -18,11 +18,11 @@ public class IncidenciaReabiertaService {
     @Autowired
     private Seguridad seguridad;
 
-    public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
+    /*public IncidenciaReabierta addIncidenciaReabierta(IncidenciaReabierta incidenciaReabierta){
         String id = generarId(incidenciaReabierta);
         incidenciaReabierta.setIdIncidenciaReabierta(id);
         return reposIncidenciaReabierta.save(incidenciaReabierta);
-    }
+    }*/
 
     /**
      * solo trabajadores
@@ -94,7 +94,7 @@ public class IncidenciaReabiertaService {
                 .body("No tienes permisos.");
     }
 
-    private String generarId(IncidenciaReabierta incidenciaReabierta){
+   /* private String generarId(IncidenciaReabierta incidenciaReabierta){
         Long idIncidencia = incidenciaReabierta.getIncidenciaPrincipal().getIdIncidencia();
         List<IncidenciaReabierta> listaIncidenciasReabiertas = getIncidenciasReabiertas(idIncidencia);
         String id;
@@ -109,5 +109,5 @@ public class IncidenciaReabiertaService {
         }
         return id;
     }
-
+*/
 }

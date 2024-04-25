@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+/*@RestController
 @RequestMapping(path = "api/v1/incidencias-reabiertas")
 public class IncidReabiertaControlador {
     @Autowired
@@ -74,3 +74,4 @@ public class IncidReabiertaControlador {
         return incidenciaReabierta;
     }
 }
+*/

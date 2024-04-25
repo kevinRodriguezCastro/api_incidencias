@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class ComentarioDTO {
 
     private Long ID_Comentario;
-    private Long idIncidencia;
+    private String idIncidencia;
     private Long idUsuario;
     private String Contenido;
     private LocalDateTime FechaPublicacion;
@@ -19,11 +19,11 @@ public class ComentarioDTO {
         this.ID_Comentario = ID_Comentario;
     }
 
-    public Long getIdIncidencia() {
+    public String getIdIncidencia() {
         return idIncidencia;
     }
 
-    public void setIdIncidencia(Long idIncidencia) {
+    public void setIdIncidencia(String idIncidencia) {
         this.idIncidencia = idIncidencia;
     }
 

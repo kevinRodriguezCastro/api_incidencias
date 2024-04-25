@@ -39,12 +39,12 @@ public class ParteTrabajoControlador {
     }
 
     @GetMapping("/incidencia/{idIncidencia}")
-    public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
+    public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") String idIncidencia){
         return parteTrabajoServicio.getPartesTrabajoPorIncidencia(idIncidencia);
     }
 
     @GetMapping("/incidencia-no-terminada/{idIncidencia}")
-    public List<ParteTrabajo> getPartesTrabajoNoTerminado(@PathVariable("idIncidencia") Long idIncidencia){
+    public List<ParteTrabajo> getPartesTrabajoNoTerminado(@PathVariable("idIncidencia") String idIncidencia){
         return parteTrabajoServicio.getPartesTrabajosNoTerminado(seguridad.getIdUsuario(),idIncidencia);
     }
 

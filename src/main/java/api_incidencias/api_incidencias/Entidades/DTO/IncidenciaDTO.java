@@ -6,7 +6,7 @@ import api_incidencias.api_incidencias.Entidades.Enum.Prioridad;
 import java.time.LocalDateTime;
 
 public class IncidenciaDTO {
-    private Long idIncidencia;
+    private String idIncidencia;
     private String titulo;
     private String descripcion;
     // private LocalDateTime fechaCreacion;
@@ -17,11 +17,11 @@ public class IncidenciaDTO {
 
     /************************************ Getters y Setters ********************************************/
 
-    public Long getIdIncidencia() {
+    public String getIdIncidencia() {
         return idIncidencia;
     }
 
-    public void setIdIncidencia(Long idIncidencia) {
+    public void setIdIncidencia(String idIncidencia) {
         this.idIncidencia = idIncidencia;
     }
 

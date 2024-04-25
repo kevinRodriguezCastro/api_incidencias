@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +19,31 @@ public class IncidenciaService {
     private RepositorioIncidencia reposIncidencia;
     @Autowired
     private Seguridad seguridad;
+
+    /************************************ generar id ********************************************/
+    private synchronized String generarIdIncidencia(){
+        String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2) + "-";
+        Integer ultimoNumero = reposIncidencia.findLastIncidenciaId();
+        if (ultimoNumero == null) {
+            ultimoNumero = 0;
+        }
+        return id + (ultimoNumero + 1);
+    }
+    private synchronized String generarIdIncidenciaReabierta(String idIncidencia){
+        String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2) +"-R"+idIncidencia.split("-")[1]+"-";
+        String ultimoIdReabierta = reposIncidencia.findLastReopenedIncidenciaId(idIncidencia);
+        return id+ultimoIdReabierta;
+    }
+
     public Incidencia addIncidencia(Incidencia incidencia){
+        incidencia.setIdIncidencia(generarIdIncidencia());
         return reposIncidencia.save(incidencia);
     }
 
+    public Incidencia addIncidenciaReabierta(Incidencia incidencia){
+        incidencia.setIdIncidencia(generarIdIncidenciaReabierta(incidencia.getIdIncidencia()));
+        return reposIncidencia.save(incidencia);
+    }
     /**
      * Solo pueden acceder a todas las incidencias los trabajadores
      * @return
@@ -35,7 +57,7 @@ public class IncidenciaService {
         return reposIncidencia.findByCliente(idCliente);
     }
 
-    public Optional<Incidencia> getIncidencias(Long id){
+    public Optional<Incidencia> getIncidencias(String id){
         return reposIncidencia.findById(id);
     }
 
@@ -46,7 +68,7 @@ public class IncidenciaService {
      * @param incidencia
      * @return
      */
-    public Incidencia updateIncidencia(Long idIncidencia, Incidencia incidencia) {
+    public Incidencia updateIncidencia(String idIncidencia, Incidencia incidencia) {
         if (seguridad.isTrabajador() ||seguridad.isElMismo(incidencia.getUsuarioCliente().getCorreoElectronico())) {
             Optional<Incidencia> incidenciaExistenteOptional = reposIncidencia.findById(idIncidencia);
 
@@ -94,7 +116,7 @@ public class IncidenciaService {
      * @param id
      * @return
      */
-    public ResponseEntity<String> deleteIncidencia(Long id){
+    public ResponseEntity<String> deleteIncidencia(String id){
         if (seguridad.isAdmin()) {
             Optional<Incidencia> incidencia = reposIncidencia.findById(id);
             if (incidencia.isPresent()) {
