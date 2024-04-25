@@ -50,7 +50,7 @@ public class IncidenciaControlador {
     }
 
     @GetMapping("/{idIncidencia}")
-    public Optional<Incidencia> getIncidenciaPorId(@PathVariable("idIncidencia") Long idIncidencia){
+    public Optional<Incidencia> getIncidenciaPorId(@PathVariable("idIncidencia") String idIncidencia){
         return incidenciaServicio.getIncidencias(idIncidencia);
     }
     @GetMapping("/cliente/{idCliente}")
@@ -68,7 +68,7 @@ public class IncidenciaControlador {
     }
 
     @PutMapping("/{idIncidencia}")
-    public ResponseEntity<Incidencia> actualizarIncidencia(@PathVariable Long idIncidencia, @RequestBody IncidenciaDTO incidenciaDTO) {
+    public ResponseEntity<Incidencia> actualizarIncidencia(@PathVariable String idIncidencia, @RequestBody IncidenciaDTO incidenciaDTO) {
 
         Incidencia incidencia = cargarDTO(incidenciaDTO);
 
@@ -82,7 +82,7 @@ public class IncidenciaControlador {
     }
 
     @DeleteMapping("/{idIncidencia}")
-    public ResponseEntity<String> eliminarIncidencia(@PathVariable("idIncidencia") Long idIncidencia){
+    public ResponseEntity<String> eliminarIncidencia(@PathVariable("idIncidencia") String idIncidencia){
         return incidenciaServicio.deleteIncidencia(idIncidencia);
     }
 

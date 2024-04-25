@@ -10,7 +10,7 @@ public class ParteTrabajoDTO {
     private String observaciones;
     private double costeReparacion;
     private String parteTrabajoImg;
-    private Long idIncidencia;
+    private String idIncidencia;
     private Long idTecnico;
     private boolean terminado;
 
@@ -64,11 +64,11 @@ public class ParteTrabajoDTO {
         this.parteTrabajoImg = parteTrabajoImg;
     }
 
-    public Long getIdIncidencia() {
+    public String getIdIncidencia() {
         return idIncidencia;
     }
 
-    public void setIdIncidencia(Long idIncidencia) {
+    public void setIdIncidencia(String idIncidencia) {
         this.idIncidencia = idIncidencia;
     }
 

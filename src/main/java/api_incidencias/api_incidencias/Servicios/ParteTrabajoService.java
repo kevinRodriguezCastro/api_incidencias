@@ -39,7 +39,7 @@ public class ParteTrabajoService {
     }
 
 
-    public List<ParteTrabajo> getPartesTrabajoPorIncidencia(Long idIncidencia){
+    public List<ParteTrabajo> getPartesTrabajoPorIncidencia(String idIncidencia){
         return reposParteTrabajo.findByIdIncidencia(idIncidencia);
     }
 
@@ -47,7 +47,7 @@ public class ParteTrabajoService {
         return reposParteTrabajo.findById(idOrden);
     }
 
-    public List<ParteTrabajo> getPartesTrabajosNoTerminado(Long idUsuario,Long idIncidencia){
+    public List<ParteTrabajo> getPartesTrabajosNoTerminado(Long idUsuario,String idIncidencia){
         return reposParteTrabajo.findByNoTerminado(idUsuario,idIncidencia);
     }
 

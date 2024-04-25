@@ -13,10 +13,9 @@ import java.util.List;
 public class Incidencia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Incidencia")
-    private Long idIncidencia;
-
+    private String idIncidencia;
     @Column(name = "Titulo")
     private String titulo;
     @Column(name = "Descripcion")
@@ -36,13 +35,17 @@ public class Incidencia {
     @JsonIgnore
     private List<ParteTrabajo> listaPartesTrabajo;
 
+
+
+
+
     /************************************ Getters y Setters ********************************************/
 
-    public Long getIdIncidencia() {
+    public String getIdIncidencia() {
         return idIncidencia;
     }
 
-    public void setIdIncidencia(Long idIncidencia) {
+    public void setIdIncidencia(String idIncidencia) {
         this.idIncidencia = idIncidencia;
     }
 
