@@ -49,7 +49,6 @@ public class UsuarioService {
     }
 
     */
-
     public Usuario addUser(Usuario user){
         return reposUser.save(user);
     }
