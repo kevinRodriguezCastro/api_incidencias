@@ -436,6 +436,7 @@ public class GenerarPDF {
         m.setCantidad(2);
         m.setNombre("obj1");
 
+        /*
         MaterialUtilizado m2 = new MaterialUtilizado();
         m2.setCoste(278);
         m2.setCantidad(1);
@@ -456,7 +457,7 @@ public class GenerarPDF {
         m5.setCantidad(17);
         m5.setNombre("obj3");
 
-
+        */
 
         TiempoEmpleado t = new TiempoEmpleado();
         t.setHoraEntrada(LocalTime.now());
@@ -468,6 +469,7 @@ public class GenerarPDF {
         t1.setHoraSalida(LocalTime.now());
         t1.setModoResolucion(ModoResolucion.remota);
 
+        /*
         TiempoEmpleado t2 = new TiempoEmpleado();
         t2.setHoraEntrada(LocalTime.now());
         t2.setHoraSalida(LocalTime.now());
@@ -492,23 +494,28 @@ public class GenerarPDF {
         t6.setHoraEntrada(LocalTime.now());
         t6.setHoraSalida(LocalTime.now());
         t6.setModoResolucion(ModoResolucion.remota);
+        */
 
 
         List<TiempoEmpleado> lis = new ArrayList<>();
         lis.add(t);
         lis.add(t1);
+        /*
         lis.add(t2);
         lis.add(t3);
         lis.add(t4);
         lis.add(t5);
         lis.add(t6);
-
+*/
         List<MaterialUtilizado> lista = new ArrayList<>();
         lista.add(m);
+        /*
         lista.add(m2);
         lista.add(m3);
         lista.add(m4);
         lista.add(m5);
+
+         */
 
 
 
