@@ -27,8 +27,8 @@ public class GenerarPDF {
     private static String nOrden, nombreCliente, apellidosCliente, emailCliente, telefonoCLiente;
     private static String cliente ="nombre apellidoooo aaa \n direccion = adadddadwadadd a aaaaaaaaadw wwww \n telefono = 1241412419410";
     private static String motivo, diagnostico, solucion, observacion;
-    private static ArrayList<MaterialUtilizado> material;
-    private static ArrayList<TiempoEmpleado> tiempoEmpleado;
+    private static List<MaterialUtilizado> material;
+    private static List<TiempoEmpleado> tiempoEmpleado;
     private static Estado estado;
     public static ResponseEntity<byte[]> generarPDF(ParteTrabajo parteTrabajo){
 
@@ -50,8 +50,8 @@ public class GenerarPDF {
          solucion = parteTrabajo.getTrabajoRealizado();
          observacion = parteTrabajo.getObservaciones();
 
-         material = (ArrayList<MaterialUtilizado>) parteTrabajo.getListaMaterialUtilizado();
-         tiempoEmpleado = (ArrayList<TiempoEmpleado>) parteTrabajo.getListaTiempoEmpleados();
+         material =  parteTrabajo.getListaMaterialUtilizado();
+         tiempoEmpleado =  parteTrabajo.getListaTiempoEmpleados();
 
          estado = parteTrabajo.getIncidencia().getEstado();
         try {
