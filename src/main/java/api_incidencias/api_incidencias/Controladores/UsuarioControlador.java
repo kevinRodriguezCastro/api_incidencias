@@ -2,6 +2,7 @@ package api_incidencias.api_incidencias.Controladores;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Servicios.Seguridad;
+import api_incidencias.api_incidencias.Servicios.ServicioResetContraseña;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -21,7 +22,8 @@ public class UsuarioControlador {
     private UsuarioService userServicio;
     @Autowired
     private Seguridad seguridad;
-
+    @Autowired
+    private ServicioResetContraseña servicioResetContraseña;
 
     /*
     @GetMapping("/registro")
@@ -83,6 +85,29 @@ public class UsuarioControlador {
             return new ResponseEntity<>(userActualizado, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping("/codigo-contraseña")
+    public String enviarCorreoResetContraseña() {
+
+        servicioResetContraseña.enviarCorreoResetContraseña(seguridad.getCorreoPeticion());
+        return "Se ha enviado un correo con el código de restablecimiento de contraseña.";
+    }
+
+    @PutMapping("/cambiar-contraseña/{codigo}")
+    public ResponseEntity<?> resetContraseña(@PathVariable String codigo, @RequestBody String nuevaContraseña) {
+        // Verificar si el código proporcionado es válido
+        if (servicioResetContraseña.isValidCode(codigo)) {
+            // Modificar la contraseña del usuario asociado al código
+            if (servicioResetContraseña.modificarContraseña(codigo, nuevaContraseña)) {
+                return ResponseEntity.ok("Contraseña modificada correctamente");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al modificar la contraseña");
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Código de restablecimiento de contraseña no válido");
         }
 
     }
