@@ -12,6 +12,7 @@ public class TiempoEmpleadoDTO {
     private Long idOrdenParteTb;
     private LocalTime horaEntrada;
     private LocalTime horaSalida;
+    private String motivoPausa;
     private ModoResolucion modoResolucion;
 
     /************************************ Getters y Setters ********************************************/
@@ -62,5 +63,13 @@ public class TiempoEmpleadoDTO {
 
     public void setModoResolucion(ModoResolucion modoResolucion) {
         this.modoResolucion = modoResolucion;
+    }
+
+    public String getMotivoPausa() {
+        return motivoPausa;
+    }
+
+    public void setMotivoPausa(String motivoPausa) {
+        this.motivoPausa = motivoPausa;
     }
 }

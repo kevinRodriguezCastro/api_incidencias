@@ -52,6 +52,7 @@ public class TiempoEmpleadoService {
                     tiempoEmpleadoExistente.setParteTrabajo(tiempoEmpleado.getParteTrabajo());
                     tiempoEmpleadoExistente.setHoraEntrada(tiempoEmpleado.getHoraEntrada());
                     tiempoEmpleadoExistente.setHoraSalida(tiempoEmpleado.getHoraSalida());
+                    tiempoEmpleadoExistente.setMotivoPausa(tiempoEmpleado.getMotivoPausa());
                     tiempoEmpleadoExistente.setModoResolucion(tiempoEmpleado.getModoResolucion());
 
 
