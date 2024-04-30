@@ -24,6 +24,8 @@ public class TiempoEmpleado {
     private LocalTime horaEntrada;
     @Column(name = "hora_salida")
     private LocalTime horaSalida;
+    @Column(name = "motivo_pausa")
+    private String motivoPausa;
     @Enumerated(EnumType.STRING)
     @Column(name = "modo_resolucion")
     private ModoResolucion modoResolucion;
@@ -77,5 +79,11 @@ public class TiempoEmpleado {
 
     public void setModoResolucion(ModoResolucion modoResolucion) {
         this.modoResolucion = modoResolucion;
+    }
+    public String getMotivoPausa() {
+        return motivoPausa;
+    }
+    public void setMotivoPausa(String motivoPausa) {
+        this.motivoPausa = motivoPausa;
     }
 }

@@ -76,6 +76,7 @@ public class TiempoEmpControlador {
         tiempoEmpleado.setFecha(tiempoEmpleadoDTO.getFecha());
         tiempoEmpleado.setHoraEntrada(tiempoEmpleadoDTO.getHoraEntrada());
         tiempoEmpleado.setHoraSalida(tiempoEmpleadoDTO.getHoraSalida());
+         tiempoEmpleado.setMotivoPausa(tiempoEmpleadoDTO.getMotivoPausa());
         tiempoEmpleado.setModoResolucion(tiempoEmpleadoDTO.getModoResolucion());
 
         Optional<ParteTrabajo> optionalparteTb = parteTbServicio.getPartesTrabajoPorId(tiempoEmpleadoDTO.getIdOrdenParteTb());
