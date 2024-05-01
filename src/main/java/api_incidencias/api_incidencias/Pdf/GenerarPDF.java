@@ -357,20 +357,20 @@ public class GenerarPDF {
                 "\n" +
                 "    <!-- Contenedor para OBSERVACIONES, FIRMA TÉCNICO y FIRMA CLIENTE -->\n" +
                 "    <div class=\"horizontal-container\" style=\"margin-bottom: 0; padding-bottom: 0; margin-top: 0; padding-top: 0;\">\n" +
-                "        <table style=\"margin-bottom: 0; padding-bottom: 0;\">\n" +
-                "            <tbody style=\"margin-bottom: 0; padding-bottom: 0;\">\n" +
-                "                <tr style=\"height: 80px;\">\n" +
+                "        <table style=\"margin-bottom: 0; padding-bottom: 0; margin-top: 0; padding-top: 0;\">\n" +
+                "            <tbody style=\"margin-bottom: 0; padding-bottom: 0; margin-top: 0; padding-top: 0;\">\n" +
+                "                <tr style=\"margin-bottom: 0; padding-bottom: 0; margin-top: 0; padding-top: 0;\">\n" +
                 "                    <td style=\"width: 50%; border: none;\">\n" +
                 "                        <label>OBSERVACIONES</label>\n" +
-                "                        <textarea class=\"text-input\" style=\"height: 80px;\">"+observacion+"</textarea>\n" +
+                "                        <textarea class=\"text-input\" style=\"height: 82px;\">"+observacion+"</textarea>\n" +
                 "                    </td>\n" +
                 "                    <td style=\"border: none;\">\n" +
                 "                        <label>FIRMA TÉCNICO</label>\n" +
-                "                        <textarea class=\"text-input\" style=\"height: 80px;\"></textarea>\n" +
+                "                        <textarea class=\"text-input\" style=\"height: 82px;\"></textarea>\n" +
                 "                    </td>\n" +
                 "                    <td style=\"border: none;\">\n" +
                 "                        <label>FIRMA CLIENTE</label>\n" +
-                "                        <textarea class=\"text-input\" style=\"height: 80px;\"></textarea>\n" +
+                "                        <textarea class=\"text-input\" style=\"height: 82px;\"></textarea>\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +
                 "            </tbody>\n" +
