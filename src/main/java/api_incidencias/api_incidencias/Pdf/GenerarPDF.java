@@ -117,19 +117,20 @@ public class GenerarPDF {
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "    <title>PDF Document</title>\n" +
+                "    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap\">\n" +
                 "    <style>\n" +
                 "        body {\n" +
-                "            font-family: Arial, sans-serif;\n" +
-                "            font-size: 12px;\n" +
+                "            font-family: 'Poppins', Arial, sans-serif;\n" +
+                "            font-size: 11px;\n" +
                 "        }\n" +
                 "\n" +
                 "        .container {\n" +
                 "            display: flex;\n" +
-                "            margin-bottom: 15px;\n" +
+                "            margin-bottom: 10px;\n" +
                 "        }\n" +
                 "\n" +
                 "        .logo-container {\n" +
-                "            width: 200px;\n" +
+                "            width: 220px;\n" +
                 "        }\n" +
                 "\n" +
                 "        .border {\n" +
@@ -144,7 +145,7 @@ public class GenerarPDF {
                 "        .tiempo-empleado-container,\n" +
                 "        .observaciones-container,\n" +
                 "        .signature-container {\n" +
-                "            margin-bottom: 10px;\n" +
+                "            margin-bottom: 5px;\n" +
                 "        }\n" +
                 "\n" +
                 "        .text-input {\n" +
@@ -154,12 +155,10 @@ public class GenerarPDF {
                 "        }\n" +
                 "\n" +
                 "        .rayas-negras {\n" +
-                "            border: none; /* Elimina el borde predeterminado del textarea */\n" +
-                "            resize: none; /* Evita que el usuario redimensione el textarea */\n" +
-                "            outline: none; /* Elimina el contorno al enfocar el textarea */\n" +
-                "            background-image: linear-gradient(to bottom, transparent 95%, black 95%); /* Agrega líneas negras */\n" +
-                "            background-size: 100% 5px; /* Espacio entre líneas */\n" +
-                "            background-repeat: repeat-y; /* Repetir las líneas verticalmente */\n" +
+                "            border: none;\n" +
+                "            background-color: black;\n" +
+                "            height: 1px;\n" +
+                "            margin-top: 2px;\n" +
                 "        }\n" +
                 "\n" +
                 "        .checkbox-options {\n" +
@@ -202,8 +201,8 @@ public class GenerarPDF {
                 "        }\n" +
                 "\n" +
                 "        .altura_fija_tabla_materiales {\n" +
-                "            min-height: 118px; /* Establece la altura mínima para el contenedor */\n" +
-                "            max-height: 118px; /* Ajusta esta altura según sea necesario */\n" +
+                "            min-height: 125px; /* Establece la altura mínima para el contenedor */\n" +
+                "            max-height: 125px; /* Ajusta esta altura según sea necesario */\n" +
                 "            overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */\n" +
                 "        }\n" +
                 "        .altura_fija_tabla_tiempo {\n" +
@@ -212,11 +211,11 @@ public class GenerarPDF {
                 "            overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */\n" +
                 "        }\n" +
                 "\n" +
-                "        .horizontal-container {\n" +
-                "            display: flex;\n" +
-                "            width: 100%;\n" +
-                "        }\n" +
-                "\n" +
+                //"        .horizontal-container {\n" +
+                //"            display: flex;\n" +
+                //"            width: 100%;\n" +
+                //"        }\n" +
+                //"\n" +
                 //"        .horizontal-container .border {\n" +
                 //"            flex-grow: 1;\n" +
                 //"            margin-right: 10px;\n" +
@@ -230,23 +229,29 @@ public class GenerarPDF {
                 "        <table>\n" +
                 "            <tbody>\n" +
                 "                <tr>\n" +
-                "                    <td style=\"width: 10%; border: none;\">\n" +
+                "                    <td style=\"width: 20%; border: none;\">\n" +
                 "                        <!-- Contenedor para el logo -->\n" +
                 "                        <div class=\"logo-container\">\n" +
                 "                            <!-- Aquí va el logo de la empresa -->\n" +
-                "                             <img src=\"" + rutaLogo + "\" alt=\"Logo de la empresa\" width=\"200\" height=\"50\">\n" +
+                "                             <img src=\"" + rutaLogo + "\" alt=\"Logo de la empresa\" width=\"222\" height=\"65\">\n" +
                 "                        </div>\n" +
                 "                    </td>\n" +
-                "                    <td style=\"width: 70%; border: none;\">\n" +
+                "                    <td style=\"width: 60%; border: none;\">\n" +
                 "                        <!-- Aquí va la información del cliente -->\n" +
                 "                        <label>PARTE DE TRABAJO | SERVICIOS INFORMÁTICOS</label>\n" +
-                "                        <textarea class=\"text-input\" placeholder=\"CLIENTE : \" style=\"width: 100%; height: 85px;\">"+cliente+"</textarea>\n" +
+                "                        <textarea class=\"text-input\" placeholder=\"CLIENTE : \" style=\"width: 100%; height: 86px;\">"+cliente+"</textarea>\n" +
                 "                    </td>\n" +
-                "                    <td style=\"width: 20%; border: none;\">\n" +
+                "                    <td style=\"width: 15%; border: none;\">\n" +
                 "                        <!-- Contenedor para el número de orden -->\n" +
                 "                        <label>Nº DE ORDEN</label>\n" +
-                "                        <textarea class=\"text-input\" style=\"width: 100%; height: 40px;\">"+nOrden+"</textarea>\n" +
-                "                        <textarea class=\"rayas-negras\" style=\"width: 100%; height: 40px;\"></textarea>\n" +
+                "                        <textarea class=\"text-input\" style=\"width: 100%; height: 37px;\">"+nOrden+"</textarea>\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
+                "                        <hr class=\"rayas-negras\" style=\"width: 100%;\">\n" +
                 "                    </td>\n" +
                 "                </tr>\n" +
                 "            </tbody>\n" +
@@ -262,13 +267,13 @@ public class GenerarPDF {
                 "    <!-- Contenedor para DIAGNÓSTICO -->\n" +
                 "    <div class=\"diagnostico-container\">\n" +
                 "        <label>DIAGNÓSTICO</label>\n" +
-                "        <textarea class=\"text-input\" style=\"height: 120px;\">"+diagnostico+"</textarea>\n" +
+                "        <textarea class=\"text-input\" style=\"height: 117px;\">"+diagnostico+"</textarea>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para TRABAJO REALIZADO -->\n" +
                 "    <div class=\"trabajo-realizado-container\">\n" +
                 "        <label>SOLUCIÓN / TRABAJO REALIZADO</label>\n" +
-                "        <textarea class=\"text-input\" style=\"height: 120px;\">"+solucion+"</textarea>\n" +
+                "        <textarea class=\"text-input\" style=\"height: 117px;\">"+solucion+"</textarea>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para la tabla de materiales -->\n" +
@@ -351,10 +356,10 @@ public class GenerarPDF {
                 "    </div>\n" +
                 "\n" +
                 "    <!-- Contenedor para OBSERVACIONES, FIRMA TÉCNICO y FIRMA CLIENTE -->\n" +
-                "    <div class=\"horizontal-container\" style=\"margin-bottom: 0; padding-bottom: 0;\">\n" +
-                "        <table>\n" +
-                "            <tbody>\n" +
-                "                <tr>\n" +
+                "    <div class=\"horizontal-container\" style=\"margin-bottom: 0; padding-bottom: 0; margin-top: 0; padding-top: 0;\">\n" +
+                "        <table style=\"margin-bottom: 0; padding-bottom: 0;\">\n" +
+                "            <tbody style=\"margin-bottom: 0; padding-bottom: 0;\">\n" +
+                "                <tr style=\"height: 80px;\">\n" +
                 "                    <td style=\"width: 50%; border: none;\">\n" +
                 "                        <label>OBSERVACIONES</label>\n" +
                 "                        <textarea class=\"text-input\" style=\"height: 80px;\">"+observacion+"</textarea>\n" +
@@ -436,7 +441,7 @@ public class GenerarPDF {
         m.setCantidad(2);
         m.setNombre("obj1");
 
-        /*
+
         MaterialUtilizado m2 = new MaterialUtilizado();
         m2.setCoste(278);
         m2.setCantidad(1);
@@ -457,7 +462,7 @@ public class GenerarPDF {
         m5.setCantidad(17);
         m5.setNombre("obj3");
 
-        */
+
 
         TiempoEmpleado t = new TiempoEmpleado();
         t.setHoraEntrada(LocalTime.now());
@@ -469,7 +474,7 @@ public class GenerarPDF {
         t1.setHoraSalida(LocalTime.now());
         t1.setModoResolucion(ModoResolucion.remota);
 
-        /*
+
         TiempoEmpleado t2 = new TiempoEmpleado();
         t2.setHoraEntrada(LocalTime.now());
         t2.setHoraSalida(LocalTime.now());
@@ -494,28 +499,28 @@ public class GenerarPDF {
         t6.setHoraEntrada(LocalTime.now());
         t6.setHoraSalida(LocalTime.now());
         t6.setModoResolucion(ModoResolucion.remota);
-        */
+
 
 
         List<TiempoEmpleado> lis = new ArrayList<>();
         lis.add(t);
         lis.add(t1);
-        /*
+
         lis.add(t2);
         lis.add(t3);
         lis.add(t4);
         lis.add(t5);
         lis.add(t6);
-*/
+
         List<MaterialUtilizado> lista = new ArrayList<>();
         lista.add(m);
-        /*
+
         lista.add(m2);
         lista.add(m3);
         lista.add(m4);
         lista.add(m5);
 
-         */
+
 
 
 
