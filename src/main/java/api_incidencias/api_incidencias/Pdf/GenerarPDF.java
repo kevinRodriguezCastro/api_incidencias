@@ -223,7 +223,7 @@ public class GenerarPDF {
                 "    </style>\n" +
                 "</head>\n" +
                 "\n" +
-                "<body class=\"border\">\n" +
+                "<body>\n" +
                 "    <!-- Contenedor para la información del cliente -->\n" +
                 "    <div class=\"container\">\n" +
                 "        <table>\n" +
