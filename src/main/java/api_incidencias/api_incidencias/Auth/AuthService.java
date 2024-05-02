@@ -109,6 +109,7 @@ public class AuthService {
         newCliente.setCodigoPostal(request.getCodigoPostal());
         newCliente.setPais(request.getPais());
         newCliente.setFechaRegistro(LocalDate.now());
+        newCliente.setImagenPerfil("userLogo.png");
 
         // Guardamos el usuario usando el repositorio del usuario
         clienteService.addCliente(newCliente);
@@ -140,6 +141,7 @@ public class AuthService {
             newTrabajador.setTelefono(request.getTelefono());
             newTrabajador.setRol(request.getRol());
             newTrabajador.setFechaRegistro(LocalDate.now());
+            newTrabajador.setImagenPerfil("userLogo.png");
 
             // Guardamos el usuario usando el repositorio del usuario
             trabajadorService.addTrabajador(newTrabajador);
