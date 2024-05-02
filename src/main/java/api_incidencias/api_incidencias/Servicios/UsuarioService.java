@@ -183,10 +183,10 @@ public class UsuarioService {
                     usuarioExistente.setNombre(user.getNombre());
                     usuarioExistente.setApellido(user.getApellido());
                     usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
-                    usuarioExistente.setContrasena(user.getContrasena());
+                   // usuarioExistente.setContrasena(user.getContrasena());
 
                     usuarioExistente.setFechaRegistro(user.getFechaRegistro());
-                    usuarioExistente.setImagenPerfil(user.getImagenPerfil());
+                   // usuarioExistente.setImagenPerfil(user.getImagenPerfil());
                     usuarioExistente.setTelefono(user.getTelefono());
 
                     usuarioExistente.setUsuarioModificacion(user.getUsuarioModificacion());

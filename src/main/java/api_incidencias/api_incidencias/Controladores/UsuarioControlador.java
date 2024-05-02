@@ -4,10 +4,12 @@ import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Servicios.Seguridad;
 import api_incidencias.api_incidencias.Servicios.ServicioResetContraseña;
 import api_incidencias.api_incidencias.Servicios.UsuarioService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,9 +63,9 @@ public class UsuarioControlador {
         return userServicio.getUser(email);
     }
 
-    @GetMapping("/obtener-imagen-user/{idUser}")
-    public ResponseEntity<InputStreamResource> obtenerImagen(@PathVariable Long idUser) {
-        return userServicio.getImagenUser(idUser);
+    @GetMapping("/obtener-imagen-user")
+    public ResponseEntity<InputStreamResource> obtenerImagen() {
+        return userServicio.getImagenUser(seguridad.getIdUsuario());
     }
 
     @PostMapping("/{idUsuario}/imagen")
@@ -89,15 +91,18 @@ public class UsuarioControlador {
 
     }
 
-    @GetMapping("/codigo-contraseña")
-    public String enviarCorreoResetContraseña() {
-
-        servicioResetContraseña.enviarCorreoResetContraseña(seguridad.getCorreoPeticion());
+    @GetMapping("/codigo-contraseña/{correo}")
+    @PermitAll // Permitir acceso sin autenticación
+    public String enviarCorreoResetContraseña(@PathVariable("correo") String correo) {
+        servicioResetContraseña.enviarCorreoResetContraseña(correo);
         return "Se ha enviado un correo con el código de restablecimiento de contraseña.";
     }
 
+
     @PutMapping("/cambiar-contraseña/{codigo}")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY") // Permitir acceso sin autenticación
     public ResponseEntity<?> resetContraseña(@PathVariable String codigo, @RequestBody String nuevaContraseña) {
+        System.out.println("contraseña nueva = "+nuevaContraseña);
         // Verificar si el código proporcionado es válido
         if (servicioResetContraseña.isValidCode(codigo)) {
             // Modificar la contraseña del usuario asociado al código
@@ -109,7 +114,6 @@ public class UsuarioControlador {
         } else {
             return ResponseEntity.badRequest().body("Código de restablecimiento de contraseña no válido");
         }
-
     }
 
     @DeleteMapping("/{idUser}")
