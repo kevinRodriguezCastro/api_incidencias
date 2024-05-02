@@ -20,6 +20,11 @@ public interface RepositorioIncidencia extends JpaRepository<Incidencia, String>
 
     // Para obtener la última incidencia reabierta de una incidencia original específica
     // su uso =  lastReopenedId = incidenciaRepository.findLastReopenedIncidenciaId("PTDD24-1");
-    @Query("SELECT MAX(CAST(SUBSTRING_INDEX(i.id, '-', -1) AS int)) FROM Incidencia i WHERE i.id LIKE CONCAT(:prefix, 'R%')")
-    String findLastReopenedIncidenciaId(@Param("prefix") String prefix);
+    @Query("SELECT MAX(CAST(SUBSTRING(i.id, LENGTH(:prefix) + 1) AS int)) FROM Incidencia i WHERE i.id LIKE CONCAT(:prefix, '%') AND i.id NOT LIKE CONCAT(:prefix, '%R%')")
+    Long findLastReopenedIncidenciaId(@Param("prefix") String prefix);
+
+
+
+
+
 }

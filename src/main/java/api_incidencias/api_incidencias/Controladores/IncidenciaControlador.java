@@ -60,10 +60,20 @@ public class IncidenciaControlador {
 
     @PostMapping
     public ResponseEntity<Incidencia> crearIncidencia(@RequestBody IncidenciaDTO incidenciaDTO){
-
         Incidencia incidencia = cargarDTO(incidenciaDTO);
-
         Incidencia incidenciaGuardada = incidenciaServicio.addIncidencia(incidencia);
+        return new ResponseEntity<>(incidenciaGuardada, HttpStatus.CREATED);
+    }
+
+    /**
+     * El json tiene que tener el id de la incidencia principal y los datos de la incidencia reabierta
+     * @param incidenciaDTO
+     * @return
+     */
+    @PostMapping("/reabrir-incidencia")
+    public ResponseEntity<Incidencia> crearIncidenciaReabierta(@RequestBody IncidenciaDTO incidenciaDTO){
+        Incidencia incidencia = cargarDTO(incidenciaDTO);
+        Incidencia incidenciaGuardada = incidenciaServicio.addIncidenciaReabierta(incidencia);
         return new ResponseEntity<>(incidenciaGuardada, HttpStatus.CREATED);
     }
 

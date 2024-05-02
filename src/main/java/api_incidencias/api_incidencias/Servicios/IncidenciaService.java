@@ -31,7 +31,11 @@ public class IncidenciaService {
     }
     private synchronized String generarIdIncidenciaReabierta(String idIncidencia){
         String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2) +"-R"+idIncidencia.split("-")[1]+"-";
-        String ultimoIdReabierta = reposIncidencia.findLastReopenedIncidenciaId(idIncidencia);
+        Long ultimoIdReabierta = reposIncidencia.findLastReopenedIncidenciaId(id)+1;
+        System.out.println("id ultimo incidencia reabierta = "+ultimoIdReabierta);
+        if (ultimoIdReabierta == null) {
+            ultimoIdReabierta = 1L;
+        }
         return id+ultimoIdReabierta;
     }
 
