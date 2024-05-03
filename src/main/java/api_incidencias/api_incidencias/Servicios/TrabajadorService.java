@@ -7,6 +7,7 @@ import api_incidencias.api_incidencias.Repositorios.RepositorioTrabajador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class TrabajadorService {
     @Autowired
     private RepositorioTrabajador reposTrabajador;
+    @Autowired
+    private PasswordEncoder passwdEncoder;
     @Autowired
     private Seguridad seguridad;
     public Trabajador addTrabajador(Trabajador trabajador){
@@ -47,7 +50,7 @@ public class TrabajadorService {
                     trabajadorExistente.setNombre(trabajador.getNombre());
                     trabajadorExistente.setApellido(trabajador.getApellido());
                     trabajadorExistente.setCorreoElectronico(trabajador.getCorreoElectronico());
-                    trabajadorExistente.setContrasena(trabajador.getContrasena());
+                    trabajadorExistente.setContrasena(passwdEncoder.encode( trabajador.getContrasena()));
                     trabajadorExistente.setFechaRegistro(trabajador.getFechaRegistro());
                     trabajadorExistente.setImagenPerfil(trabajador.getImagenPerfil());
                     trabajadorExistente.setTelefono(trabajador.getTelefono());

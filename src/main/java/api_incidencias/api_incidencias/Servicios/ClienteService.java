@@ -6,6 +6,7 @@ import api_incidencias.api_incidencias.Repositorios.RepositorioCliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public class ClienteService {
     private RepositorioCliente reposCliente;
     @Autowired
     private Seguridad seguridad;
+    @Autowired
+    private PasswordEncoder passwdEncoder;
     public Cliente addCliente(Cliente cliente) {
         return reposCliente.save(cliente);
     }
@@ -53,7 +56,7 @@ public class ClienteService {
                     clienteExixtente.setNombre(cliente.getNombre());
                     clienteExixtente.setApellido(cliente.getApellido());
                     clienteExixtente.setCorreoElectronico(cliente.getCorreoElectronico());
-                    clienteExixtente.setContrasena(cliente.getContrasena());
+                    clienteExixtente.setContrasena(passwdEncoder.encode( cliente.getContrasena()));
 
                     clienteExixtente.setFechaRegistro(cliente.getFechaRegistro());
                     clienteExixtente.setImagenPerfil(cliente.getImagenPerfil());
