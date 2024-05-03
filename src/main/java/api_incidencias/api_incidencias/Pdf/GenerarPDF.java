@@ -24,7 +24,7 @@ import java.util.List;
 public class GenerarPDF {
     private static final String rutaLogo = "src\\main\\java\\api_incidencias\\api_incidencias\\Pdf\\logo_DonDigital.png";
     private static final String ruta = "./pdf_generados/Pdf_ParteTrabajo_DonDigital.pdf";
-    private static String nOrden, nombreCliente, apellidosCliente, emailCliente, telefonoCLiente;
+    private static String nOrden, nombreCliente, apellidosCliente, emailCliente, telefonoCLiente,dni,direccion;
     private static String cliente ="nombre apellidoooo aaa \n direccion = adadddadwadadd a aaaaaaaaadw wwww \n telefono = 1241412419410";
     private static String motivo, diagnostico, solucion, observacion;
     private static List<MaterialUtilizado> material;
@@ -39,19 +39,23 @@ public class GenerarPDF {
              apellidosCliente = "";
              emailCliente = "dondigital@gmail.com";
              telefonoCLiente = "";
+             dni = "";
+             direccion = "";
          }else {
              nombreCliente = clienteTmp.getNombre();
              apellidosCliente = clienteTmp.getApellido();
              emailCliente = clienteTmp.getCorreoElectronico();
              telefonoCLiente = clienteTmp.getTelefono();
+             dni = clienteTmp.getDni();
+             direccion = clienteTmp.getCalle();
          }
 
          nOrden = parteTrabajo.getIdOrden().toString();
          cliente = " cliente: "+nombreCliente +" "+ apellidosCliente +"\n"
-                    +" dni: "+clienteTmp.getDni()
+                    +" dni: "+dni
                     +" telefono: "+telefonoCLiente + "\n"
                     +" correo: "+emailCliente +"\n"
-                    +"direccion: "+clienteTmp.getCalle();
+                    +"direccion: "+direccion;
 
          motivo = parteTrabajo.getIncidencia().getDescripcion();
          diagnostico = parteTrabajo.getDiagnostico();
