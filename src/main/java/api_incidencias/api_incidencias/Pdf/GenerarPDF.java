@@ -33,12 +33,20 @@ public class GenerarPDF {
     public static ResponseEntity<byte[]> generarPDF(ParteTrabajo parteTrabajo){
 
          Cliente clienteTmp = parteTrabajo.getIncidencia().getUsuarioCliente();
-         nOrden = parteTrabajo.getIdOrden().toString();
-         nombreCliente = clienteTmp.getNombre();
-         apellidosCliente = clienteTmp.getApellido();
-         emailCliente = clienteTmp.getCorreoElectronico();
-         telefonoCLiente = clienteTmp.getTelefono();
+         if (clienteTmp == null){
 
+             nombreCliente = "DonDigital";
+             apellidosCliente = "";
+             emailCliente = "dondigital@gmail.com";
+             telefonoCLiente = "";
+         }else {
+             nombreCliente = clienteTmp.getNombre();
+             apellidosCliente = clienteTmp.getApellido();
+             emailCliente = clienteTmp.getCorreoElectronico();
+             telefonoCLiente = clienteTmp.getTelefono();
+         }
+
+         nOrden = parteTrabajo.getIdOrden().toString();
          cliente = " cliente: "+nombreCliente +" "+ apellidosCliente +"\n"
                     +" dni: "+clienteTmp.getDni()
                     +" telefono: "+telefonoCLiente + "\n"
