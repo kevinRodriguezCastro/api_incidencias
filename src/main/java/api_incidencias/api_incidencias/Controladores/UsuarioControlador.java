@@ -68,9 +68,9 @@ public class UsuarioControlador {
         return userServicio.getImagenUser(seguridad.getIdUsuario());
     }
 
-    @PostMapping("/{idUsuario}/imagen")
-    public ResponseEntity<String> subirImagenPerfil(@PathVariable Long idUsuario, @RequestParam("file") MultipartFile file) {
-        String urlImagen = userServicio.subirImagen(idUsuario, file);
+    @PostMapping("/imagen")
+    public ResponseEntity<String> subirImagenPerfil(@RequestParam("file") MultipartFile file) {
+        String urlImagen = userServicio.subirImagen(seguridad.getIdUsuario(), file);
         return new ResponseEntity<>(urlImagen, HttpStatus.CREATED);
     }
 
