@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface RepositorioParteTrabajo extends JpaRepository<ParteTrabajo, Long> {
     @Query("SELECT p FROM ParteTrabajo p WHERE p.incidencia.idIncidencia = ?1")
-    List<ParteTrabajo> findByIdIncidencia(String idIncidencia);
+    Optional<ParteTrabajo> findByIdIncidencia(String idIncidencia);
 
     @Query("SELECT p FROM ParteTrabajo p WHERE p.tecnico.idUsuario = ?1 AND p.incidencia.idIncidencia = ?2 AND p.terminado = false")
     List<ParteTrabajo> findByNoTerminado(Long idUsuario, String idIncidencia);
