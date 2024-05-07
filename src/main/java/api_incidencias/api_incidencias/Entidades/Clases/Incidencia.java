@@ -32,7 +32,8 @@ public class Incidencia {
     @ManyToOne
     @JoinColumn(name = "Id_Cliente")
     private Cliente usuarioCliente;
-    @OneToMany(mappedBy = "incidencia")
+    //@OneToMany(mappedBy = "incidencia")
+    @OneToMany(mappedBy = "incidencia", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<ParteTrabajo> listaPartesTrabajo;
 

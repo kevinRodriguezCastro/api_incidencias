@@ -23,6 +23,9 @@ public class CorreoService {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
 
+        // Desactivo la validación de certificados SSL
+        props.put("mail.smtp.ssl.trust", "*");
+
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
