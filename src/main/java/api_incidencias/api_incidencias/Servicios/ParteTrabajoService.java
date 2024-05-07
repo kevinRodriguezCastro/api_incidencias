@@ -39,8 +39,10 @@ public class ParteTrabajoService {
     }
 
 
-    public List<ParteTrabajo> getPartesTrabajoPorIncidencia(String idIncidencia){
-        return reposParteTrabajo.findByIdIncidencia(idIncidencia);
+    public ParteTrabajo getPartesTrabajoPorIncidencia(String idIncidencia){
+        Optional<ParteTrabajo> optional = reposParteTrabajo.findByIdIncidencia(idIncidencia);
+        if(optional.isPresent()) return optional.get();
+        return null;
     }
 
     public Optional<ParteTrabajo> getPartesTrabajoPorId(Long idOrden){

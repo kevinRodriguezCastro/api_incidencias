@@ -23,7 +23,7 @@ public class ParteTrabajo {
     private double costeReparacion;
     @Column(name = "parte_trabajo_img")
     private String parteTrabajoImg;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_incidencia")
     private Incidencia incidencia;
     @ManyToOne

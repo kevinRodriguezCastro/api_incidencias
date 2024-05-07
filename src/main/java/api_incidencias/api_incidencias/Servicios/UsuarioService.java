@@ -73,22 +73,35 @@ public class UsuarioService {
             Path filePath = directory.resolve(fileName);
             Files.copy(file.getInputStream(), filePath);
 
-            // Devuelve la URL de la imagen
+            // Obtener la URL de la nueva imagen
             String urlImagen = fileName;
 
-            // Actualizar BD
-            Optional<Usuario> usuario = getUser(idUsuario);
-            if (usuario.isPresent()){
-                usuario.get().setImagenPerfil(urlImagen);
-                updateUser(idUsuario,usuario.get());
-            }else {
-                System.out.println("Error al actualizar imagen");
+            // Actualizar la base de datos
+            Optional<Usuario> usuarioOptional = getUser(idUsuario);
+            if (usuarioOptional.isPresent()) {
+                Usuario usuario = usuarioOptional.get();
+                String rutaImagenAnterior = usuario.getImagenPerfil();
+
+                // Verifica si hay una imagen anterior
+                if (rutaImagenAnterior != null && !rutaImagenAnterior.isEmpty()) {
+                    // Elimina la imagen anterior del servidor
+                    Path rutaImagenAnteriorCompleta = directory.resolve(rutaImagenAnterior);
+                    Files.deleteIfExists(rutaImagenAnteriorCompleta);
+                }
+
+                // Actualiza la ruta de la imagen en el usuario
+                usuario.setImagenPerfil(urlImagen);
+                updateUser(idUsuario, usuario);
+            } else {
+                System.out.println("Error al actualizar la imagen del usuario: usuario no encontrado");
             }
+
             return urlImagen;
         } catch (Exception e) {
             throw new RuntimeException("Falló la carga de la imagen", e);
         }
     }
+
 
     public ResponseEntity<InputStreamResource> getImagenUser(Long idUser) {
         Optional<Usuario> userOptional = getUser(idUser);

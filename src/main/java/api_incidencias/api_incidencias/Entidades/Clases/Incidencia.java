@@ -32,13 +32,8 @@ public class Incidencia {
     @ManyToOne
     @JoinColumn(name = "Id_Cliente")
     private Cliente usuarioCliente;
-    @OneToMany(mappedBy = "incidencia")
-    @JsonIgnore
-    private List<ParteTrabajo> listaPartesTrabajo;
-
-
-
-
+    @OneToOne(mappedBy = "incidencia", cascade = CascadeType.ALL)
+    private ParteTrabajo parteTrabajo;
 
     /************************************ Getters y Setters ********************************************/
 
@@ -98,11 +93,11 @@ public class Incidencia {
         this.usuarioCliente = usuarioCliente;
     }
 
-    public List<ParteTrabajo> getListaPartesTrabajo() {
-        return listaPartesTrabajo;
+    public ParteTrabajo getParteTrabajo() {
+        return parteTrabajo;
     }
 
-    public void setListaPartesTrabajo(List<ParteTrabajo> listaPartesTrabajo) {
-        this.listaPartesTrabajo = listaPartesTrabajo;
+    public void setParteTrabajo(ParteTrabajo parteTrabajo) {
+        this.parteTrabajo = parteTrabajo;
     }
 }

@@ -39,7 +39,7 @@ public class ParteTrabajoControlador {
     }
 
     @GetMapping("/incidencia/{idIncidencia}")
-    public List<ParteTrabajo> getPartesTrabajoIncidencia(@PathVariable("idIncidencia") String idIncidencia){
+    public ParteTrabajo getPartesTrabajoIncidencia(@PathVariable("idIncidencia") String idIncidencia){
         return parteTrabajoServicio.getPartesTrabajoPorIncidencia(idIncidencia);
     }
 
