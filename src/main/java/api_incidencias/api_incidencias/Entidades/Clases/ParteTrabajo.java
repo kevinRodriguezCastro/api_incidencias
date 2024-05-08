@@ -1,5 +1,6 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -25,6 +26,7 @@ public class ParteTrabajo {
     private String parteTrabajoImg;
     @OneToOne
     @JoinColumn(name = "id_incidencia")
+    @JsonBackReference
     private Incidencia incidencia;
     @ManyToOne
     @JoinColumn(name = "id_tecnico")

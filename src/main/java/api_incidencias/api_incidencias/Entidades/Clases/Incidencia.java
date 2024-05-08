@@ -3,6 +3,7 @@ package api_incidencias.api_incidencias.Entidades.Clases;
 import api_incidencias.api_incidencias.Entidades.Enum.Estado;
 import api_incidencias.api_incidencias.Entidades.Enum.Prioridad;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -33,6 +34,7 @@ public class Incidencia {
     @JoinColumn(name = "Id_Cliente")
     private Cliente usuarioCliente;
     @OneToOne(mappedBy = "incidencia", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private ParteTrabajo parteTrabajo;
 
     /************************************ Getters y Setters ********************************************/
