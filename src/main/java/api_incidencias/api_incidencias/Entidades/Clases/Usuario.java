@@ -1,6 +1,6 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
-import api_incidencias.api_incidencias.Entidades.Enum.Rol;
+import api_incidencias.api_incidencias.Entidades.Enum.TipoDocumento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,8 +31,8 @@ public class Usuario implements UserDetails {
     @Column(name = "ID_Usuario")
     private Long idUsuario;
 
-    @Column(name = "DNI", unique = true)
-    private String dni;
+    @Column(name = "Documento", unique = true)
+    private String documento;
     @Column(name = "Nombre")
     private String nombre;
     @Column(name = "Apellido")
@@ -52,6 +52,9 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Telefono")
     private String telefono;
+
+    @Column(name = "TipoDocumento")
+    private TipoDocumento tipoDocumento;
 
     @ManyToOne
     @JsonIgnore
@@ -122,12 +125,12 @@ public class Usuario implements UserDetails {
         this.idUsuario = idUsuario;
     }
 
-    public String getDni() {
-        return dni;
+    public String getDocumento() {
+        return documento;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
     public String getNombre() {
@@ -202,6 +205,13 @@ public class Usuario implements UserDetails {
         this.fechaModificacion = fechaModificacion;
     }
 
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
     /*
     public List<Incidencia> getListaIncidenciasUsuario() {
         return listaIncidenciasUsuario;

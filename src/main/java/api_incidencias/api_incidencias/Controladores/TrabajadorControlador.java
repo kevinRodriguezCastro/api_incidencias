@@ -46,6 +46,15 @@ public class TrabajadorControlador {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @PutMapping("/update-con-contraseña/{idUser}")
+    public ResponseEntity<Trabajador> actualizarTrabajadorContraseña(@PathVariable Long idUser, @RequestBody Trabajador trabajador) {
+        Trabajador trabajadorActualizado = trabajadorService.updateTrabajadorContraseña(idUser, trabajador);
+        if (trabajadorActualizado != null) {
+            return new ResponseEntity<>(trabajadorActualizado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 
