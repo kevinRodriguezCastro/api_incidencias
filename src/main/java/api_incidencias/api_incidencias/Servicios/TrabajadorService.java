@@ -1,8 +1,6 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Repositorios.RepositorioTrabajador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +44,38 @@ public class TrabajadorService {
 
                 if (idUser.equals(trabajador.getIdUsuario())) {
                     // Actualizo los atributos del libro existente con los del libro proporcionado
-                    trabajadorExistente.setDni(trabajador.getDni());
+                    trabajadorExistente.setDocumento(trabajador.getDocumento());
+                    trabajadorExistente.setNombre(trabajador.getNombre());
+                    trabajadorExistente.setApellido(trabajador.getApellido());
+                    trabajadorExistente.setCorreoElectronico(trabajador.getCorreoElectronico());
+                    //trabajadorExistente.setContrasena(passwdEncoder.encode( trabajador.getContrasena()));
+                    trabajadorExistente.setFechaRegistro(trabajador.getFechaRegistro());
+                    trabajadorExistente.setImagenPerfil(trabajador.getImagenPerfil());
+                    trabajadorExistente.setTelefono(trabajador.getTelefono());
+
+                    trabajadorExistente.setRol(trabajador.getRol());
+                    // Guarda el usuario actualizado en el repositorio
+                    return reposTrabajador.save(trabajadorExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID del usuario.");
+                }
+            } else {
+                throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
+            }
+        }
+        throw new IllegalArgumentException("No tienes permisos.");
+    }
+    public Trabajador updateTrabajadorContraseña(Long idUser, Trabajador trabajador){
+        //reposUser.save(user);
+        if (seguridad.isAdmin()) {
+            Optional<Trabajador> trabajadorExistenteOptional = reposTrabajador.findById(idUser);
+
+            if (trabajadorExistenteOptional.isPresent()) {
+                Trabajador trabajadorExistente = trabajadorExistenteOptional.get();
+
+                if (idUser.equals(trabajador.getIdUsuario())) {
+                    // Actualizo los atributos del libro existente con los del libro proporcionado
+                    trabajadorExistente.setDocumento(trabajador.getDocumento());
                     trabajadorExistente.setNombre(trabajador.getNombre());
                     trabajadorExistente.setApellido(trabajador.getApellido());
                     trabajadorExistente.setCorreoElectronico(trabajador.getCorreoElectronico());
@@ -54,6 +83,7 @@ public class TrabajadorService {
                     trabajadorExistente.setFechaRegistro(trabajador.getFechaRegistro());
                     trabajadorExistente.setImagenPerfil(trabajador.getImagenPerfil());
                     trabajadorExistente.setTelefono(trabajador.getTelefono());
+                    trabajadorExistente.setTipoDocumento(trabajador.getTipoDocumento());
 
                     trabajadorExistente.setRol(trabajador.getRol());
                     // Guarda el usuario actualizado en el repositorio

@@ -74,12 +74,14 @@ public class UsuarioControlador {
         return new ResponseEntity<>(urlImagen, HttpStatus.CREATED);
     }
 
-    /*@PostMapping
+    /*
+    @PostMapping
     public ResponseEntity<Usuario> crearUser(@RequestBody Usuario user){
         Usuario nuevoUsuario = userServicio.addUser(user);
         return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
     }
-*/
+    */
+    /*
     @PutMapping("/{idUser}")
     public ResponseEntity<Usuario> actualizarUser(@PathVariable Long idUser, @RequestBody Usuario user) {
         Usuario userActualizado = userServicio.updateUser(idUser, user);
@@ -99,7 +101,7 @@ public class UsuarioControlador {
         }
 
     }
-
+    */
     @GetMapping("/codigo-contraseña/{correo}")
     @PermitAll // Permitir acceso sin autenticación
     public String enviarCorreoResetContraseña(@PathVariable("correo") String correo) {

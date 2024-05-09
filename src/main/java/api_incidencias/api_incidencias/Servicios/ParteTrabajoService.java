@@ -106,8 +106,10 @@ public class ParteTrabajoService {
 
             if (parteTb.isPresent()) {
                 ParteTrabajo parte =  parteTb.get();
+
                 List<TiempoEmpleado> tiempos = parte.getListaTiempoEmpleados();
                 List<MaterialUtilizado> materiales = parte.getListaMaterialUtilizado();
+
                 for (TiempoEmpleado tmp: tiempos){
                     tiempoEmpleadoService.deleteTiempoUsado(tmp.getIdTiempoEmpleado());
                 }
@@ -117,6 +119,7 @@ public class ParteTrabajoService {
                 }
 
                 reposParteTrabajo.deleteById(idOrden);
+                System.out.println("borrando parte con id = "+idOrden);
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("ParteTrabajo eliminado correctamente.");

@@ -1,9 +1,6 @@
 package api_incidencias.api_incidencias.Servicios;
 
-import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
-import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
-import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -11,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -184,6 +178,7 @@ public class UsuarioService {
      * @param user
      * @return
      */
+
     public Usuario updateUser(Long idUser, Usuario user){
         if (seguridad.isAdmin() || seguridad.isElMismo(user.getCorreoElectronico())) {
             Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
@@ -192,7 +187,7 @@ public class UsuarioService {
 
                 if (idUser.equals(user.getIdUsuario())) {
 
-                    usuarioExistente.setDni(user.getDni());
+                    usuarioExistente.setDocumento(user.getDocumento());
                     usuarioExistente.setNombre(user.getNombre());
                     usuarioExistente.setApellido(user.getApellido());
                     usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
@@ -215,7 +210,7 @@ public class UsuarioService {
         }
         throw new IllegalArgumentException("No tienes permisos.");
     }
-
+/*
     public Usuario updateUserConContraseña(Long idUser, Usuario user){
         if (seguridad.isAdmin() || seguridad.isElMismo(user.getCorreoElectronico())) {
             Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
@@ -247,7 +242,7 @@ public class UsuarioService {
         }
         throw new IllegalArgumentException("No tienes permisos.");
     }
-
+    */
     /**
      * Solo si es admin
      * @param id

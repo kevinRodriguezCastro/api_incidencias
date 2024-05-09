@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -46,7 +45,7 @@ public class GenerarPDF {
              apellidosCliente = clienteTmp.getApellido();
              emailCliente = clienteTmp.getCorreoElectronico();
              telefonoCLiente = clienteTmp.getTelefono();
-             dni = clienteTmp.getDni();
+             dni = clienteTmp.getDocumento();
              direccion = clienteTmp.getCalle();
          }
 
@@ -437,7 +436,7 @@ public class GenerarPDF {
         c.setNombre("nombre");
         c.setApellido("apellido apellidoo");
         c.setCorreoElectronico("correo@gmail.com");
-        c.setDni("12345678a");
+        c.setDocumento("12345678a");
         c.setTelefono("123456789");
 
         Incidencia i = new Incidencia();

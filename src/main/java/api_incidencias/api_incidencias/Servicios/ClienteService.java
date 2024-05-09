@@ -1,7 +1,6 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
-import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
 import api_incidencias.api_incidencias.Repositorios.RepositorioCliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +51,44 @@ public class ClienteService {
 
                 if (idCliente.equals(cliente.getIdUsuario())) {
                     // Actualizo los atributos del libro existente con los del libro proporcionado
-                    clienteExixtente.setDni(cliente.getDni());
+                    clienteExixtente.setDocumento(cliente.getDocumento());
+                    clienteExixtente.setNombre(cliente.getNombre());
+                    clienteExixtente.setApellido(cliente.getApellido());
+                    clienteExixtente.setCorreoElectronico(cliente.getCorreoElectronico());
+                    //clienteExixtente.setContrasena(passwdEncoder.encode( cliente.getContrasena()));
+
+                    clienteExixtente.setFechaRegistro(cliente.getFechaRegistro());
+                    clienteExixtente.setImagenPerfil(cliente.getImagenPerfil());
+                    clienteExixtente.setTelefono(cliente.getTelefono());
+                    clienteExixtente.setTipoDocumento(cliente.getTipoDocumento());
+
+                    clienteExixtente.setCalle(cliente.getCalle());
+                    clienteExixtente.setCiudad(cliente.getCiudad());
+                    clienteExixtente.setProvincia(cliente.getProvincia());
+                    clienteExixtente.setCodigoPostal(cliente.getCodigoPostal());
+                    clienteExixtente.setPais(cliente.getPais());
+
+                    // Guarda el usuario actualizado en el repositorio
+                    return reposCliente.save(clienteExixtente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID del usuario.");
+                }
+            } else {
+                throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
+            }
+        }
+        throw new IllegalArgumentException("No tienes permisos");
+    }
+    public Cliente updateClienteContraseña(Long idCliente, Cliente cliente) {
+        if (seguridad.isAdmin() || seguridad.isElMismo(cliente.getCorreoElectronico())){
+            Optional<Cliente> clienteExistenteOptional = reposCliente.findById(idCliente);
+
+            if (clienteExistenteOptional.isPresent()) {
+                Cliente clienteExixtente = clienteExistenteOptional.get();
+
+                if (idCliente.equals(cliente.getIdUsuario())) {
+                    // Actualizo los atributos del libro existente con los del libro proporcionado
+                    clienteExixtente.setDocumento(cliente.getDocumento());
                     clienteExixtente.setNombre(cliente.getNombre());
                     clienteExixtente.setApellido(cliente.getApellido());
                     clienteExixtente.setCorreoElectronico(cliente.getCorreoElectronico());

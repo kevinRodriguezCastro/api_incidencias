@@ -46,9 +46,16 @@ public class ClienteControlador {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
-
+    @PutMapping("/update-con-contraseña/{idUser}")
+    public ResponseEntity<Cliente> actualizarClienteContraseña(@PathVariable Long idUser, @RequestBody Cliente cliente) {
+        Cliente clienteActualizado = clienteServicio.updateClienteContraseña(idUser, cliente);
+        if (clienteActualizado != null) {
+            return new ResponseEntity<>(clienteActualizado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @DeleteMapping("/{idUser}")
     public ResponseEntity<String> eliminarCliente(@PathVariable("idUser") Long idUser){
         return clienteServicio.deleteCliente(idUser);

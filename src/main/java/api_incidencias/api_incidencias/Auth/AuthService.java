@@ -97,7 +97,7 @@ public class AuthService {
 
 
         Cliente newCliente = new Cliente();
-        newCliente.setDni(request.getDni());
+        newCliente.setDocumento(request.getDni());
         newCliente.setNombre(request.getNombre());
         newCliente.setApellido(request.getApellido());
         newCliente.setCorreoElectronico(request.getCorreoElectronico());
@@ -133,7 +133,7 @@ public class AuthService {
 
             Trabajador newTrabajador = new Trabajador();
 
-            newTrabajador.setDni(request.getDni());
+            newTrabajador.setDocumento(request.getDni());
             newTrabajador.setNombre(request.getNombre());
             newTrabajador.setApellido(request.getApellido());
             newTrabajador.setCorreoElectronico(request.getCorreoElectronico());
