@@ -34,7 +34,8 @@ public class Incidencia {
     @JoinColumn(name = "Id_Cliente")
     private Cliente usuarioCliente;
     @OneToOne(mappedBy = "incidencia", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnore
     private ParteTrabajo parteTrabajo;
 
     /************************************ Getters y Setters ********************************************/
