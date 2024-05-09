@@ -1,6 +1,7 @@
 package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Incidencia;
+import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
 import api_incidencias.api_incidencias.Entidades.Enum.Estado;
 import api_incidencias.api_incidencias.Repositorios.RepositorioIncidencia;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class IncidenciaService {
 
     @Autowired
     private RepositorioIncidencia reposIncidencia;
+    @Autowired
+    private ParteTrabajoService parteTrabajoService;
     @Autowired
     private Seguridad seguridad;
 
@@ -131,6 +134,10 @@ public class IncidenciaService {
         if (seguridad.isAdmin()) {
             Optional<Incidencia> incidencia = reposIncidencia.findById(id);
             if (incidencia.isPresent()) {
+                ParteTrabajo parte = incidencia.get().getParteTrabajo();
+                if (parte != null){
+                    parteTrabajoService.deleteParteTrabajo(parte.getIdOrden());
+                }
                 reposIncidencia.deleteById(id);
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
