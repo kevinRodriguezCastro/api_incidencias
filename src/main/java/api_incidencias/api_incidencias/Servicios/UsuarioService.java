@@ -216,6 +216,38 @@ public class UsuarioService {
         throw new IllegalArgumentException("No tienes permisos.");
     }
 
+    public Usuario updateUserConContraseña(Long idUser, Usuario user){
+        if (seguridad.isAdmin() || seguridad.isElMismo(user.getCorreoElectronico())) {
+            Optional<Usuario> userExistenteOptional = reposUser.findById(idUser);
+            if (userExistenteOptional.isPresent()) {
+                Usuario usuarioExistente = userExistenteOptional.get();
+
+                if (idUser.equals(user.getIdUsuario())) {
+
+                    usuarioExistente.setDni(user.getDni());
+                    usuarioExistente.setNombre(user.getNombre());
+                    usuarioExistente.setApellido(user.getApellido());
+                    usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
+                    usuarioExistente.setContrasena(user.getContrasena());
+
+                    usuarioExistente.setFechaRegistro(user.getFechaRegistro());
+                    // usuarioExistente.setImagenPerfil(user.getImagenPerfil());
+                    usuarioExistente.setTelefono(user.getTelefono());
+
+                    usuarioExistente.setUsuarioModificacion(user.getUsuarioModificacion());
+                    usuarioExistente.setFechaModificacion(LocalDateTime.now());
+
+                    return reposUser.save(usuarioExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID del usuario.");
+                }
+            } else {
+                throw new IllegalArgumentException("El usuario con el ID proporcionado no existe.");
+            }
+        }
+        throw new IllegalArgumentException("No tienes permisos.");
+    }
+
     /**
      * Solo si es admin
      * @param id

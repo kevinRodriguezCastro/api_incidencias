@@ -88,6 +88,15 @@ public class UsuarioControlador {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @PutMapping("/update-contraseña/{idUser}")
+    public ResponseEntity<Usuario> actualizarUserContraseña(@PathVariable Long idUser, @RequestBody Usuario user) {
+        Usuario userActualizado = userServicio.updateUserConContraseña(idUser, user);
+        if (userActualizado != null) {
+            return new ResponseEntity<>(userActualizado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 

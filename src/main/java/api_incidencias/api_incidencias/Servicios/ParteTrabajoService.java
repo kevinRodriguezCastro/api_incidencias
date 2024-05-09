@@ -1,6 +1,8 @@
 package api_incidencias.api_incidencias.Servicios;
 
+import api_incidencias.api_incidencias.Entidades.Clases.MaterialUtilizado;
 import api_incidencias.api_incidencias.Entidades.Clases.ParteTrabajo;
+import api_incidencias.api_incidencias.Entidades.Clases.TiempoEmpleado;
 import api_incidencias.api_incidencias.Repositorios.RepositorioParteTrabajo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,10 @@ import java.util.Optional;
 public class ParteTrabajoService {
     @Autowired
     private RepositorioParteTrabajo reposParteTrabajo;
+    @Autowired
+    private TiempoEmpleadoService tiempoEmpleadoService;
+    @Autowired
+    private MaterialUtilizadoService materialUtilizadoService;
     @Autowired
     private Seguridad seguridad;
 
@@ -99,8 +105,18 @@ public class ParteTrabajoService {
             Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
 
             if (parteTb.isPresent()) {
+                ParteTrabajo parte =  parteTb.get();
+                List<TiempoEmpleado> tiempos = parte.getListaTiempoEmpleados();
+                List<MaterialUtilizado> materiales = parte.getListaMaterialUtilizado();
+                for (TiempoEmpleado tmp: tiempos){
+                    tiempoEmpleadoService.deleteTiempoUsado(tmp.getIdTiempoEmpleado());
+                }
+
+                for (MaterialUtilizado tmp:materiales){
+                    materialUtilizadoService.deleteMaterialUtilizado(tmp.getIdMaterial());
+                }
+
                 reposParteTrabajo.deleteById(idOrden);
-                ;
 
                 return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body("ParteTrabajo eliminado correctamente.");
