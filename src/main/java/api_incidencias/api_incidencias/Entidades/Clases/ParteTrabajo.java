@@ -26,7 +26,7 @@ public class ParteTrabajo {
     private String parteTrabajoImg;
     @OneToOne
     @JoinColumn(name = "id_incidencia")
-    @JsonBackReference
+    //@JsonBackReference
     private Incidencia incidencia;
     @ManyToOne
     @JoinColumn(name = "id_tecnico")

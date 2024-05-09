@@ -53,6 +53,10 @@ public class IncidenciaControlador {
     public Optional<Incidencia> getIncidenciaPorId(@PathVariable("idIncidencia") String idIncidencia){
         return incidenciaServicio.getIncidencias(idIncidencia);
     }
+    @GetMapping("/incidencias-reabiertas/{idIncidencia}")
+    public List<Incidencia> getIncidenciasReabiertas(@PathVariable("idIncidencia") String idIncidencia){
+        return incidenciaServicio.getIncidenciasReabiertas(idIncidencia);
+    }
     @GetMapping("/cliente/{idCliente}")
     public List<Incidencia> getIncidenciaCliente(@PathVariable("idCliente") Long idCliente){
         return incidenciaServicio.getIncidenciasCliente(idCliente);
