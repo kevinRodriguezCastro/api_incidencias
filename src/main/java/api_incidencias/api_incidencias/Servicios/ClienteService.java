@@ -2,6 +2,7 @@ package api_incidencias.api_incidencias.Servicios;
 
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Repositorios.RepositorioCliente;
+import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import java.util.Optional;
 public class ClienteService {
     @Autowired
     private RepositorioCliente reposCliente;
+    @Autowired
+    private UsuarioService usuarioService;
     @Autowired
     private Seguridad seguridad;
     @Autowired
@@ -50,17 +53,7 @@ public class ClienteService {
                 Cliente clienteExixtente = clienteExistenteOptional.get();
 
                 if (idCliente.equals(cliente.getIdUsuario())) {
-                    // Actualizo los atributos del libro existente con los del libro proporcionado
-                    clienteExixtente.setDocumento(cliente.getDocumento());
-                    clienteExixtente.setNombre(cliente.getNombre());
-                    clienteExixtente.setApellido(cliente.getApellido());
-                    clienteExixtente.setCorreoElectronico(cliente.getCorreoElectronico());
-                    //clienteExixtente.setContrasena(passwdEncoder.encode( cliente.getContrasena()));
-
-                    clienteExixtente.setFechaRegistro(cliente.getFechaRegistro());
-                    clienteExixtente.setImagenPerfil(cliente.getImagenPerfil());
-                    clienteExixtente.setTelefono(cliente.getTelefono());
-                    clienteExixtente.setTipoDocumento(cliente.getTipoDocumento());
+                    usuarioService.updateUser(idCliente,cliente);
 
                     clienteExixtente.setCalle(cliente.getCalle());
                     clienteExixtente.setCiudad(cliente.getCiudad());
@@ -87,22 +80,25 @@ public class ClienteService {
                 Cliente clienteExixtente = clienteExistenteOptional.get();
 
                 if (idCliente.equals(cliente.getIdUsuario())) {
-                    // Actualizo los atributos del libro existente con los del libro proporcionado
+                    usuarioService.updateUser(idCliente,cliente);
+
+                    /*
                     clienteExixtente.setDocumento(cliente.getDocumento());
                     clienteExixtente.setNombre(cliente.getNombre());
                     clienteExixtente.setApellido(cliente.getApellido());
                     clienteExixtente.setCorreoElectronico(cliente.getCorreoElectronico());
-                    clienteExixtente.setContrasena(passwdEncoder.encode( cliente.getContrasena()));
+
 
                     clienteExixtente.setFechaRegistro(cliente.getFechaRegistro());
                     clienteExixtente.setImagenPerfil(cliente.getImagenPerfil());
                     clienteExixtente.setTelefono(cliente.getTelefono());
-
+                    */
                     clienteExixtente.setCalle(cliente.getCalle());
                     clienteExixtente.setCiudad(cliente.getCiudad());
                     clienteExixtente.setProvincia(cliente.getProvincia());
                     clienteExixtente.setCodigoPostal(cliente.getCodigoPostal());
                     clienteExixtente.setPais(cliente.getPais());
+                    clienteExixtente.setContrasena(passwdEncoder.encode( cliente.getContrasena()));
 
                     // Guarda el usuario actualizado en el repositorio
                     return reposCliente.save(clienteExixtente);
