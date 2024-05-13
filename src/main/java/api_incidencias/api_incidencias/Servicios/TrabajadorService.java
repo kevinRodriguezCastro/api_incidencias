@@ -16,6 +16,8 @@ public class TrabajadorService {
     @Autowired
     private RepositorioTrabajador reposTrabajador;
     @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
     private PasswordEncoder passwdEncoder;
     @Autowired
     private Seguridad seguridad;
@@ -74,17 +76,18 @@ public class TrabajadorService {
                 Trabajador trabajadorExistente = trabajadorExistenteOptional.get();
 
                 if (idUser.equals(trabajador.getIdUsuario())) {
-                    // Actualizo los atributos del libro existente con los del libro proporcionado
+                    usuarioService.updateUser(idUser,trabajador);
+                    /*
                     trabajadorExistente.setDocumento(trabajador.getDocumento());
                     trabajadorExistente.setNombre(trabajador.getNombre());
                     trabajadorExistente.setApellido(trabajador.getApellido());
                     trabajadorExistente.setCorreoElectronico(trabajador.getCorreoElectronico());
-                    trabajadorExistente.setContrasena(passwdEncoder.encode( trabajador.getContrasena()));
                     trabajadorExistente.setFechaRegistro(trabajador.getFechaRegistro());
                     trabajadorExistente.setImagenPerfil(trabajador.getImagenPerfil());
                     trabajadorExistente.setTelefono(trabajador.getTelefono());
                     trabajadorExistente.setTipoDocumento(trabajador.getTipoDocumento());
-
+                    */
+                    trabajadorExistente.setContrasena(passwdEncoder.encode( trabajador.getContrasena()));
                     trabajadorExistente.setRol(trabajador.getRol());
                     // Guarda el usuario actualizado en el repositorio
                     return reposTrabajador.save(trabajadorExistente);

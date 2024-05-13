@@ -188,6 +188,7 @@ public class UsuarioService {
                 if (idUser.equals(user.getIdUsuario())) {
 
                     usuarioExistente.setDocumento(user.getDocumento());
+                    usuarioExistente.setGenero(user.getGenero());
                     usuarioExistente.setNombre(user.getNombre());
                     usuarioExistente.setApellido(user.getApellido());
                     usuarioExistente.setCorreoElectronico(user.getCorreoElectronico());
