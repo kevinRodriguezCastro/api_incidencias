@@ -33,7 +33,7 @@ public class IncidenciaService {
         return id + (ultimoNumero + 1);
     }
     private synchronized String generarIdIncidenciaReabierta(String idIncidencia){
-        String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2) +"-R"+idIncidencia.split("-")[1]+"-";
+        String id = "PTDD"+String.valueOf(LocalDate.now().getYear()).substring(2)+"-"+idIncidencia.split("-")[1]+"R"+"-";
         Long ultimoIdReabierta = reposIncidencia.findLastReopenedIncidenciaId(id);
         System.out.println("id ultimo incidencia reabierta = "+ultimoIdReabierta);
         if (ultimoIdReabierta == null) {
@@ -83,13 +83,12 @@ public class IncidenciaService {
      * @return
      */
     public Incidencia updateIncidencia(String idIncidencia, Incidencia incidencia) {
-        if (seguridad.isTrabajador() ||seguridad.isElMismo(incidencia.getUsuarioCliente().getCorreoElectronico())) {
+        if (seguridad.isTrabajador() || seguridad.isElMismo(incidencia.getUsuarioCliente().getCorreoElectronico())) {
             Optional<Incidencia> incidenciaExistenteOptional = reposIncidencia.findById(idIncidencia);
 
-            System.out.println(" Estoy dentro del update incidencia "+ seguridad.getRol());
+            System.out.println(" Estoy dentro del update incidencia " + seguridad.getRol());
 
-            System.out.println("El estado que ha entrado es : "+incidencia.getEstado().name());
-
+            System.out.println("El estado que ha entrado es : " + incidencia.getEstado().name());
 
 
             if (incidenciaExistenteOptional.isPresent()) {
@@ -100,30 +99,25 @@ public class IncidenciaService {
                 Estado estadoOriginal = incidenciaOriginal.get().getEstado();
 
                 //Si la incidencia es aceptada o finalizada no se podra modificar
-                if (estadoOriginal == Estado.pendiente) {
-                    if (idIncidencia.equals(incidencia.getIdIncidencia())) {
-                        // Actualizo los atributos del libro existente con los del libro proporcionado
-                        incidenciaExistente.setTitulo(incidencia.getTitulo());
-                        incidenciaExistente.setDescripcion(incidencia.getDescripcion());
-                        incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
-                        incidenciaExistente.setEstado(incidencia.getEstado());
-                        incidenciaExistente.setPrioridad(incidencia.getPrioridad());
-                        incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
-                        // Guarda el usuario actualizado en el repositorio
-                        return reposIncidencia.save(incidenciaExistente);
-                    } else {
-                        throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
-                    }
-                }else{
 
-                }
+
+                // Actualizo los atributos del libro existente con los del libro proporcionado
+                incidenciaExistente.setTitulo(incidencia.getTitulo());
+                incidenciaExistente.setDescripcion(incidencia.getDescripcion());
+                incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
+                incidenciaExistente.setEstado(incidencia.getEstado());
+                incidenciaExistente.setPrioridad(incidencia.getPrioridad());
+                incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
+                // Guarda el usuario actualizado en el repositorio
+                return reposIncidencia.save(incidenciaExistente);
+
             } else {
                 throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
             }
-
         }
-        return null;
+        return  null;
     }
+
 
     /**
      * Solo puede borrar el admin

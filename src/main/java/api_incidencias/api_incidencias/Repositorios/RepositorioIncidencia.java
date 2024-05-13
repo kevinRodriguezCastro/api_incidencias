@@ -28,8 +28,9 @@ public interface RepositorioIncidencia extends JpaRepository<Incidencia, String>
     Long findLastReopenedIncidenciaId(@Param("prefix") String prefix);
 
     // buscar incidenciasReabiertas con id de incidencia principal
-    @Query("SELECT i FROM Incidencia i WHERE i.id LIKE CONCAT(:prefix, '%R%')")
+    @Query("SELECT i FROM Incidencia i WHERE i.id LIKE CONCAT(:prefix, 'R%')")
     List<Incidencia> findIncidenciasReabiertas(@Param("prefix") String prefix);
+
 
 
 
