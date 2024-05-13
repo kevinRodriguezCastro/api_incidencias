@@ -30,6 +30,8 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Usuario")
     private Long idUsuario;
+    @Column(name = "TipoDocumento")
+    private TipoDocumento tipoDocumento;
 
     @Column(name = "Documento", unique = true)
     private String documento;
@@ -52,9 +54,6 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Telefono")
     private String telefono;
-
-    @Column(name = "TipoDocumento")
-    private TipoDocumento tipoDocumento;
 
     @ManyToOne
     @JsonIgnore

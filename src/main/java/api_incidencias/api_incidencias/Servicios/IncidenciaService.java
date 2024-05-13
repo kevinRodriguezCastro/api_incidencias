@@ -33,7 +33,10 @@ public class IncidenciaService {
         return id + (ultimoNumero + 1);
     }
     private synchronized String generarIdIncidenciaReabierta(String idIncidencia){
-        String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2) +"-R"+idIncidencia.split("-")[1]+"-";
+        //String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2) +"-R"+idIncidencia.split("-")[1]+"-";
+        //String id = "PTDD" + String.valueOf(LocalDate.now().getYear()).substring(2)+idIncidencia.split("-")[1]+"-R"+"-";
+        //String id = "PTDD" +"-"+String.valueOf(LocalDate.now().getYear()).substring(2)+idIncidencia.split("-")[1]+"R"+"-";
+        String id = "PTDD"+String.valueOf(LocalDate.now().getYear()).substring(2)+"-"+idIncidencia.split("-")[1]+"R"+"-";
         Long ultimoIdReabierta = reposIncidencia.findLastReopenedIncidenciaId(id);
         System.out.println("id ultimo incidencia reabierta = "+ultimoIdReabierta);
         if (ultimoIdReabierta == null) {
@@ -90,8 +93,6 @@ public class IncidenciaService {
 
             System.out.println("El estado que ha entrado es : "+incidencia.getEstado().name());
 
-
-
             if (incidenciaExistenteOptional.isPresent()) {
                 Incidencia incidenciaExistente = incidenciaExistenteOptional.get();
 
@@ -100,22 +101,18 @@ public class IncidenciaService {
                 Estado estadoOriginal = incidenciaOriginal.get().getEstado();
 
                 //Si la incidencia es aceptada o finalizada no se podra modificar
-                if (estadoOriginal == Estado.pendiente) {
-                    if (idIncidencia.equals(incidencia.getIdIncidencia())) {
-                        // Actualizo los atributos del libro existente con los del libro proporcionado
-                        incidenciaExistente.setTitulo(incidencia.getTitulo());
-                        incidenciaExistente.setDescripcion(incidencia.getDescripcion());
-                        incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
-                        incidenciaExistente.setEstado(incidencia.getEstado());
-                        incidenciaExistente.setPrioridad(incidencia.getPrioridad());
-                        incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
-                        // Guarda el usuario actualizado en el repositorio
-                        return reposIncidencia.save(incidenciaExistente);
-                    } else {
-                        throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
-                    }
-                }else{
-
+                if (idIncidencia.equals(incidencia.getIdIncidencia())) {
+                    // Actualizo los atributos del libro existente con los del libro proporcionado
+                    incidenciaExistente.setTitulo(incidencia.getTitulo());
+                    incidenciaExistente.setDescripcion(incidencia.getDescripcion());
+                    incidenciaExistente.setFechaCreacion(incidencia.getFechaCreacion());
+                    incidenciaExistente.setEstado(incidencia.getEstado());
+                    incidenciaExistente.setPrioridad(incidencia.getPrioridad());
+                    incidenciaExistente.setUsuarioCliente(incidencia.getUsuarioCliente());
+                    // Guarda el usuario actualizado en el repositorio
+                    return reposIncidencia.save(incidenciaExistente);
+                } else {
+                    throw new IllegalArgumentException("El id proporcionado no coincide con el ID de la incidencia.");
                 }
             } else {
                 throw new IllegalArgumentException("La incidencia con el ID proporcionado no existe.");
