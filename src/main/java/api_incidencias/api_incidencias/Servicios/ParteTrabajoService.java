@@ -105,6 +105,7 @@ public class ParteTrabajoService {
             Optional<ParteTrabajo> parteTb = reposParteTrabajo.findById(idOrden);
 
             parteTb.get().setIncidencia(null);
+            
             if (parteTb.isPresent()) {
                 ParteTrabajo parte =  parteTb.get();
 

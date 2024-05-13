@@ -1,5 +1,6 @@
 package api_incidencias.api_incidencias.Entidades.Clases;
 
+import api_incidencias.api_incidencias.Entidades.Enum.Genero;
 import api_incidencias.api_incidencias.Entidades.Enum.TipoDocumento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -35,6 +36,8 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Documento", unique = true)
     private String documento;
+    @Column(name = "Genero")
+    private Genero genero;
     @Column(name = "Nombre")
     private String nombre;
     @Column(name = "Apellido")
@@ -210,6 +213,14 @@ public class Usuario implements UserDetails {
 
     public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
     }
     /*
     public List<Incidencia> getListaIncidenciasUsuario() {
