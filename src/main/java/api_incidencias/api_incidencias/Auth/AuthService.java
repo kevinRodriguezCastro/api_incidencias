@@ -97,7 +97,9 @@ public class AuthService {
 
 
         Cliente newCliente = new Cliente();
-        newCliente.setDocumento(request.getDni());
+        newCliente.setTipoDocumento(request.getTipoDocumento());
+        newCliente.setDocumento(request.getDocumento());
+        newCliente.setGenero(request.getGenero());
         newCliente.setNombre(request.getNombre());
         newCliente.setApellido(request.getApellido());
         newCliente.setCorreoElectronico(request.getCorreoElectronico());
@@ -132,8 +134,9 @@ public class AuthService {
       //  if (seguridad.isAdmin()){
 
             Trabajador newTrabajador = new Trabajador();
-
-            newTrabajador.setDocumento(request.getDni());
+            newTrabajador.setTipoDocumento(request.getTipoDocumento());
+            newTrabajador.setDocumento(request.getDocumento());
+            newTrabajador.setGenero(request.getGenero());
             newTrabajador.setNombre(request.getNombre());
             newTrabajador.setApellido(request.getApellido());
             newTrabajador.setCorreoElectronico(request.getCorreoElectronico());
