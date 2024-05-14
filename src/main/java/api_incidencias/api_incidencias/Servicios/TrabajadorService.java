@@ -46,7 +46,9 @@ public class TrabajadorService {
 
                 if (idUser.equals(trabajador.getIdUsuario())) {
                     // Actualizo los atributos del libro existente con los del libro proporcionado
+                    trabajadorExistente.setTipoDocumento(trabajador.getTipoDocumento());
                     trabajadorExistente.setDocumento(trabajador.getDocumento());
+                    trabajadorExistente.setGenero(trabajador.getGenero());
                     trabajadorExistente.setNombre(trabajador.getNombre());
                     trabajadorExistente.setApellido(trabajador.getApellido());
                     trabajadorExistente.setCorreoElectronico(trabajador.getCorreoElectronico());

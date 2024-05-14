@@ -32,11 +32,13 @@ public class Usuario implements UserDetails {
     @Column(name = "ID_Usuario")
     private Long idUsuario;
     @Column(name = "TipoDocumento")
+    @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
 
     @Column(name = "Documento", unique = true)
     private String documento;
     @Column(name = "Genero")
+    @Enumerated(EnumType.STRING)
     private Genero genero;
     @Column(name = "Nombre")
     private String nombre;
