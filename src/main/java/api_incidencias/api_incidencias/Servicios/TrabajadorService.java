@@ -45,10 +45,9 @@ public class TrabajadorService {
                 Trabajador trabajadorExistente = trabajadorExistenteOptional.get();
 
                 if (idUser.equals(trabajador.getIdUsuario())) {
-                    // Actualizo los atributos del libro existente con los del libro proporcionado
-                    trabajadorExistente.setTipoDocumento(trabajador.getTipoDocumento());
+                    usuarioService.updateUser(idUser,trabajador);
+                    /*
                     trabajadorExistente.setDocumento(trabajador.getDocumento());
-                    trabajadorExistente.setGenero(trabajador.getGenero());
                     trabajadorExistente.setNombre(trabajador.getNombre());
                     trabajadorExistente.setApellido(trabajador.getApellido());
                     trabajadorExistente.setCorreoElectronico(trabajador.getCorreoElectronico());
@@ -56,8 +55,9 @@ public class TrabajadorService {
                     trabajadorExistente.setFechaRegistro(trabajador.getFechaRegistro());
                     trabajadorExistente.setImagenPerfil(trabajador.getImagenPerfil());
                     trabajadorExistente.setTelefono(trabajador.getTelefono());
-
+                    */
                     trabajadorExistente.setRol(trabajador.getRol());
+
                     // Guarda el usuario actualizado en el repositorio
                     return reposTrabajador.save(trabajadorExistente);
                 } else {
