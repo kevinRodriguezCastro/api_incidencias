@@ -56,8 +56,8 @@ public class TrabajadorService {
                     trabajadorExistente.setImagenPerfil(trabajador.getImagenPerfil());
                     trabajadorExistente.setTelefono(trabajador.getTelefono());
                     */
-                    trabajadorExistente.setRol(trabajador.getRol());
 
+                    trabajadorExistente.setRol(trabajador.getRol());
                     // Guarda el usuario actualizado en el repositorio
                     return reposTrabajador.save(trabajadorExistente);
                 } else {
