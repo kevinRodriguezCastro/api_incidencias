@@ -198,7 +198,7 @@ public class UsuarioService {
                    // usuarioExistente.setImagenPerfil(user.getImagenPerfil());
                     usuarioExistente.setTelefono(user.getTelefono());
 
-                    usuarioExistente.setUsuarioModificacion(user.getUsuarioModificacion());
+                    usuarioExistente.setUsuarioModificacion(this.getUser(seguridad.getIdUsuario()).get());
                     usuarioExistente.setFechaModificacion(LocalDateTime.now());
 
                     return reposUser.save(usuarioExistente);
