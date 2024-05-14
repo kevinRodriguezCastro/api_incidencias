@@ -34,6 +34,8 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Documento", unique = true)
     private String documento;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "Genero")
     private Genero genero;
     @Column(name = "Nombre")
@@ -56,6 +58,7 @@ public class Usuario implements UserDetails {
     @Column(name = "Telefono")
     private String telefono;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "TipoDocumento")
     private TipoDocumento tipoDocumento;
 
