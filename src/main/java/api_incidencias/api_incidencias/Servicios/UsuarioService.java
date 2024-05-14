@@ -186,7 +186,7 @@ public class UsuarioService {
                 Usuario usuarioExistente = userExistenteOptional.get();
 
                 if (idUser.equals(user.getIdUsuario())) {
-
+                    usuarioExistente.setTipoDocumento(user.getTipoDocumento());
                     usuarioExistente.setDocumento(user.getDocumento());
                     usuarioExistente.setGenero(user.getGenero());
                     usuarioExistente.setNombre(user.getNombre());
