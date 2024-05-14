@@ -31,14 +31,12 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Usuario")
     private Long idUsuario;
-    @Column(name = "TipoDocumento")
-    @Enumerated(EnumType.STRING)
-    private TipoDocumento tipoDocumento;
 
     @Column(name = "Documento", unique = true)
     private String documento;
-    @Column(name = "Genero")
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "Genero")
     private Genero genero;
     @Column(name = "Nombre")
     private String nombre;
@@ -59,6 +57,10 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Telefono")
     private String telefono;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TipoDocumento")
+    private TipoDocumento tipoDocumento;
 
     @ManyToOne
     @JsonIgnore
