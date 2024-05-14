@@ -3,6 +3,7 @@ package api_incidencias.api_incidencias.Auth;
 import api_incidencias.api_incidencias.Entidades.Clases.Cliente;
 import api_incidencias.api_incidencias.Entidades.Clases.Trabajador;
 import api_incidencias.api_incidencias.Entidades.Clases.Usuario;
+import api_incidencias.api_incidencias.Entidades.Enum.Genero;
 import api_incidencias.api_incidencias.Entidades.Enum.Rol;
 import api_incidencias.api_incidencias.Jwt.JwtService;
 import api_incidencias.api_incidencias.Repositorios.RepositorioUsuario;
@@ -111,7 +112,12 @@ public class AuthService {
         newCliente.setCodigoPostal(request.getCodigoPostal());
         newCliente.setPais(request.getPais());
         newCliente.setFechaRegistro(LocalDate.now());
-        newCliente.setImagenPerfil("userLogo.png");
+        if (request.getGenero() == Genero.mujer) {
+            newCliente.setImagenPerfil("userLogoM.png");
+        }else{
+            newCliente.setImagenPerfil("userLogoH.png");
+        }
+
 
         // Guardamos el usuario usando el repositorio del usuario
         clienteService.addCliente(newCliente);
@@ -144,7 +150,11 @@ public class AuthService {
             newTrabajador.setTelefono(request.getTelefono());
             newTrabajador.setRol(request.getRol());
             newTrabajador.setFechaRegistro(LocalDate.now());
-            newTrabajador.setImagenPerfil("userLogo.png");
+            if (request.getGenero() == Genero.mujer) {
+                newTrabajador.setImagenPerfil("userLogoM.png");
+            }else{
+                newTrabajador.setImagenPerfil("userLogoH.png");
+            }
 
             // Guardamos el usuario usando el repositorio del usuario
             trabajadorService.addTrabajador(newTrabajador);

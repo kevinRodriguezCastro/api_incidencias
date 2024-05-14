@@ -79,8 +79,10 @@ public class UsuarioService {
                 // Verifica si hay una imagen anterior
                 if (rutaImagenAnterior != null && !rutaImagenAnterior.isEmpty()) {
                     // Elimina la imagen anterior del servidor
-                    Path rutaImagenAnteriorCompleta = directory.resolve(rutaImagenAnterior);
-                    Files.deleteIfExists(rutaImagenAnteriorCompleta);
+                    if (!rutaImagenAnterior.equals("userLogoH.png") && !rutaImagenAnterior.equals("userLogoM.png")){
+                        Path rutaImagenAnteriorCompleta = directory.resolve(rutaImagenAnterior);
+                        Files.deleteIfExists(rutaImagenAnteriorCompleta);
+                    }
                 }
 
                 // Actualiza la ruta de la imagen en el usuario
