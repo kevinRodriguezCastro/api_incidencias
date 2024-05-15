@@ -12,4 +12,11 @@ public class FrontControlador {
     public String index() {
         return "app_trabajador/login"; // Se refiere al archivo index.html en src/main/resources/templates
     }
+
+    @GetMapping("/prueba")
+    public String index2() {
+        return "index";
+    }
+
+
 }
