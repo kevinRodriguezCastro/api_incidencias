@@ -113,13 +113,6 @@
             <version>3.0.1</version>
         </dependency>
 
-
-		<!-- Dependencia para Thymeleaf -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
     </dependencies>
 
 	<build>
