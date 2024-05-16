@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-@RequestMapping("/app_trabajador")
+@RequestMapping("app_trabajador")
 public class FrontControlador {
     @GetMapping("/login")
     public String index() {
@@ -62,11 +62,6 @@ public class FrontControlador {
     @GetMapping("/ver_partes_trabajo")
     public String ver_partes_trabajo() {
         return "app_trabajador/ver_partes_trabajo";
-    }
-
-    @GetMapping("/prueba")
-    public String index2() {
-        return "index";
     }
 
 
