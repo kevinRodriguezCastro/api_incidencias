@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenerarPDF {
-    private static final String rutaLogo = "src\\main\\java\\api_incidencias\\api_incidencias\\Pdf\\logo_DonDigital.png";
+    //private static final String rutaLogo = "src\\main\\java\\api_incidencias\\api_incidencias\\Pdf\\logo_DonDigital.png";
+    private static final String rutaLogo = ".\\img\\logo_DonDigital.png";
     private static final String ruta = "./pdf_generados/Pdf_ParteTrabajo_DonDigital.pdf";
     private static String nOrden, nombreCliente, apellidosCliente, emailCliente, telefonoCLiente,dni,direccion;
     private static String cliente ="nombre apellidoooo aaa \n direccion = adadddadwadadd a aaaaaaaaadw wwww \n telefono = 1241412419410";
@@ -65,11 +66,12 @@ public class GenerarPDF {
          tiempoEmpleado =  parteTrabajo.getListaTiempoEmpleados();
 
          estado = parteTrabajo.getIncidencia().getEstado();
-        try {
+         //para guardar el pdf en la carpeta local
+        /*try {
             convertHTMLToPDF(ruta);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
         return enviarPdf();
     }
     private static String filasMaterial(){
@@ -417,133 +419,5 @@ public class GenerarPDF {
         return new ResponseEntity<>(pdfContents, headers, org.springframework.http.HttpStatus.OK);
 
     }
-    public static void main(String[] args) {
 
-        //String htmlContent = contenidoHTML();
-        String archivoSalidaPdf = "./pdf_generados/Pdf_ParteTrabajo_DonDigital.pdf";
-/*
-        try {
-            convertHTMLToPDF(archivoSalidaPdf);
-
-
-            System.out.println("-----> Se ha generado el archivo PDF correctamente en : "+ archivoSalidaPdf);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-*/
-        Cliente c = new Cliente();
-        c.setNombre("nombre");
-        c.setApellido("apellido apellidoo");
-        c.setCorreoElectronico("correo@gmail.com");
-        c.setDocumento("12345678a");
-        c.setTelefono("123456789");
-
-        Incidencia i = new Incidencia();
-        i.setUsuarioCliente(c);
-        i.setTitulo("titulo");
-        i.setDescripcion("descripcion");
-        i.setFechaCreacion(LocalDateTime.now());
-        i.setEstado(Estado.pendiente);
-        i.setPrioridad(Prioridad.alta);
-
-        MaterialUtilizado m = new MaterialUtilizado();
-        m.setCoste(23);
-        m.setCantidad(2);
-        m.setNombre("obj1");
-
-
-        MaterialUtilizado m2 = new MaterialUtilizado();
-        m2.setCoste(278);
-        m2.setCantidad(1);
-        m2.setNombre("obj2");
-
-        MaterialUtilizado m3 = new MaterialUtilizado();
-        m3.setCoste(56575);
-        m3.setCantidad(17);
-        m3.setNombre("obj3");
-
-        MaterialUtilizado m4 = new MaterialUtilizado();
-        m4.setCoste(56575);
-        m4.setCantidad(17);
-        m4.setNombre("obj3");
-
-        MaterialUtilizado m5 = new MaterialUtilizado();
-        m5.setCoste(56575);
-        m5.setCantidad(17);
-        m5.setNombre("obj3");
-
-
-
-        TiempoEmpleado t = new TiempoEmpleado();
-        t.setHoraEntrada(LocalTime.now());
-        t.setHoraSalida(LocalTime.now());
-        t.setModoResolucion(ModoResolucion.presencial);
-
-        TiempoEmpleado t1 = new TiempoEmpleado();
-        t1.setHoraEntrada(LocalTime.now());
-        t1.setHoraSalida(LocalTime.now());
-        t1.setModoResolucion(ModoResolucion.remota);
-
-
-        TiempoEmpleado t2 = new TiempoEmpleado();
-        t2.setHoraEntrada(LocalTime.now());
-        t2.setHoraSalida(LocalTime.now());
-        t2.setModoResolucion(ModoResolucion.remota);
-
-        TiempoEmpleado t3 = new TiempoEmpleado();
-        t3.setHoraEntrada(LocalTime.now());
-        t3.setHoraSalida(LocalTime.now());
-        t3.setModoResolucion(ModoResolucion.remota);
-
-        TiempoEmpleado t4 = new TiempoEmpleado();
-        t4.setHoraEntrada(LocalTime.now());
-        t4.setHoraSalida(LocalTime.now());
-        t4.setModoResolucion(ModoResolucion.telefonica);
-
-        TiempoEmpleado t5 = new TiempoEmpleado();
-        t5.setHoraEntrada(LocalTime.now());
-        t5.setHoraSalida(LocalTime.now());
-        t5.setModoResolucion(ModoResolucion.remota);
-
-        TiempoEmpleado t6 = new TiempoEmpleado();
-        t6.setHoraEntrada(LocalTime.now());
-        t6.setHoraSalida(LocalTime.now());
-        t6.setModoResolucion(ModoResolucion.remota);
-
-
-
-        List<TiempoEmpleado> lis = new ArrayList<>();
-        lis.add(t);
-        lis.add(t1);
-
-        lis.add(t2);
-        lis.add(t3);
-        lis.add(t4);
-        lis.add(t5);
-        lis.add(t6);
-
-        List<MaterialUtilizado> lista = new ArrayList<>();
-        lista.add(m);
-
-        lista.add(m2);
-        lista.add(m3);
-        lista.add(m4);
-        lista.add(m5);
-
-
-
-
-
-        ParteTrabajo p = new ParteTrabajo();
-        p.setIncidencia(i);
-        p.setIdOrden(133l);
-        p.setTrabajoRealizado("trabajo realizado");
-        p.setDiagnostico("diagnostico");
-        p.setObservaciones("observaciones");
-        p.setListaMaterialUtilizado(lista);
-        p.setListaTiempoEmpleados(lis);
-
-        generarPDF(p);
-    }
 }
